@@ -3,12 +3,9 @@
 // The variables you want to modify
 // $font-size-root: 20px;
 @font-face {
-    font-family: 'Yekan';
-    src: url('https://github.com/ParsMizban/Yekan-Font/raw/master/Yekan.woff2') format('woff2'); /* Modern Browsers */
+    font-family: 'IRANSans';
+    src: url('~static/fonts/IRANSansWeb_Light.woff2') format('woff2'); /* Modern Browsers */
     font-weight: normal;
     font-style: normal;
 }
-
-body {
-    font-family: 'Yekan';
-}
+$body-font-family: 'IRANSans';

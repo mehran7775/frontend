@@ -24,45 +24,45 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer> -->
-    <v-app-bar :clipped-left="clipped" fixed app color="white"  >
-      <v-img src="/logo.webp" max-width="150"></v-img>
-      <!-- 
-       <v-btn
-        icon
-        @click.stop="miniVariant = !miniVariant"
-      >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="clipped = !clipped"
-      >
-        <v-icon>mdi-application</v-icon>
-      </v-btn>
-      <v-btn
-        icon
-        @click.stop="fixed = !fixed"
-      >
-        <v-icon>mdi-minus</v-icon>
-      </v-btn> -->
-      <v-spacer />
-      <!-- <v-btn
-        icon
-        @click.stop="rightDrawer = !rightDrawer"
-      >
-        <v-icon>mdi-menu</v-icon>
-      </v-btn> -->
-      <template v-slot:extension>
-        <v-tabs align-with-title>
-          <v-tab>خانه</v-tab>
-          <v-tab>محصولات</v-tab>
-          <v-tab>وبلاگ</v-tab>
-          <v-tab>درباره ما</v-tab>
-          <v-tab>ورود</v-tab>
-        </v-tabs>
-      </template>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+    <v-app-bar
+      :clipped-left="clipped"
+      fixed
+      app
+      color="white"
+      elevate-on-scroll
+    >
+      <v-container class="py-0 fill-height">
+        <v-img src="/logo.webp" max-width="150"></v-img>
+        <v-spacer />
+        <v-responsive max-width="260">
+          <v-text-field
+            dense
+            flat
+            hide-details
+            rounded
+            solo-inverted
+            background-color="gray"
+            placeholder="جستجو"
+          ></v-text-field>
+        </v-responsive>
+        <v-spacer />
+        <v-btn rounded color="primary">
+          <v-icon dark>mdi-phone</v-icon>
+          <span>021-77569156</span>
+        </v-btn>
+
+        <!-- <template v-slot:extension>
+          <v-tabs align-with-title>
+            <v-tab>خانه</v-tab>
+            <v-tab>محصولات</v-tab>
+            <v-tab>وبلاگ</v-tab>
+            <v-tab>درباره ما</v-tab>
+            <v-tab>ورود</v-tab>
+          </v-tabs>
+        </template> -->
+      </v-container>
     </v-app-bar>
+
     <v-main class="grey lighten-3">
       <v-container>
         <Nuxt />
@@ -102,7 +102,6 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
     }
   },
 }
