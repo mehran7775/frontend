@@ -1,11 +1,9 @@
 <template>
   <v-app>
-    <!-- <v-navigation-drawer
+    <v-navigation-drawer
       v-model="drawer"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
-      fixed
-      app
+      absolute
+      temporary
     >
       <v-list>
         <v-list-item
@@ -23,52 +21,36 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-    </v-navigation-drawer> -->
-    <v-app-bar
-      :clipped-left="clipped"
-      fixed
-      app
-      color="white"
-      elevate-on-scroll
-    >
-      <v-container class="py-0 fill-height">
-        <v-img src="/logo.webp" max-width="150"></v-img>
-        <v-spacer />
-        <v-responsive max-width="260">
-          <v-text-field
-            dense
-            flat
-            hide-details
-            rounded
-            solo-inverted
-            background-color="gray"
-            placeholder="جستجو"
-          ></v-text-field>
-        </v-responsive>
-        <v-spacer />
-        <v-btn rounded color="primary">
-          <v-icon dark>mdi-phone</v-icon>
-          <span>021-77569156</span>
-        </v-btn>
-
-        <!-- <template v-slot:extension>
-          <v-tabs align-with-title>
-            <v-tab>خانه</v-tab>
-            <v-tab>محصولات</v-tab>
-            <v-tab>وبلاگ</v-tab>
-            <v-tab>درباره ما</v-tab>
-            <v-tab>ورود</v-tab>
-          </v-tabs>
-        </template> -->
+    </v-navigation-drawer>
+    <v-app-bar fixed app color="white" elevate-on-scroll prominent>
+      <v-container>
+        <v-layout column>
+          <v-layout justify-space-between  align-start>
+            <v-img src="/logo.webp" max-width="150"></v-img>
+            <v-responsive max-width="250" class="d-none d-md-block">
+              <v-autocomplete outlined rounded dense solo flat color="grey lighten-2" label="جستجو" :loading="search-loading" font-size="0.5rem" ></v-autocomplete>
+            </v-responsive>
+            <v-btn color="primary" rounded  href="tel:02177569156">
+              021-77569156
+              <v-icon class="mr-1">mdi-phone</v-icon>
+            </v-btn>
+          </v-layout>
+          <v-layout align-center justify-start>
+            <v-btn v-for="link in links" :key="link" :href="link.href" text>
+              {{ link.text }}
+            </v-btn>
+            <v-btn color="primary mx-2"> تامین کننده ما شوید </v-btn>
+          </v-layout>
+        </v-layout>
       </v-container>
     </v-app-bar>
 
-    <v-main class="grey lighten-3">
+    <v-main class="grey lighten-4">
       <v-container>
         <Nuxt />
       </v-container>
     </v-main>
-    <v-footer :absolute="!fixed" app>
+    <v-footer app>
       <v-container>
         <v-row>
           <v-col> asd </v-col>
@@ -82,27 +64,28 @@
 
 <script>
 export default {
-  data() {
-    return {
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      items: [
-        {
-          icon: 'mdi-apps',
-          title: 'Welcome',
-          to: '/',
-        },
-        {
-          icon: 'mdi-chart-bubble',
-          title: 'Inspire',
-          to: '/inspire',
-        },
-      ],
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-    }
-  },
+  data: () => ({
+    links: [
+      {
+        text: "خانه",
+        href: "/"
+      }, {
+        text: "محصولات",
+        href: "/categories/"
+      }, 
+      {
+        text: "وبلاگ",
+        href: "/blog/"
+      }, 
+      {
+        text: "درباره ما",
+        href: "/aboutus/"
+      },
+      { 
+        text: "ورود",
+        href: "/login/"
+      }],
+
+  }),
 }
 </script>

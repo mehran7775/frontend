@@ -63,7 +63,6 @@ export default {
     rtl: true,
     customVariables: ['~/assets/variables.scss'],
     treeShake: true,
-    defaultAssets: false,
     theme: {
       themes: {
         light: {

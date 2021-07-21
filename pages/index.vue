@@ -1,14 +1,10 @@
 <template>
-  <v-breadcrumbs :items="items">
-    <template v-slot:divider>
-      <v-icon>mdi-chevron-left</v-icon>
-    </template>
-  </v-breadcrumbs>
-  <!-- <v-row>
-    <v-col v-for="n in 24" :key="n" cols="4">
-      <v-card height="200" flat></v-card>
-    </v-col>
-  </v-row> -->
+  <v-card height="400" flat>
+    <v-layout justify-space-between align-center fill-height>
+      <v-card height="60" width="60" > sad </v-card>
+      <v-card height="60" width="60" > sad </v-card>
+    </v-layout>
+  </v-card>
 </template>
 
 <script>
@@ -25,6 +21,6 @@ export default {
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
-  }
+  },
 }
 </script>
