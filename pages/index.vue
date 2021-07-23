@@ -1,8 +1,8 @@
 <template>
   <v-card height="400" flat>
     <v-layout justify-space-between align-center fill-height>
-      <v-card height="60" width="60" > sad </v-card>
-      <v-card height="60" width="60" > sad </v-card>
+      <v-card height="60" width="60" >  </v-card>
+      <v-card height="60" width="60" >  </v-card>
     </v-layout>
   </v-card>
 </template>
