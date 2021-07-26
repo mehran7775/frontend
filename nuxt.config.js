@@ -3,7 +3,7 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - damirco-new-front',
+    titleTemplate: '%s - دمیرکو - مشاوره و فروش ماشین آلات صنعتی',
     title: 'دمیرکو - مشاوره و فروش ماشین آلات صنعتی',
     meta: [
       { charset: 'utf-8' },
@@ -47,7 +47,7 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://damirco.com'
+    baseURL: 'http://127.0.0.1:8000'
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
