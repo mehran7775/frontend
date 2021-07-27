@@ -20,31 +20,4 @@
   </v-app>
 </template>
 
-<script>
-export default {
-  data: () => ({
-    links: [
-      {
-        text: 'خانه',
-        href: '/',
-      },
-      {
-        text: 'محصولات',
-        href: '#products-footer',
-      },
-      {
-        text: 'وبلاگ',
-        href: '/blog/posts/',
-      },
-      {
-        text: 'درباره ما',
-        href: '/about_us/',
-      },
-      {
-        text: 'ورود',
-        href: '/users/entry/',
-      },
-    ],
-  }),
-}
-</script>
+

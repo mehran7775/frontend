@@ -1,6 +1,6 @@
 <template>
   <v-layout column>
-    <v-card flat class="text-h6 text-center pa-5 font-weight-bold ma-1"
+    <v-card elevation="0" class="text-h6 text-center pa-5 font-weight-bold ma-1"
       >لیست دسته‌بندی ها</v-card
     >
     <v-row class="my-5 mt-1 flex-nowrap" no-gutters style="overflow: auto">
@@ -12,7 +12,7 @@
         class="px-1"
       >
         <v-layout column class="text-center">
-          <v-card flat class="pa-3 text-center primary--text font-weight-bold">
+          <v-card elevation="0" class="pa-3 text-center primary--text font-weight-bold">
             {{ mother_category.title }}
           </v-card>
           <v-btn

@@ -1,11 +1,11 @@
 <template>
-  <v-app-bar flat prominent>
+  <v-app-bar elevation="0" prominent>
     <v-container class="px-0 px-md-2">
       <v-layout column>
         <v-layout justify-space-between align-center>
           <v-img src="/logo.webp" max-width="150" class="me-3"></v-img>
           <v-spacer></v-spacer>
-          <v-card flat height="50" class="mb-2">
+          <v-card elevation="0" height="50" class="mb-2">
             <v-layout justify-center align-start>
               <v-autocomplete
                 dense
@@ -26,7 +26,7 @@
               </v-btn>
             </v-layout>
           </v-card>
-          <v-card flat height="50" class="mb-2 mx-5 d-none d-md-block">
+          <v-card elevation="0" height="50" class="mb-2 mx-5 d-none d-md-block">
             <v-layout justify-center align-center>
               <v-layout column>
                 <v-row no-gutters class="text-caption px-2">021-77569156</v-row>
@@ -45,7 +45,7 @@
               </v-btn>
             </v-layout>
           </v-card>
-          <v-card flat height="50" width="50" class="mb-2 d-none d-md-block">
+          <v-card elevation="0" height="50" width="50" class="mb-2 d-none d-md-block">
             <v-btn
               fab
               small
@@ -86,3 +86,32 @@
     </v-container>
   </v-app-bar>
 </template>
+
+<script>
+export default {
+  data: () => ({
+    links: [
+      {
+        text: 'خانه',
+        href: '/',
+      },
+      {
+        text: 'محصولات',
+        href: '#products-footer',
+      },
+      {
+        text: 'وبلاگ',
+        href: '/blog/posts/',
+      },
+      {
+        text: 'درباره ما',
+        href: '/about_us/',
+      },
+      {
+        text: 'ورود',
+        href: '/users/entry/',
+      },
+    ],
+  }),
+}
+</script>
