@@ -1,15 +1,14 @@
 <template>
   <v-layout column>
-    <v-card elevation="0" class="text-h6 text-center pa-5 font-weight-bold ma-1"
+    <v-card elevation="0" class="text-h6 text-center pa-5 font-weight-bold my-1"
       >لیست دسته‌بندی ها</v-card
     >
-    <v-row class="my-5 mt-1 flex-nowrap" no-gutters style="overflow: auto">
-      <v-col
+    <div class="my-5 mt-1 d-flex flex-nowrap" no-gutters style="overflow: auto">
+      <div
         v-for="mother_category in footerCategories"
         :key="mother_category.slug"
-        cols="12"
-        md="3"
-        class="px-1"
+        style="min-width: 350px;"
+        class="pa-2"
       >
         <v-layout column class="text-center">
           <v-card elevation="0" class="pa-3 text-center primary--text font-weight-bold">
@@ -27,8 +26,8 @@
             <v-icon small>mdi-arrow-left</v-icon>
           </v-btn>
         </v-layout>
-      </v-col>
-    </v-row>
+      </div>
+    </div>
   </v-layout>
 </template>
 

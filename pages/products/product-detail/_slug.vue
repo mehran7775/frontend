@@ -50,7 +50,7 @@
         </v-col>
       </v-row>
     </v-card>
-    <v-row>
+    <v-row no-gutters>
       <v-col cols="12" md="8" class="pa-2">
         <v-card elevation="0" class="pa-5 text-center font-weight-bold mb-1"
           >توضیحات محصول</v-card
@@ -65,13 +65,37 @@
         <v-card elevation="0" class="pa-5 text-center font-weight-bold mb-1"
           >مشخصات محصول</v-card
         >
-        <v-card elevation="0">
-          <v-card elevation="0" class="pa-5 text-center grey lighten-4"
-            >وارد نشده</v-card
-          >
+        <v-card
+          v-for="item in page.productdetail_set"
+          :key="item.id" class="mb-1" elevation="0"
+        >
+          <v-row class="pa-4" no-gutters>
+            <v-col cols="6">{{ item.variation.name }}</v-col>
+            <v-col cols="6">{{ item.value }}</v-col>
+          </v-row>
         </v-card>
+        <v-card
+          v-if="page.productdetail_set.length === 0"
+          elevation="0"
+          class="pa-5 text-center grey lighten-4"
+          >وارد نشده</v-card
+        >
       </v-col>
     </v-row>
+    <v-layout column>
+      <v-card elevation="0" class="mt-5 pa-5 text-center font-weight-bold mb-1">
+        محصولات مشابه
+      </v-card>
+      <div class="d-flex">
+        <div v-for="n in 7" :key="n" class="pa-1" style="min-width:350px;">
+          <v-card elevation="0" class="pa-2">
+            <v-layout column>
+              <v-img :src="page.product_image" :alt="page.image_alt"></v-img>
+            </v-layout>
+          </v-card>
+        </div>
+      </div>
+    </v-layout>
   </v-layout>
 </template>
 
