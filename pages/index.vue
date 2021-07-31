@@ -1,5 +1,5 @@
 <template>
-  <v-card height="400" flat>
+  <v-card height="400" elevation="0">
     <v-layout justify-space-between align-center fill-height>
       <v-card height="60" width="60" >  </v-card>
       <v-card height="60" width="60" >  </v-card>

@@ -7,7 +7,7 @@
       <div
         v-for="mother_category in footerCategories"
         :key="mother_category.slug"
-        style="min-width: 350px;"
+        style="min-width: 281px;"
         class="pa-2"
       >
         <v-layout column class="text-center">
