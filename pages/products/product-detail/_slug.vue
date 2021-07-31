@@ -1,7 +1,7 @@
 <template>
   <v-layout column>
     <v-breadcrumbs :items="breadcrumbs" divider="/" />
-    <v-card elevation="0" class="my-5 pa-2">
+    <v-card elevation="0" class="my-5 pa-2 pa-md-5">
       <v-row>
         <v-col cols="12" md="6">
           <v-layout justify-space-between align-center class="d-md-none">
@@ -12,12 +12,20 @@
             ></v-card>
             <ProductRating />
           </v-layout>
-          <v-carousel v-model="model" >
-            <v-carousel-item v-for="(item,i) in carousel_items" :key="i" :src="item.src" />
+          <v-carousel>
+            <v-carousel-item
+              v-for="(item, i) in carousel_items"
+              :key="i"
+              :src="item.src"
+            />
           </v-carousel>
         </v-col>
-        <v-col cols="12" md="6" class="pa-5 d-flex flex-column justify-space-between">
-          <v-layout justify-space-between align-center  class="flex-grow-0">
+        <v-col
+          cols="12"
+          md="6"
+          class="pa-5 d-flex flex-column justify-space-between"
+        >
+          <v-layout justify-space-between align-center class="flex-grow-0">
             <v-card
               elevation="0"
               class="primary--text"
@@ -34,7 +42,7 @@
           <v-row class="flex-grow-0">
             <v-col cols="12" md="9">
               <div class="font-weight-bold">
-                آخرین بروزرسانی قیمت <span>{{ page.last_edited }}</span>
+                آخرین بروزرسانی قیمت: <span>{{ page.last_edited }}</span>
               </div>
               <div class="font-weight-bold">
                 قیمت:
@@ -67,7 +75,9 @@
         >
         <v-card
           v-for="item in page.productdetail_set"
-          :key="item.id" class="mb-1" elevation="0"
+          :key="item.id"
+          class="mb-1"
+          elevation="0"
         >
           <v-row class="pa-4" no-gutters>
             <v-col cols="6">{{ item.variation.name }}</v-col>
@@ -82,20 +92,112 @@
         >
       </v-col>
     </v-row>
-    <v-layout column>
+    <v-layout column class="py-5">
       <v-card elevation="0" class="mt-5 pa-5 text-center font-weight-bold mb-1">
         محصولات مشابه
       </v-card>
-      <div class="d-flex">
-        <div v-for="n in 7" :key="n" class="pa-1" style="min-width:350px;">
-          <v-card elevation="0" class="pa-2">
+      <div class="d-flex" style="overflow: auto">
+        <div
+          v-for="n in 1"
+          :key="n"
+          class="pa-1"
+          style="min-width: 290px; max-width: 290 !important"
+        >
+          <v-card
+            elevation="0"
+            v-bind:href="'/product/product-detail/' + page.slug"
+          >
             <v-layout column>
-              <v-img :src="page.product_image" :alt="page.image_alt"></v-img>
+              <v-img
+                :src="page.product_image"
+                :alt="page.image_alt"
+                class="ma-5"
+                max-width="250"
+              />
+              <v-layout justify-center align-center>
+                <v-card style="height: 2px" color="grey" />
+                <div
+                  class="d-flex justify-center align-center primary"
+                  style="width: 10px; height: 10px"
+                >
+                  <div
+                    style="width: 5px; height: 5px; border-radius: 50%"
+                    class="white"
+                  ></div>
+                </div>
+                <v-card style="height: 2px" color="grey" />
+              </v-layout>
+              <v-card
+                elevation="0"
+                class="pa-5 text-center font-weight-bold mb-1"
+                >{{ page.title }}</v-card
+              >
+              <v-card elevation="0" color="grey lighten-3" class="ma-5 pa-2">
+                <v-row>
+                  <v-col cols="9">
+                    <div>
+                      از <b>{{ page.price }}</b> تومان
+                    </div>
+                    <div>
+                      تا <b>{{ page.second_price }}</b> تومان
+                    </div>
+                  </v-col>
+                  <v-col cols="3">
+                    <v-layout justify-center align-center fill-height>
+                      <v-btn icon color="primary">
+                        <v-icon large>mdi-database-cog</v-icon>
+                      </v-btn>
+                    </v-layout>
+                  </v-col>
+                </v-row>
+              </v-card>
             </v-layout>
           </v-card>
         </div>
       </div>
     </v-layout>
+    <v-card elevation="0" class="my-5 py-5">
+      <v-form ref="CommentForm" @submit.prevent="sendComment" lazy-validation>
+        <v-row no-gutters>
+          <v-col cols="12" md="6" class="px-5 d-flex flex-column justify-end">
+            <v-text-field
+              v-model="product_comment.username"
+              outlined
+              name="username"
+              :rules="username_rules"
+              required
+              label="نام"
+              validate-on-blur
+            />
+            <v-text-field
+              v-model="product_comment.email"
+              name="email"
+              required
+              :rules="email_rules"
+              outlined
+              label="ایمیل"
+              validate-on-blur
+            />
+          </v-col>
+          <v-col cols="12" md="6" class="px-5">
+            <v-textarea
+              v-model="product_comment.content"
+              outlined
+              :rules="content_rules"
+              validate-on-blur
+              name="content"
+              label="نظر"
+              required
+            ></v-textarea>
+          </v-col>
+        </v-row>
+        <v-row no-gutters>
+          <v-col cols="12" md="6" offset-md="6" class="px-5">
+            <v-btn color="primary" type="submit" :loading="product_comment.loading" v-te>ارسال نظر</v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+    </v-card>
   </v-layout>
 </template>
 
@@ -130,7 +232,7 @@ export default {
         ],
         carousel_items: [
           {
-            src: "https://test.damirco.com/images/documents/blobid1604672419153.jpg",
+            src: result.product_image,
             alt: result.image_alt,
           },
         ],
@@ -139,19 +241,40 @@ export default {
   },
   data() {
     return {
-      title: 'ss',
+      title: '',
       page: {
         slug: '',
         category: [{}],
       },
       breadcrumbs: [],
-      colors: ['primary', 'secondary', 'yellow darken-2', 'red', 'orange'],
       rating: 4.3,
       carousel_items: [
         {
           src: '',
         },
       ],
+      // inputs
+      product_comment:{
+        loading: false,
+        success: false,
+        error: false,
+        username: "",
+        email: "",
+        content:""
+      },
+      // rules \u0600-\u06FF
+      username_rules:[
+        v => !!v || "لطفا نام خود را وارد نمایید!", 
+        v => /^[\u0600-\u06FF ]+$/.test(v) || "لطفا نام خود را به فارسی وارد نمایید!",
+      ],
+      email_rules:[
+        v => !!v || "لطفا نظر خود را وارد نمایید!",
+        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          "لطفا یک ایمیل معتبر وارد کنید!"
+      ],
+      content_rules:[
+        v => !!v || "لطفا نظر خود را وارد نمایید!",
+      ]
     }
   },
   head() {
@@ -176,5 +299,32 @@ export default {
       ],
     }
   },
+  watch:{
+
+  },
+  methods:{
+    sendComment() {
+      this.product_comment.loading = true;
+      let data = {
+        username: this.product_comment.username,
+        email: this.product_comment.email,
+        content: this.product_comment.content,
+        content_type:"products | product",
+        object_id:this.page.id
+      }
+      // this.$axios
+      //   .post("/products/api/product-comment/", data)
+      //   .then(response => {
+      //     this.product_comment.success = true
+      //     this.product_comment.errored =false
+      //   })
+      //   .catch(error => {
+      //     this.product_comment.errored = true
+      //   })
+      //   .finally(() => {
+      //     this.product_comment.loading = false
+      //   });
+    }
+  }
 }
 </script>
