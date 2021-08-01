@@ -74,12 +74,11 @@
           >مشخصات محصول</v-card
         >
         <v-card
-          v-for="item in page.productdetail_set"
-          :key="item.id"
-          class="mb-1"
           elevation="0"
+          v-for="item in page.productdetail_set"
+          :key="item.id" class="mb-2"
         >
-          <v-row class="pa-4" no-gutters>
+          <v-row class="pa-2">
             <v-col cols="6">{{ item.variation.name }}</v-col>
             <v-col cols="6">{{ item.value }}</v-col>
           </v-row>
