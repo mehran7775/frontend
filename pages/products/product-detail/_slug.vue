@@ -13,11 +13,9 @@
             <ProductRating />
           </v-layout>
           <v-carousel>
-            <v-carousel-item
-              v-for="(item, i) in carousel_items"
-              :key="i"
-              :src="item.src"
-            />
+            <v-carousel-item v-for="(item, i) in carousel_items" :key="i">
+              <v-img :src="item.src"></v-img>
+            </v-carousel-item>
           </v-carousel>
         </v-col>
         <v-col
@@ -52,7 +50,59 @@
               </div>
             </v-col>
             <v-col cols="12" md="3" class="d-flex flex-column justify-end">
-              <v-btn color="primary">استعلام قیمت</v-btn>
+              <v-btn
+                color="primary"
+                @click="request_for_quotation.dialog = true"
+                >استعلام قیمت</v-btn
+              >
+              <v-dialog
+                v-model="request_for_quotation.dialog"
+                max-width="450"
+                class="pa-2"
+              >
+                <v-form
+                  ref="RequestForQuotationForm"
+                  lazy-validation
+                  @submit.prevent="sendRequestForQuotation"
+                >
+                  <v-card class="pa-5">
+                    <v-text-field
+                      v-model="request_for_quotation.name"
+                      outlined
+                      name="name"
+                      :rules="username_rules"
+                      label="نام و نام خانوادگی"
+                      validate-on-blur
+                    />
+                    <v-text-field
+                      v-model="request_for_quotation.phone_number"
+                      outlined
+                      name="phone_number"
+                      :rules="phone_number_rules"
+                      label="شماره همراه"
+                      validate-on-blur
+                    />
+                    <v-textarea
+                      v-model="request_for_quotation.extra_fields"
+                      outlined
+                      name="extra_fields"
+                      label="توضیحات"
+                    />
+                    <v-layout justify-center>
+                      <v-btn
+                        type="submit"
+                        :color="request_for_quotation.success ? 'primary':'success'"
+                        :loading="request_for_quotation.loading"
+                      >
+                        <v-icon v-if="request_for_quotation.success"
+                          >mdi-tick</v-icon
+                        >
+                        <v-text v-else> درخواست استعلام</v-text>
+                      </v-btn>
+                    </v-layout>
+                  </v-card>
+                </v-form>
+              </v-dialog>
             </v-col>
           </v-row>
         </v-col>
@@ -76,7 +126,8 @@
         <v-card
           elevation="0"
           v-for="item in page.productdetail_set"
-          :key="item.id" class="mb-2"
+          :key="item.id"
+          class="mb-2"
         >
           <v-row class="pa-2">
             <v-col cols="6">{{ item.variation.name }}</v-col>
@@ -156,7 +207,7 @@
       </div>
     </v-layout>
     <v-card elevation="0" class="my-5 py-5">
-      <v-form ref="CommentForm" @submit.prevent="sendComment" lazy-validation>
+      <v-form ref="CommentForm" lazy-validation @submit.prevent="sendComment">
         <v-row no-gutters>
           <v-col cols="12" md="6" class="px-5 d-flex flex-column justify-end">
             <v-text-field
@@ -196,7 +247,7 @@
               color="primary"
               type="submit"
               :loading="product_comment.loading"
-              >
+            >
               <v-icon v-if="product_comment.success">mdi-tick</v-icon>
               <span text v-else>ثبت نظر</span>
             </v-btn>
@@ -264,12 +315,20 @@ export default {
         loading: false,
         success: false,
         error: false,
-        message:"",
+        message: '',
         username: '',
         email: '',
         content: '',
       },
-      // rules \u0600-\u06FF
+      request_for_quotation: {
+        dialog: false,
+        loading: false,
+        success: false,
+        error: false,
+        name: '',
+        extra_fields: '',
+        phone_number: '',
+      },
       username_rules: [
         (v) => !!v || 'لطفا نام خود را وارد نمایید!',
         (v) =>
@@ -277,12 +336,19 @@ export default {
           'لطفا نام خود را به فارسی وارد نمایید!',
       ],
       email_rules: [
-        (v) => !!v || 'لطفا نظر خود را وارد نمایید!',
+        (v) => !!v || 'لطفا ایمیل خود را وارد نمایید!',
         (v) =>
           /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
           'لطفا یک ایمیل معتبر وارد کنید!',
       ],
       content_rules: [(v) => !!v || 'لطفا نظر خود را وارد نمایید!'],
+      phone_number_rules: [
+        (v) => !!v || 'لطفا شماره همراه خود را وارد نمایید!',
+        (v) =>
+          /^09[0-9]{9}$/.test(v) ||
+          /^\+[0-9]+$/.test(v) ||
+          'شماره همراه معتبر نیست!',
+      ],
     }
   },
   head() {
@@ -310,27 +376,49 @@ export default {
   watch: {},
   methods: {
     async sendComment() {
-      const isValid =await this.$refs.CommentForm.validate();
-      if (!isValid) return      
-      this.product_comment.loading = true;
+      const isValid = await this.$refs.CommentForm.validate()
+      if (!isValid) return
+      this.product_comment.loading = true
       const data = {
         username: this.product_comment.username,
         email: this.product_comment.email,
         content: this.product_comment.content,
         object_id: this.page.id,
       }
-      try{
+      try {
         const res1 = await this.$axios.get('/api/get-csrftoken')
         this.$axios.defaults.headers.common['X-CSRFToken'] = res1.data.csrftoken
         await this.$axios.post('/api/products-api/product-comments/', data)
         this.success = true
-        this.message = "خطای سرور! لطفا بعدا دوباره امتحان کنید."
-      }catch(err){
-        console.log(err);
+      } catch (err) {
+        this.message = 'خطای سرور! لطفا بعدا دوباره امتحان کنید.'
+        console.log(err)
       }
 
       this.product_comment.loading = false
     },
+    async sendRequestForQuotation(){
+      const isValid = await this.$refs.CommentForm.validate()
+      if (!isValid) return
+      this.request_for_quotation.loading = true
+      const data = {
+        name: this.request_for_quotation.username,
+        phone_number: this.request_for_quotation.phone_number,
+        extra_fields: this.request_for_quotation.extra_fields,
+        item: this.page.id,
+      }
+      try {
+        const res1 = await this.$axios.get('/api/get-csrftoken')
+        this.$axios.defaults.headers.common['X-CSRFToken'] = res1.data.csrftoken
+        await this.$axios.post('/api/products-api/miniorder/', data)
+        this.success = true
+      } catch (err) {
+        this.message = 'خطای سرور! لطفا بعدا دوباره امتحان کنید.'
+        console.log(err)
+      }
+
+      this.product_comment.loading = false
+    }
   },
 }
 </script>
