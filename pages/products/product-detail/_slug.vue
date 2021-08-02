@@ -192,7 +192,14 @@
         </v-row>
         <v-row no-gutters>
           <v-col cols="12" md="6" offset-md="6" class="px-5">
-            <v-btn color="primary" type="submit" :loading="product_comment.loading" v-te>ارسال نظر</v-btn>
+            <v-btn
+              color="primary"
+              type="submit"
+              :loading="product_comment.loading"
+              >
+              <v-icon v-if="product_comment.success">mdi-tick</v-icon>
+              <span text v-else>ثبت نظر</span>
+            </v-btn>
           </v-col>
         </v-row>
       </v-form>
@@ -205,7 +212,7 @@ export default {
   async asyncData({ $axios, params }) {
     const data = (
       await $axios.get(
-        `/products/api/products/?slug=${encodeURIComponent(params.slug)}`
+        `/api/products-api/products/?slug=${encodeURIComponent(params.slug)}`
       )
     ).data
     if (data.count > 0) {
@@ -253,27 +260,29 @@ export default {
         },
       ],
       // inputs
-      product_comment:{
+      product_comment: {
         loading: false,
         success: false,
         error: false,
-        username: "",
-        email: "",
-        content:""
+        message:"",
+        username: '',
+        email: '',
+        content: '',
       },
       // rules \u0600-\u06FF
-      username_rules:[
-        v => !!v || "لطفا نام خود را وارد نمایید!", 
-        v => /^[\u0600-\u06FF ]+$/.test(v) || "لطفا نام خود را به فارسی وارد نمایید!",
+      username_rules: [
+        (v) => !!v || 'لطفا نام خود را وارد نمایید!',
+        (v) =>
+          /^[\u0600-\u06FF ]+$/.test(v) ||
+          'لطفا نام خود را به فارسی وارد نمایید!',
       ],
-      email_rules:[
-        v => !!v || "لطفا نظر خود را وارد نمایید!",
-        v => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
-          "لطفا یک ایمیل معتبر وارد کنید!"
+      email_rules: [
+        (v) => !!v || 'لطفا نظر خود را وارد نمایید!',
+        (v) =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          'لطفا یک ایمیل معتبر وارد کنید!',
       ],
-      content_rules:[
-        v => !!v || "لطفا نظر خود را وارد نمایید!",
-      ]
+      content_rules: [(v) => !!v || 'لطفا نظر خود را وارد نمایید!'],
     }
   },
   head() {
@@ -298,32 +307,30 @@ export default {
       ],
     }
   },
-  watch:{
-
-  },
-  methods:{
-    sendComment() {
+  watch: {},
+  methods: {
+    async sendComment() {
+      const isValid =await this.$refs.CommentForm.validate();
+      if (!isValid) return      
       this.product_comment.loading = true;
-      let data = {
+      const data = {
         username: this.product_comment.username,
         email: this.product_comment.email,
         content: this.product_comment.content,
-        content_type:"products | product",
-        object_id:this.page.id
+        object_id: this.page.id,
       }
-      // this.$axios
-      //   .post("/products/api/product-comment/", data)
-      //   .then(response => {
-      //     this.product_comment.success = true
-      //     this.product_comment.errored =false
-      //   })
-      //   .catch(error => {
-      //     this.product_comment.errored = true
-      //   })
-      //   .finally(() => {
-      //     this.product_comment.loading = false
-      //   });
-    }
-  }
+      try{
+        const res1 = await this.$axios.get('/api/get-csrftoken')
+        this.$axios.defaults.headers.common['X-CSRFToken'] = res1.data.csrftoken
+        await this.$axios.post('/api/products-api/product-comments/', data)
+        this.success = true
+        this.message = "خطای سرور! لطفا بعدا دوباره امتحان کنید."
+      }catch(err){
+        console.log(err);
+      }
+
+      this.product_comment.loading = false
+    },
+  },
 }
 </script>

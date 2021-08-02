@@ -9,11 +9,18 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'دمیرکو سایت خرید و فروش محصولات صنعتی' },
+      { hid: 'google-site-verification', name: 'google-site-verification', content: 'wzWhJaqpQniEGJwWeIMISdhq0AnDmqeTZ-tDFBpBB6Q' },
       { name: 'format-detection', content: 'telephone=no' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-    ]
+    ],
+    script: [
+      {
+        src: "https://www.google-analytics.com/analytics.js",
+        async: true, crossorigin: "anonymous"
+      },
+    ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
@@ -43,8 +50,11 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
+    '@nuxt/gtm',
   ],
-
+  gtm: {
+    id: 'G-KH5LKK69SL'
+  },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: 'http://127.0.0.1:8000'
