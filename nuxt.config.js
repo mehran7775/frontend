@@ -50,14 +50,14 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-    '@nuxt/gtm',
+    '@nuxtjs/gtm',
   ],
   gtm: {
-    id: 'G-KH5LKK69SL'
+    id: 'UA-194863487-1'
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://127.0.0.1:8000'
+    baseURL: process.env.BASE_API_URL || 'http://127.0.0.1:8000'
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
