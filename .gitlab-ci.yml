@@ -1,0 +1,21 @@
+stages:
+  - staging
+  - production
+  
+staging:
+  stage: staging
+  script:
+    - cp -r ./ /var/www/damirco/frontend-test
+    - cd /var/www/damirco
+    - docker-compose up  -d --build frontend-test
+  only:
+    - main
+
+# production:
+#   stage: production
+#   script:
+#     - cp -r ./ /var/www/damirco/backend
+#     - cd /var/www/damirco
+#     - docker-compose up  -d --build damirco
+#   only:
+#     - main
