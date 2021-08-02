@@ -1,6 +1,6 @@
 stages:
   - staging
-  - production
+  # - production
   
 staging:
   stage: staging
@@ -8,8 +8,8 @@ staging:
     - cp -r ./ /var/www/damirco/frontend-test
     - cd /var/www/damirco
     - docker-compose up  -d --build frontend-test
-  only:
-    - main
+  # only:
+  #   - main
 
 # production:
 #   stage: production
