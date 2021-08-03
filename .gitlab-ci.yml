@@ -9,7 +9,7 @@ staging:
     - cd /var/www/damirco
     - docker-compose up  -d --build frontend-test
   only:
-    - main
+    - master
 
 # production:
 #   stage: production
@@ -18,4 +18,4 @@ staging:
 #     - cd /var/www/damirco
 #     - docker-compose up  -d --build damirco
 #   only:
-#     - main
+#     - master
