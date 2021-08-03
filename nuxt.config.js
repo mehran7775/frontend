@@ -57,7 +57,8 @@ export default {
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: process.env.BASE_API_URL || 'http://127.0.0.1:8000'
+    baseURL: process.env.BASE_API_URL || 'http://127.0.0.1:8000',
+    browserBaseURL: process.env.BROWSER_BASE_API_URL || 'http://127.0.0.1:8000'
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
