@@ -61,6 +61,7 @@ export default {
     browserBaseURL: process.env.BROWSER_BASE_API_URL || 'http://127.0.0.1:8000'
   },
 
+
   // PWA module configuration: https://go.nuxtjs.dev/pwa
   pwa: {
     manifest: {
@@ -93,5 +94,18 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-  }
+  },
+
+
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_API_URL || 'http://127.0.0.1:8000',
+    }
+  },
+
+  privateRuntimeConfig: {
+    axios: {
+      baseURL: process.env.BASE_API_URL  || 'http://127.0.0.1:8000',
+    }
+  },
 }
