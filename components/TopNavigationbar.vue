@@ -16,7 +16,7 @@
               <v-btn
                 fab
                 small
-                tile
+                elevation="0"
                 text
                 color="primary"
                 href="tel:02177569156"
