@@ -36,7 +36,7 @@
                 fab
                 small
                 tile
-                text
+                elevation="0"
                 color="primary"
                 href="tel:02177569156"
                 class="pa-0 ma-1"
@@ -50,7 +50,7 @@
               fab
               small
               tile
-              text
+              elevation="0"
               color="primary"
               href="/users/entry/"
               class="pa-0 ma-1"
