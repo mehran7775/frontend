@@ -448,3 +448,11 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+img {
+    max-width: 600 !important;
+    margin: auto;
+    height: auto;
+}
+</style>
