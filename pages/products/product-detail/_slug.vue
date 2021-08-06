@@ -174,8 +174,8 @@
                 class="ma-5"
                 max-width="250"
               />
-              <v-layout justify-center align-center>
-                <v-card style="height: 2px" color="grey" />
+              <v-layout justify-center align-center class="px-2">
+                <v-card style="height: 2px" color="grey lighten-4 flex-grow-1" />
                 <div
                   class="d-flex justify-center align-center primary"
                   style="width: 10px; height: 10px"
@@ -185,7 +185,7 @@
                     class="white"
                   ></div>
                 </div>
-                <v-card style="height: 2px" color="grey" />
+                <v-card style="height: 2px" color="grey lighten-4 flex-grow-1" />
               </v-layout>
               <v-card
                 elevation="0"
@@ -452,7 +452,5 @@ export default {
 <style scoped>
 img {
     max-width: 100% !important;
-    margin: auto;
-    height: auto;
 }
 </style>
