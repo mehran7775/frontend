@@ -3,7 +3,7 @@
     <v-container class="px-0 px-md-2">
       <v-layout column>
         <v-layout justify-space-between align-center>
-          <v-img src="/logo.webp" max-width="150" class="me-3"></v-img>
+          <v-img src="/static/logo.webp" max-width="150" class="me-3"></v-img>
           <v-spacer></v-spacer>
           <v-card elevation="0" height="50" class="mb-2">
             <v-layout justify-center align-start>
