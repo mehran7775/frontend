@@ -1,6 +1,6 @@
 stages:
   - staging
-  # - production
+  - production
   
 staging:
   stage: staging
@@ -10,13 +10,14 @@ staging:
     - cd /var/www/damirco
     - docker-compose up  -d --build frontend-test
   only:
-    - master
+    - dev
 
-# production:
-#   stage: production
-#   script:
-#     - cp -r ./ /var/www/damirco/backend
-#     - cd /var/www/damirco
-#     - docker-compose up  -d --build damirco
-#   only:
-#     - master
+production:
+  stage: production
+  script:
+    - cp -r ./ /var/www/damirco/frontend
+    - echo "$env_production" | base64 -d > /var/www/damirco/frontend/.env
+    - cd /var/www/damirco
+    - docker-compose up  -d --build frontend
+  only:
+    - master
