@@ -1,6 +1,6 @@
 stages:
   - staging
-  # - production
+  - production
   
 staging:
   stage: staging
