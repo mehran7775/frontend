@@ -158,19 +158,19 @@
       </v-card>
       <div class="d-flex" style="overflow: auto">
         <div
-          v-for="n in 1"
-          :key="n"
+          v-for="product in page.related_products"
+          :key="product.id"
           class="pa-1"
           style="min-width: 290px; max-width: 290 !important"
         >
           <v-card
             elevation="0"
-            v-bind:href="'/product/product-detail/' + page.slug"
+            v-bind:href="'/product/product-detail/' + product.slug"
           >
             <v-layout column>
               <v-img
-                :src="page.product_image"
-                :alt="page.image_alt"
+                :src="product.product_image"
+                :alt="product.image_alt"
                 class="ma-5"
                 max-width="250"
               />
@@ -189,17 +189,17 @@
               </v-layout>
               <v-card
                 elevation="0"
-                class="pa-5 text-center font-weight-bold mb-1"
-                >{{ page.title }}</v-card
+                class="pa-5 text-center text-body-2 font-weight-bold mb-1"
+                >{{ product.title }}</v-card
               >
               <v-card elevation="0" color="grey lighten-3" class="ma-5 pa-2">
                 <v-row>
                   <v-col cols="9">
                     <div>
-                      از <b>{{ page.price }}</b> تومان
+                      از <b>{{ product.price }}</b> تومان
                     </div>
                     <div>
-                      تا <b>{{ page.second_price }}</b> تومان
+                      تا <b>{{ product.second_price }}</b> تومان
                     </div>
                   </v-col>
                   <v-col cols="3">
@@ -277,7 +277,7 @@ export default {
   async asyncData({ $axios, params }) {
     const data = (
       await $axios.get(
-        `http://damirco-test:8000/api/products-api/products/?slug=${encodeURIComponent(params.slug)}`
+        `/api/products-api/products/?slug=${encodeURIComponent(params.slug)}`
       )
     ).data
     if (data.count > 0) {
