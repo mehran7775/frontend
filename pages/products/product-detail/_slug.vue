@@ -277,7 +277,7 @@ export default {
   async asyncData({ $axios, params }) {
     const data = (
       await $axios.get(
-        `/api/products-api/products/?slug=${encodeURIComponent(params.slug)}`
+        `http://damirco:8000/api/products-api/products/?slug=${encodeURIComponent(params.slug)}`
       )
     ).data
     if (data.count > 0) {
