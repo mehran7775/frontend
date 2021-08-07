@@ -64,7 +64,13 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     baseURL: process.env.API_URL || 'http://127.0.0.1:8000',
-    browserBaseURL: process.env.API_URL_BROWSER || 'http://127.0.0.1:8000'
+    browserBaseURL: process.env.API_URL_BROWSER || 'http://127.0.0.1:8000',
+    headers : {
+      common: {
+        'Content-Type':'application/json',
+        'Accept': 'application/json'
+      },
+    }
   },
 
 
