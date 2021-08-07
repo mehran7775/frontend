@@ -9,18 +9,41 @@
 
 <script>
 export default {
-  header: {
-    title: 'my website title',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      {
-        hid: 'description',
-        name: 'description',
-        content: 'my website description',
-      },
-    ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  async asyncData({ $axios, params }) {
+    const data = (
+      await $axios.get(
+        `http://damirco:8000/api/products-api/products/?slug=${encodeURIComponent(params.slug)}`
+      )
+    ).data
+    if (data.count > 0) {
+    }
+  },
+  data() {
+    return {
+      page:{}
+    }
+  },
+  head() {
+    return {
+      title: this.page.title,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content: this.page.meta_description,
+        },
+        {
+          hid: 'keywords',
+          name: 'keywords',
+          content: this.page.meta_keywords,
+        },
+        {
+          hid: 'author',
+          name: 'author',
+          content: this.page.meta_author,
+        },
+      ],
+    }
   },
 }
 </script>
