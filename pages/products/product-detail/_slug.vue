@@ -388,7 +388,11 @@ export default {
       ],
     }
   },
-  watch: {},
+  watch: {
+    request_for_quotation: function(val){
+      this.request_for_quotation.phone_number=val.phone_number.replace(/[۰-۹]/g, d => "۰۱۲۳۴۵۶۷۸۹".indexOf(d));
+    }
+  },
   methods: {
     async sendComment() {
       if (this.product_comment.success) return
