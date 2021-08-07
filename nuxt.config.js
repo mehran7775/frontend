@@ -5,31 +5,48 @@ export default {
   head: {
     titleTemplate: '%s - دمیرکو - مشاوره و فروش ماشین آلات صنعتی',
     title: 'دمیرکو - مشاوره و فروش ماشین آلات صنعتی',
-    meta: [
-      { charset: 'utf-8' },
-      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: 'دمیرکو سایت خرید و فروش محصولات صنعتی' },
-      { hid: 'google-site-verification', name: 'google-site-verification', content: 'wzWhJaqpQniEGJwWeIMISdhq0AnDmqeTZ-tDFBpBB6Q' },
-      { name: 'format-detection', content: 'telephone=no' }
-    ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-    ],
-    script: [
-      {
-        src: "https://www.google-analytics.com/analytics.js",
-        async: true, crossorigin: "anonymous"
+    meta: [{
+        charset: 'utf-8'
       },
+      {
+        name: 'viewport',
+        content: 'width=device-width, initial-scale=1'
+      },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'دمیرکو سایت خرید و فروش محصولات صنعتی'
+      },
+      {
+        hid: 'google-site-verification',
+        name: 'google-site-verification',
+        content: 'wzWhJaqpQniEGJwWeIMISdhq0AnDmqeTZ-tDFBpBB6Q'
+      },
+      {
+        name: 'format-detection',
+        content: 'telephone=no'
+      }
     ],
+    link: [{
+      rel: 'icon',
+      type: 'image/x-icon',
+      href: '/favicon.ico'
+    }, ],
+    script: [{
+      src: "https://www.google-analytics.com/analytics.js",
+      async: true,
+      crossorigin: "anonymous"
+    }, ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
   css: [
+    '@/assets/scss/main.scss',
+    '@/assets/css/main.css',
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -40,6 +57,8 @@ export default {
     '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+
+    '@nuxtjs/fontawesome'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -100,9 +119,31 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
+    extractCSS: true,
   },
 
-
+  loading: {
+    color: 'blue',
+    height: '2px'
+  },
+  styleResources: {
+    scss: [
+      'assets/scss/_variables.scss'
+    ]
+  },
+  fontawesome: {
+    // component:'fa',
+    icons: {
+      solid: true,
+      brands: true,
+      // solid:['faEventLop','faLock'],
+      // brands:true
+    },
+    imports: [{
+      set: '@fortawesome/free-solid-svg-icons',
+      icons: ['faHome']
+    }]
+  },
   publicRuntimeConfig: {
     axios: {
       browserBaseURL: process.env.BROWSER_BASE_API_URL || 'http://127.0.0.1:8000',
@@ -111,7 +152,7 @@ export default {
 
   privateRuntimeConfig: {
     axios: {
-      baseURL: process.env.BASE_API_URL  || 'http://127.0.0.1:8000',
+      baseURL: process.env.BASE_API_URL || 'http://127.0.0.1:8000',
     }
   },
 }
