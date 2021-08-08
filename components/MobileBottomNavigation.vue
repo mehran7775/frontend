@@ -25,7 +25,7 @@
             color="primary"
             depressed
             class="white--text"
-            href="/users/entry/"
+            href="/"
           >
             خانه
             <v-icon color="white">mdi-home</v-icon>
@@ -34,7 +34,7 @@
             color="primary"
             depressed
             class="white--text"
-            href="/users/entry/"
+            href="/blog/posts/"
           >
             یلاگ
             <v-icon color="white">mdi-book-open-blank-variant</v-icon>
@@ -43,7 +43,7 @@
             color="primary"
             depressed
             class="white--text"
-            href="/users/entry/"
+            href="#products-footer"
           >
             دسته بندی
             <v-icon color="white">mdi-view-dashboard-outline</v-icon>

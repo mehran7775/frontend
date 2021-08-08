@@ -11,11 +11,12 @@
 export default {
   async asyncData({ $axios, params }) {
     const data = (
-      await $axios.get(
-        `http://damirco:8000/api/products-api/products/?slug=${encodeURIComponent(params.slug)}`
-      )
+      await $axios.get(`/api/categories-api/categories/?slug=${encodeURIComponent(params.slug)}`)
     ).data
     if (data.count > 0) {
+      return {
+        page: data,
+      }
     }
   },
   data() {
