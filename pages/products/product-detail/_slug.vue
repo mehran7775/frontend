@@ -165,7 +165,7 @@
         >
           <v-card
             elevation="0"
-            v-bind:href="'/product/product-detail/' + product.slug"
+            v-bind:href="'/products/product-detail/' + product.slug"
           >
             <v-layout column>
               <v-img

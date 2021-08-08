@@ -5,6 +5,7 @@ stages:
 staging:
   stage: staging
   script:
+    - rm -r /var/www/damirco/frontend-test/*
     - cp -r ./ /var/www/damirco/frontend-test
     - echo "$env_staging" | base64 -d > /var/www/damirco/frontend-test/.env
     - cd /var/www/damirco
@@ -15,6 +16,7 @@ staging:
 production:
   stage: production
   script:
+    - rm -r /var/www/damirco/frontend/*
     - cp -r ./ /var/www/damirco/frontend
     - echo "$env_production" | base64 -d > /var/www/damirco/frontend/.env
     - cd /var/www/damirco
