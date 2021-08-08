@@ -78,5 +78,13 @@ export default {
         "Authorization": payload.token
       }
     })
+  },
+  edit_product(payload){
+    return apiClient.post(`userpanel/products/${payload.id}`,payload.form,{
+      headers:{
+         "Authorization": payload.token,
+         "content-type": "multipart/form-data"
+      }
+    })
   }
 }

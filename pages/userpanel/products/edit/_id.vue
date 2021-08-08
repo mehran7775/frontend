@@ -1,22 +1,22 @@
 <template>
   <div id="create_product" class="w-100">
     <div class="form">
-      <div class="form-group h-100">
-        <label for="picture">عکس محصول</label>
-        <font-awesome-icon
-          :icon="['fas', 'asterisk']"
-          class="fa-xs text-danger mb-1"
-        ></font-awesome-icon>
-        <input
+      <v-form>
+        <v-file-input
+          placeholder="Upload your documents"
+          label="عکس محصول"
           multiple
-          type="file"
-          class="form-control-file"
-          required
+          prepend-icon="mdi-paperclip"
           id="picture"
           ref="picture"
-          @change="amount"
-          accept="image/*"
-        />
+        >
+          <template v-slot:selection="{ text }">
+            <v-chip small label color="primary">
+              {{ text }}
+            </v-chip>
+          </template>
+        </v-file-input>
+        <!--
         <small v-if="image.length < 1" class="des_image"
           >می توانید هرتعداد عکسی که از محصول میخواهید آپلود کنید</small
         >
@@ -24,7 +24,7 @@
           class="text text-danger"
           v-if="errors.picture"
           v-text="errors.picture"
-        ></small>
+        ></small> -->
         <div
           class="d-flex flex-column justify-content-center align-items-center"
         >
@@ -47,52 +47,39 @@
             </button>
           </div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="name">نام محصول</label>
-        <input
-
-          type="text"
-          class="form-control"
+        <v-text-field
+          label="نام محصول"
+          v-model="name"
           placeholder="نام محصول را واردکنید"
           id="name"
           name="name"
           ref="name"
-          v-model="name"
-        />
-      </div>
-      <div class="form-group">
-        <label for="description">توضیحات</label>
-        <textarea
-          rows="5"
-          type="text"
-          class="form-control"
+        ></v-text-field>
+        <v-text-field
+          label="توضیحات"
+          v-model="description"
           placeholder="توضیحات محصول خود را وارد کنید"
           id="description"
           ref="description"
           name="description"
-          v-model="description"
-        ></textarea>
-      </div>
-      <div class="w-50 m-auto">
-        <btn @event_fell="register" class="pt-1 pb-1">ثبت</btn>
-        <!-- <button :disabled="(!validated.picture && !validated.name)">rbhth</button> -->
-      </div>
+        ></v-text-field>
+        <v-btn class="primary" @click="register">ثبت</v-btn>
+      </v-form>
     </div>
   </div>
 </template>
 
 <script>
-import btn from "@/components/buttons/btn.vue";
+import btn from '@/components/buttons/btn.vue'
 export default {
-  layout: "userpanel/index",
+  layout: 'userpanel/index',
   async fetch({ route, store, $auth }) {
     // console.log($auth.$storage._state['_token.local'])
     const data = {
-      token: $auth.$storage._state["_token.local"],
+      token: $auth.$storage._state['_token.local'],
       id: route.params.id,
-    };
-    await store.dispatch("get_product_edit", data);
+    }
+    await store.dispatch('get_product_edit', data)
   },
   computed: {
     // ...mapState({
@@ -100,18 +87,18 @@ export default {
     // }),
     name: {
       get() {
-        return this.$store.state.product_edit.name;
+        return this.$store.state.product_edit.name
       },
       set(value) {
-        this.$store.commit("UPDATENAME", value);
+        this.$store.commit('UPDATENAME', value)
       },
     },
     description: {
       get() {
-        return this.$store.state.product_edit.description;
+        return this.$store.state.product_edit.description
       },
       set(value) {
-        this.$store.commit("UPDATEDESCRIPTION", value);
+        this.$store.commit('UPDATEDESCRIPTION', value)
       },
     },
   },
@@ -123,29 +110,42 @@ export default {
       picture: [],
       image: [],
       errors: {
-        picture: "",
+        picture: '',
       },
-    };
+    }
   },
   methods: {
     createImage(file) {
-      new Image();
-      var reader = new FileReader();
-      var vm = this;
+      new Image()
+      var reader = new FileReader()
+      var vm = this
 
       reader.onload = (e) => {
         // vm.image = e.target.result;
-        vm.image.push(e.target.result);
-      };
-      reader.readAsDataURL(file);
+        vm.image.push(e.target.result)
+      }
+      reader.readAsDataURL(file)
     },
     removeImage(e) {
-      this.validated.picture = false;
-      this.image = [];
-      this.$refs.picture.value = "";
+      this.validated.picture = false
+      this.image = []
+      this.$refs.picture.value = ''
+    },
+    async register() {
+      const form=new FormData()
+      form.append('name',this.name)
+      form.append('description',this.description)
+      form.append('picture',this.$refs.picture.files[0])
+      form.append('_method',"PUT")
+      const data = {
+        token: $auth.$storage._state['_token.local'],
+        id: route.params.id,
+        form:form
+      }
+      await this.$store.dispatch('edit_product',data)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
