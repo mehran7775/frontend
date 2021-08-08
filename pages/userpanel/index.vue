@@ -7,7 +7,7 @@
 <script>
 export default {
   layout:'userpanel/index',
-  // middleware: "checkAuth"
+  middleware: "checkAuth"
 };
 </script>
 
