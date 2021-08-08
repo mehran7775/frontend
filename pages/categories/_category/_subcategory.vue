@@ -2,14 +2,31 @@
   <v-layout column>
     <v-breadcrumbs :items="breadcrumbs" divider="/" />
     <v-card class="pa-5 my-5" elevation="0">
-      <h1 class="text-h6 primary--text mb-3">{{page.title}}</h1>
-      <p> در پایین لیست محصولات می‌توانید پاسخ سوالات احتمالی خود را در مورد {{page.title}} ببینید.<br>
-      در نهایت اگر مایل بودید باز هم برای مشاوره و انتخاب بهتر دستگاه مورد نظرتان با ما تماس بگیرید. <v-btn text dir="ltr" href="tel:02177569156">021-77569156</v-btn></p>
+      <h1 class="text-h6 primary--text mb-3">{{ page.title }}</h1>
+      <p>
+        در پایین لیست محصولات می‌توانید پاسخ سوالات احتمالی خود را در مورد
+        {{ page.title }} ببینید.<br />
+        در نهایت اگر مایل بودید باز هم برای مشاوره و انتخاب بهتر دستگاه مورد
+        نظرتان با ما تماس بگیرید.
+        <v-btn text dir="ltr" href="tel:02177569156">021-77569156</v-btn>
+      </p>
     </v-card>
+    <TitleBox>{{ page.title }}</TitleBox>
+    <v-card elevation="0">
+      <div class="text-center">
+        <v-pagination v-model="product_pagenation" :length="product_pagenation_length"></v-pagination>
+      </div>
+    </v-card>
+    <v-card elevation="0" v-html="page.seo_post" />
+
     <v-card elevation="0" class="my-5 py-5">
       <v-form ref="CommentForm" lazy-validation @submit.prevent="sendComment">
-        <v-alert v-model="category_comment.error" type="error" >{{category_comment.message}}</v-alert>
-        <v-alert v-model="category_comment.success" type="success" >{{category_comment.message}}</v-alert>
+        <v-alert v-model="category_comment.error" type="error">{{
+          category_comment.message
+        }}</v-alert>
+        <v-alert v-model="category_comment.success" type="success">{{
+          category_comment.message
+        }}</v-alert>
         <v-row no-gutters>
           <v-col cols="12" md="6" class="px-5 d-flex flex-column justify-end">
             <v-text-field
@@ -47,11 +64,13 @@
           <v-col cols="12" md="6" offset-md="6" class="px-5">
             <v-layout class="justify-center justify-md-start">
               <v-btn
-                :color="category_comment.success? 'success':'primary'"
+                :color="category_comment.success ? 'success' : 'primary'"
                 type="submit"
                 :loading="category_comment.loading"
               >
-                <v-icon  v-if="category_comment.success" >mdi-check-outline</v-icon>
+                <v-icon v-if="category_comment.success"
+                  >mdi-check-outline</v-icon
+                >
                 <v-text v-else>ثبت نظر</v-text>
               </v-btn>
             </v-layout>
@@ -66,11 +85,15 @@
 export default {
   async asyncData({ $axios, params }) {
     const data = (
-      await $axios.get(`/api/categories-api/categories/?slug=${encodeURIComponent(params.category)}`)
+      await $axios.get(
+        `/api/categories-api/categories/?slug=${encodeURIComponent(
+          params.subcategory
+        )}`
+      )
     ).data
-    console.log(data);
+    console.log(params)
     if (data.count > 0) {
-      const result=data.results[0]
+      const result = data.results[0]
       return {
         page: result,
         breadcrumbs: [
@@ -82,24 +105,26 @@ export default {
           {
             text: result.title,
             disabled: false,
-            href: `/categories/${result.slug}`,
-          }
+            href: `/product-categories/${result.slug}`,
+          },
         ],
       }
     }
   },
   data() {
-    return {  
-      page:{},
-      breadcrumbs:[],
-      category_comment:{
+    return {
+      product_pagenation:1,
+      product_pagenation_length: 6,
+      page: {},
+      breadcrumbs: [],
+      category_comment: {
         success: false,
         error: false,
         message: '',
         username: '',
         email: '',
         content: '',
-      }
+      },
     }
   },
   head() {
