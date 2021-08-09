@@ -62,7 +62,7 @@
         <v-layout align-center justify-start class="grey lighten-5 pa-2">
           <v-btn
             v-for="link in links"
-            :key="link"
+            :key="link.href"
             :href="link.href"
             text
             class="d-none d-md-flex"
