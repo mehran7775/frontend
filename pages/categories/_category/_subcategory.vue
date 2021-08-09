@@ -47,7 +47,7 @@
     </div>
     <v-card elevation="0" class="px-2 py-5 my-5" v-html="page.seo_post" />
 
-    <CommentForm1 post_url="/api/products-api/product-comments/" v-bind:object_id="page.id"/>
+    <CommentForm1 post_url="/api/categories-api/category-comments/" v-bind:object_id="page.id"/>
   </v-layout>
 </template>
 
