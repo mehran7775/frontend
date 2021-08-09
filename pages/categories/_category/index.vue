@@ -13,13 +13,13 @@
     </v-card>
     <TitleBox>بلاگ</TitleBox>
     <div class="d-flex mb-5" style="overflow: auto">
-      <v-card v-for="item in all_posts" :key="item.id" v-bind:href="'/blog/post/' + item.slug" width="310px" elevation="0" class="pa-5 ma-1">
+      <v-card v-for="item in all_posts" :key="item.id" v-bind:href="'/blog/post/' + item.slug" min-width="310" elevation="0" class="pa-5 ma-1">
         <v-layout column>
           <v-img :src="item.thumbnail" :alt="item.image_alt" height="250" contain>
             <template v-slot:placeholder>
               <v-skeleton-loader
                 type="image"
-                height="250" 
+                height="250"
               ></v-skeleton-loader>
             </template>
           </v-img>

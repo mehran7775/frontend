@@ -61,8 +61,8 @@
         </v-layout>
         <v-layout align-center justify-start class="grey lighten-5 pa-2">
           <v-btn
-            v-for="link in links"
-            :key="link.href"
+            v-for="(link,i) in links"
+            :key="i"
             :href="link.href"
             text
             class="d-none d-md-flex"

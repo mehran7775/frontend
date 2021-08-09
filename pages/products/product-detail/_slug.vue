@@ -176,18 +176,19 @@
           <v-card
             elevation="0"
             v-bind:href="'/products/product-detail/' + product.slug"
+            width="280"
           >
             <v-layout column>
               <v-img
                 :src="product.product_image"
                 :alt="product.image_alt"
                 class="ma-5"
-                max-width="250"
+                height="200" contain
               >
                 <template v-slot:placeholder>
                   <v-skeleton-loader
                     type="image"
-                    min-height="300"
+                    height="200"
                   ></v-skeleton-loader>
                 </template>
               </v-img>
