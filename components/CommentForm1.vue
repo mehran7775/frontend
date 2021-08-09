@@ -74,6 +74,7 @@ export default {
       success: false,
       error: false,
       message: '',
+      loading: false,
       username: '',
       email: '',
       content: '',
