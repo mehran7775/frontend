@@ -59,6 +59,16 @@
 </template>
 <script>
 export default {
+  props:{
+    post_url:{
+      type: String,
+      required: true
+    },
+    object_id:{
+      type: Number,
+      required: true
+    }
+  },
   data() {
     return {
       success: false,
@@ -99,12 +109,12 @@ export default {
         username: this.username,
         email: this.email,
         content: this.content,
-        object_id: this.page.id,
+        object_id: this.object_id,
       }
       try {
         const res1 = await this.$axios.get('/api/get-csrftoken')
         this.$axios.defaults.headers.common['X-CSRFToken'] = res1.data.csrftoken
-        await this.$axios.post('/api/products-api/product-comments/', data)
+        await this.$axios.post(this.post_url, data)
         this.success = true
         this.error = false
         this.message =
