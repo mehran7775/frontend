@@ -8,7 +8,6 @@
           multiple
           prepend-icon="mdi-paperclip"
           id="picture"
-          ref="picture"
         >
           <template v-slot:selection="{ text }">
             <v-chip small label color="primary">
@@ -166,7 +165,7 @@ export default {
       const form = new FormData()
       form.append('name', this.$refs.name.value)
       form.append('description', this.$refs.description.value)
-      form.append('image', this.$refs.picture.files[0])
+      form.append('image', document.getElementById('picture').files[0])
       // this.picture.forEach((element, i) => {
       //   form.append('pics[' + i + ']', element[0])
       // })
@@ -176,7 +175,6 @@ export default {
         token: this.$auth.$storage._state['_token.local'],
       }
       this.$store.dispatch('create_product', data)
-      // if(!this.errors.picture )
     },
   },
 }

@@ -3,13 +3,13 @@
     <div class="signin">
       <v-card>
         <v-card-title>
-          <h2>ورود</h2>
+          <h3>ورود</h3>
         </v-card-title>
         <v-card-text>
           <v-form>
             <v-text-field label="نام کاربری" v-model="username"></v-text-field>
             <v-text-field label="رمز عبور" v-model="password"></v-text-field>
-            <v-btn class="primary--text" @click="login">ورود</v-btn>
+            <v-btn class="primary" @click="login">ورود</v-btn>
           </v-form>
         </v-card-text>
       </v-card>
@@ -24,40 +24,40 @@
 
 <script>
 export default {
-  layout:'sign',
+  layout: 'sign',
   head() {
     return {
-      title: "صفحه ورود",
+      title: 'صفحه ورود',
       meta: [
         {
-          hid: "description",
-          name: "description",
-          content: "با ورود به دمیرکو میتوانید به خرید و فروش و تعامل بپردازید",
+          hid: 'description',
+          name: 'description',
+          content: 'با ورود به دمیرکو میتوانید به خرید و فروش و تعامل بپردازید',
         },
       ],
-    };
+    }
   },
-  middleware: "guest",
+  middleware: 'guest',
   data() {
     return {
-      username: "",
-      password: "",
-    };
+      username: '',
+      password: '',
+    }
   },
   methods: {
     login() {
-      let form = new FormData();
-      form.append("username", this.username);
-      form.append("password", this.password);
+      let form = new FormData()
+      form.append('username', this.username)
+      form.append('password', this.password)
       // formData.append('data', JSON.stringify(this.data));
-      this.$store.dispatch("do_login", form);
+      this.$store.dispatch('do_login', form)
     },
   },
-};
+}
 </script>
 
 <style lang="scss" scoped>
-@import "assets/scss/variables";
+@import 'assets/scss/variables';
 // @import "assets/scss/main";
 #signin {
   width: 100%;
@@ -71,26 +71,6 @@ export default {
     // vertical-align: middle;
     // margin: auto;
     // background-color: map-get($colors, da_light);
-    form {
-      width: 90%;
-      margin: auto;
-      text-align: right;
-      padding: 10px 20px;
-      box-sizing: border-box;
-
-      legend,
-      label {
-        color: map-get($colors, da_dismal);
-        font-weight: bold;
-      }
-
-      .btn {
-        background-color: map-get($colors, da_blue_light);
-        // background-color: color(da_blue_dismal);
-        color: #fff;
-        margin-right: 5px;
-      }
-    }
     .to_signup {
       width: 100%;
       margin: auto;
