@@ -11,13 +11,17 @@
         <v-btn text dir="ltr" href="tel:02177569156">021-77569156</v-btn>
       </p>
     </v-card>
-    <TitleBox>{{ page.title }}</TitleBox>
-    <v-card elevation="0">
-      <div class="text-center">
-        <v-pagination v-model="product_pagenation" :length="product_pagenation_length"></v-pagination>
-      </div>
+    <TitleBox class="mt-5">{{ page.title }}</TitleBox>
+    <v-card v-for="item in products_selected" :key="item.id" elevation="0" class="my-1">
+      <v-card-text v-text="item.title"></v-card-text>
     </v-card>
-    <v-card elevation="0" v-html="page.seo_post" />
+    <div class="text-center my-5">
+      <v-pagination
+        v-model="product_pagenation"
+        :length="product_pagenation_length"
+      ></v-pagination>
+    </div>
+    <v-card elevation="0" class="px-2 py-5 my-5" v-html="page.seo_post" />
 
     <v-card elevation="0" class="my-5 py-5">
       <v-form ref="CommentForm" lazy-validation @submit.prevent="sendComment">
@@ -91,7 +95,7 @@ export default {
         )}`
       )
     ).data
-    console.log(params)
+    // console.log(params)
     if (data.count > 0) {
       const result = data.results[0]
       return {
@@ -113,8 +117,9 @@ export default {
   },
   data() {
     return {
-      product_pagenation:1,
+      product_pagenation: 1,
       product_pagenation_length: 6,
+      products_selected:[],
       page: {},
       breadcrumbs: [],
       category_comment: {
@@ -125,6 +130,31 @@ export default {
         email: '',
         content: '',
       },
+      username_rules: [
+        (v) => !!v || 'لطفا نام خود را وارد نمایید!',
+        (v) =>
+          /^[\u0600-\u06FF ]+$/.test(v) ||
+          'لطفا نام خود را به فارسی وارد نمایید!',
+      ],
+      email_rules: [
+        (v) => !!v || 'لطفا ایمیل خود را وارد نمایید!',
+        (v) =>
+          /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
+          'لطفا یک ایمیل معتبر وارد کنید!',
+      ],
+      content_rules: [(v) => !!v || 'لطفا نظر خود را وارد نمایید!'],
+      phone_number_rules: [
+        (v) => !!v || 'لطفا شماره همراه خود را وارد نمایید!',
+        (v) =>
+          /^09[0-9]{9}$/.test(v) ||
+          /^\+[0-9]+$/.test(v) ||
+          'شماره همراه معتبر نیست!',
+      ],
+    }
+  },
+  watch:{
+    product_pagenation: function(val){
+      this.products_selected = this.page.product_set.slice(5*val-5,5*val-1)
     }
   },
   head() {
