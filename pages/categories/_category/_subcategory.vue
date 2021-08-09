@@ -21,9 +21,9 @@
     >
       <v-row no-gutters>
         <v-col cols="12" md="3" class="pa-5">
-          <v-img :src="item.product_image" :alt="item.image_alt">
+          <v-img :src="item.product_image" :alt="item.image_alt" height="200" contain>
             <template v-slot:placeholder>
-              <v-skeleton-loader type="image" min-height="300"></v-skeleton-loader>
+              <v-skeleton-loader type="image" height="200"></v-skeleton-loader>
             </template>
           </v-img>
         </v-col>
@@ -71,14 +71,6 @@ export default {
     return {
       product_pagenation: 1,
       page: {},
-      category_comment: {
-        success: false,
-        error: false,
-        message: '',
-        username: '',
-        email: '',
-        content: '',
-      },
       username_rules: [
         (v) => !!v || 'لطفا نام خود را وارد نمایید!',
         (v) =>
