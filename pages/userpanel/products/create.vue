@@ -1,21 +1,27 @@
 <template>
-  <div id="create_product" class="w-100">
-    <div class="form">
-      <v-form>
-        <v-file-input
-          placeholder="Upload your documents"
-          label="عکس محصول"
-          multiple
-          prepend-icon="mdi-paperclip"
-          id="picture"
-        >
-          <template v-slot:selection="{ text }">
-            <v-chip small label color="primary">
-              {{ text }}
-            </v-chip>
-          </template>
-        </v-file-input>
-        <!--
+  <v-flex xs12 sm10 md8 class="ma-auto">
+    <div id="create_product" class="w-100">
+      <div class="form">
+        <!-- <v-layout column>
+        <v-layout rout>
+
+        </v-layout>
+      </v-layout> -->
+        <v-form>
+          <v-file-input
+            placeholder="Upload your documents"
+            label="عکس محصول"
+            multiple
+            prepend-icon="mdi-paperclip"
+            id="picture"
+          >
+            <template v-slot:selection="{ text }">
+              <v-chip small label color="primary">
+                {{ text }}
+              </v-chip>
+            </template>
+          </v-file-input>
+          <!--
         <small v-if="image.length < 1" class="des_image"
           >می توانید هرتعداد عکسی که از محصول میخواهید آپلود کنید</small
         >
@@ -24,51 +30,65 @@
           v-if="errors.picture"
           v-text="errors.picture"
         ></small> -->
-        <div
-          class="d-flex flex-column justify-content-center align-items-center"
-        >
-          <div class="picture" v-if="image.length > 0 && !errors.picture">
-            <img
-              v-for="img of image"
-              :src="img"
-              width="100"
-              height="100"
-              alt="تصویر ناقص است"
-            />
+          <div
+            class="d-flex flex-column justify-content-center align-items-center"
+          >
+            <div class="picture" v-if="image.length > 0 && !errors.picture">
+              <img
+                v-for="img of image"
+                :src="img"
+                width="100"
+                height="100"
+                alt="تصویر ناقص است"
+              />
+            </div>
+            <div>
+              <button
+                v-if="image.length !== 0"
+                class="btn btn-secondary m-2"
+                @click="removeImage"
+              >
+                حذف عکس ها
+              </button>
+            </div>
           </div>
-          <div>
-            <button
-              v-if="image.length !== 0"
-              class="btn btn-secondary m-2"
-              @click="removeImage"
-            >
-              حذف عکس ها
-            </button>
-          </div>
-        </div>
-        <v-text-field
-          label="نام محصول"
-          placeholder="نام محصول را واردکنید"
-          id="name"
-          name="name"
-          ref="name"
-          v-model="name"
-        ></v-text-field>
-        <v-text-field
+          <v-text-field
+            label="نام محصول"
+            placeholder="نام محصول را واردکنید"
+            id="name"
+            name="name"
+            ref="name"
+            v-model="name"
+          ></v-text-field>
+          <v-textarea
+            label="توضیحات"
+            placeholder="توضیحات محصول خود را وارد کنید"
+            auto-grow
+            outlined
+            rows="3"
+            row-height="25"
+            shaped
+            id="description"
+            ref="description"
+            name="description"
+            v-model="description"
+          ></v-textarea>
+          <!-- <v-text-field
           label="توضیحات"
           placeholder="توضیحات محصول خود را وارد کنید"
           id="description"
           ref="description"
           name="description"
           v-model="description"
-        ></v-text-field>
-        <v-btn class="primary" @click="register">ثبت</v-btn>
-      </v-form>
-      <!-- <div class="w-50 m-auto">
+        ></v-text-field> -->
+          <v-btn class="primary" @click="register">ثبت</v-btn>
+        </v-form>
+        <!-- <div class="w-50 m-auto">
         <btn @event_fell="register" class="pt-1 pb-1">ثبت</btn>
       </div> -->
+      </div>
     </div>
-  </div>
+  </v-flex>
 </template>
 
 <script>
@@ -80,8 +100,8 @@ export default {
   },
   data() {
     return {
-      name:'',
-      description:'',
+      name: '',
+      description: '',
       picture: [],
       image: [],
       btnStatus: true,
