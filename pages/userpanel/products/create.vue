@@ -52,6 +52,7 @@
           id="name"
           name="name"
           ref="name"
+          v-model="name"
         ></v-text-field>
         <v-text-field
           label="توضیحات"
@@ -59,6 +60,7 @@
           id="description"
           ref="description"
           name="description"
+          v-model="description"
         ></v-text-field>
         <v-btn class="primary" @click="register">ثبت</v-btn>
       </v-form>
@@ -78,6 +80,8 @@ export default {
   },
   data() {
     return {
+      name:'',
+      description:'',
       picture: [],
       image: [],
       btnStatus: true,
@@ -163,8 +167,8 @@ export default {
       // console.log(this.$refs.picture.files[0])
       // this.$refs.picture = this.picture;
       const form = new FormData()
-      form.append('name', this.$refs.name.value)
-      form.append('description', this.$refs.description.value)
+      form.append('name', this.name)
+      form.append('description', this.description)
       form.append('image', document.getElementById('picture').files[0])
       // this.picture.forEach((element, i) => {
       //   form.append('pics[' + i + ']', element[0])
