@@ -67,13 +67,23 @@
                 >
                   <v-card class="px-5 pb-5">
                     <v-layout justify-space-between align-center class="py-3">
-                      <v-text class="font-weight-bold text-h6">استعلام قیمت</v-text>
+                      <v-text class="font-weight-bold text-h6"
+                        >استعلام قیمت</v-text
+                      >
                       <v-btn icon @click="request_for_quotation.dialog = false">
                         <v-icon>mdi-close</v-icon>
                       </v-btn>
                     </v-layout>
-                    <v-alert  v-model="request_for_quotation.error" type="error">{{request_for_quotation.message}}</v-alert>
-                    <v-alert  v-model="request_for_quotation.success" type="success">{{request_for_quotation.message}}</v-alert>
+                    <v-alert
+                      v-model="request_for_quotation.error"
+                      type="error"
+                      >{{ request_for_quotation.message }}</v-alert
+                    >
+                    <v-alert
+                      v-model="request_for_quotation.success"
+                      type="success"
+                      >{{ request_for_quotation.message }}</v-alert
+                    >
                     <v-text-field
                       v-model="request_for_quotation.name"
                       outlined
@@ -134,9 +144,9 @@
           >مشخصات محصول</v-card
         >
         <v-card
-          elevation="0"
           v-for="item in page.productdetail_set"
           :key="item.id"
+          elevation="0"
           class="mb-2"
         >
           <v-row class="pa-2">
@@ -166,16 +176,27 @@
           <v-card
             elevation="0"
             v-bind:href="'/products/product-detail/' + product.slug"
+            width="280"
           >
             <v-layout column>
               <v-img
                 :src="product.product_image"
                 :alt="product.image_alt"
                 class="ma-5"
-                max-width="250"
-              />
+                height="200" contain
+              >
+                <template v-slot:placeholder>
+                  <v-skeleton-loader
+                    type="image"
+                    height="200"
+                  ></v-skeleton-loader>
+                </template>
+              </v-img>
               <v-layout justify-center align-center class="px-2">
-                <v-card style="height: 2px" color="grey lighten-4 flex-grow-1" />
+                <v-card
+                  style="height: 2px"
+                  color="grey lighten-4 flex-grow-1"
+                />
                 <div
                   class="d-flex justify-center align-center primary"
                   style="width: 10px; height: 10px"
@@ -185,7 +206,10 @@
                     class="white"
                   ></div>
                 </div>
-                <v-card style="height: 2px" color="grey lighten-4 flex-grow-1" />
+                <v-card
+                  style="height: 2px"
+                  color="grey lighten-4 flex-grow-1"
+                />
               </v-layout>
               <v-card
                 elevation="0"
@@ -216,59 +240,10 @@
         </div>
       </div>
     </v-layout>
-    <v-card elevation="0" class="my-5 py-5">
-      <v-form ref="CommentForm" lazy-validation @submit.prevent="sendComment">
-        <v-alert v-model="product_comment.error" type="error" >{{product_comment.message}}</v-alert>
-        <v-alert v-model="product_comment.success" type="success" >{{product_comment.message}}</v-alert>
-        <v-row no-gutters>
-          <v-col cols="12" md="6" class="px-5 d-flex flex-column justify-end">
-            <v-text-field
-              v-model="product_comment.username"
-              outlined
-              name="username"
-              :rules="username_rules"
-              required
-              label="نام"
-              validate-on-blur
-            />
-            <v-text-field
-              v-model="product_comment.email"
-              name="email"
-              required
-              :rules="email_rules"
-              outlined
-              label="ایمیل"
-              validate-on-blur
-            />
-          </v-col>
-          <v-col cols="12" md="6" class="px-5">
-            <v-textarea
-              v-model="product_comment.content"
-              outlined
-              :rules="content_rules"
-              validate-on-blur
-              name="content"
-              label="نظر"
-              required
-            ></v-textarea>
-          </v-col>
-        </v-row>
-        <v-row no-gutters>
-          <v-col cols="12" md="6" offset-md="6" class="px-5">
-            <v-layout class="justify-center justify-md-start">
-              <v-btn
-                :color="product_comment.success? 'success':'primary'"
-                type="submit"
-                :loading="product_comment.loading"
-              >
-                <v-icon  v-if="product_comment.success" >mdi-check-outline</v-icon>
-                <v-text v-else>ثبت نظر</v-text>
-              </v-btn>
-            </v-layout>
-          </v-col>
-        </v-row>
-      </v-form>
-    </v-card>
+    <CommentForm1
+      post_url="/api/products-api/product-comments/"
+      v-bind:object_id="page.id"
+    />
   </v-layout>
 </template>
 
@@ -281,32 +256,8 @@ export default {
       )
     ).data
     if (data.count > 0) {
-      const result = data.results[0]
       return {
-        page: result,
-        breadcrumbs: [
-          {
-            text: 'خانه',
-            disabled: false,
-            href: '/',
-          },
-          {
-            text: result.category[0].title,
-            disabled: false,
-            href: `/categories/${result.category[0].slug}`,
-          },
-          {
-            text: result.title,
-            disabled: false,
-            href: `/products/product-detail/${result.slug}`,
-          },
-        ],
-        carousel_items: [
-          {
-            src: result.product_image,
-            alt: result.image_alt,
-          },
-        ],
+        page: data.results[0],
       }
     }
   },
@@ -317,23 +268,8 @@ export default {
         slug: '',
         category: [{}],
       },
-      breadcrumbs: [],
       rating: 4.3,
-      carousel_items: [
-        {
-          src: '',
-        },
-      ],
       // inputs
-      product_comment: {
-        loading: false,
-        success: false,
-        error: false,
-        message: '',
-        username: '',
-        email: '',
-        content: '',
-      },
       request_for_quotation: {
         dialog: false,
         loading: false,
@@ -388,35 +324,44 @@ export default {
       ],
     }
   },
-  watch: {},
-  methods: {
-    async sendComment() {
-      if (this.product_comment.success) return
-      const isValid = await this.$refs.CommentForm.validate()
-      if (!isValid) return
-      this.product_comment.loading = true
-      const data = {
-        username: this.product_comment.username,
-        email: this.product_comment.email,
-        content: this.product_comment.content,
-        object_id: this.page.id,
-      }
-      try {
-        const res1 = await this.$axios.get('/api/get-csrftoken')
-        this.$axios.defaults.headers.common['X-CSRFToken'] = res1.data.csrftoken
-        await this.$axios.post('/api/products-api/product-comments/', data)
-        this.product_comment.success = true
-        this.product_comment.error = false
-        this.product_comment.message =
-          'با موفقیت ثبت شد.'
-      } catch (err) {
-        this.product_comment.error = true
-        this.product_comment.message =
-          'خطای سرور! لطفا بعدا دوباره امتحان کنید.'
-      }
-
-      this.product_comment.loading = false
+  computed: {
+    breadcrumbs() {
+      return [
+        {
+          text: 'خانه',
+          disabled: false,
+          href: '/',
+        },
+        {
+          text: this.page.category[0].title,
+          disabled: false,
+          href: `/categories/${this.page.category[0].slug}`,
+        },
+        {
+          text: this.page.title,
+          disabled: false,
+          href: `/products/product-detail/${this.page.slug}`,
+        },
+      ]
     },
+    carousel_items() {
+      return [
+        {
+          src: this.page.product_image,
+          alt: this.page.image_alt,
+        },
+      ]
+    },
+  },
+  watch: {
+    request_for_quotation(val) {
+      this.request_for_quotation.phone_number = val.phone_number.replace(
+        /[۰-۹]/g,
+        (d) => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d)
+      )
+    },
+  },
+  methods: {
     async sendRequestForQuotation() {
       if (this.request_for_quotation.success) return
       const isValid = await this.$refs.RequestForQuotationForm.validate()
@@ -434,8 +379,7 @@ export default {
         await this.$axios.post('/api/products-api/miniorder/', data)
         this.request_for_quotation.success = true
         this.request_for_quotation.error = false
-        this.request_for_quotation.message =
-          'با موفقیت ثبت شد.'
+        this.request_for_quotation.message = 'با موفقیت ثبت شد.'
       } catch (err) {
         this.request_for_quotation.error = true
         this.request_for_quotation.message =
@@ -451,6 +395,6 @@ export default {
 
 <style scoped>
 img {
-    max-width: 100% !important;
+  max-width: 100% !important;
 }
 </style>
