@@ -1,25 +1,39 @@
 <template>
-  <div id="signin">
-    <div class="signin">
-      <v-card>
-        <v-card-title>
-          <h3>ورود</h3>
-        </v-card-title>
-        <v-card-text>
-          <v-form>
-            <v-text-field label="نام کاربری" v-model="username"></v-text-field>
-            <v-text-field label="رمز عبور" v-model="password"></v-text-field>
-            <v-btn class="primary" @click="login">ورود</v-btn>
-          </v-form>
-        </v-card-text>
-      </v-card>
-      <div class="to_signup">
-        هنوز ثبت نام نکرده اید،برای ثبت نام
-        <nuxt-link to="/signup">کلیک</nuxt-link>
-        کنید
-      </div>
-    </div>
-  </div>
+  <v-container>
+    <v-layout column>
+      <v-layout row>
+        <v-flex xs12 sm10 md8 class="ma-auto">
+          <div id="signin">
+            <div class="signin">
+              <v-card>
+                <v-card-title>
+                  <h3>ورود</h3>
+                </v-card-title>
+                <v-card-text>
+                  <v-form>
+                    <v-text-field
+                      label="نام کاربری"
+                      v-model="username"
+                    ></v-text-field>
+                    <v-text-field
+                      label="رمز عبور"
+                      v-model="password"
+                    ></v-text-field>
+                    <v-btn class="primary" @click="login">ورود</v-btn>
+                  </v-form>
+                </v-card-text>
+              </v-card>
+              <div class="to_signup">
+                هنوز ثبت نام نکرده اید،برای ثبت نام
+                <nuxt-link to="/signup">کلیک</nuxt-link>
+                کنید
+              </div>
+            </div>
+          </div>
+        </v-flex>
+      </v-layout>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
@@ -49,7 +63,6 @@ export default {
       let form = new FormData()
       form.append('username', this.username)
       form.append('password', this.password)
-      // formData.append('data', JSON.stringify(this.data));
       this.$store.dispatch('do_login', form)
     },
   },

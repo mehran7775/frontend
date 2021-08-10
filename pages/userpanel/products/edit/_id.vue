@@ -1,22 +1,23 @@
 <template>
-  <div id="create_product" class="w-100">
-    <div class="form">
-      <v-form>
-        <v-file-input
-          placeholder="Upload your documents"
-          label="عکس محصول"
-          multiple
-          prepend-icon="mdi-paperclip"
-          id="picture"
-          ref="picture"
-        >
-          <template v-slot:selection="{ text }">
-            <v-chip small label color="primary">
-              {{ text }}
-            </v-chip>
-          </template>
-        </v-file-input>
-        <!--
+  <v-flex xs12 sm10 md8 class="ma-auto">
+    <div id="create_product" class="w-100">
+      <div class="form">
+        <v-form>
+          <v-file-input
+            placeholder="Upload your documents"
+            label="عکس محصول"
+            multiple
+            prepend-icon="mdi-paperclip"
+            id="picture"
+            ref="picture"
+          >
+            <template v-slot:selection="{ text }">
+              <v-chip small label color="primary">
+                {{ text }}
+              </v-chip>
+            </template>
+          </v-file-input>
+          <!--
         <small v-if="image.length < 1" class="des_image"
           >می توانید هرتعداد عکسی که از محصول میخواهید آپلود کنید</small
         >
@@ -25,48 +26,54 @@
           v-if="errors.picture"
           v-text="errors.picture"
         ></small> -->
-        <div
-          class="d-flex flex-column justify-content-center align-items-center"
-        >
-          <div class="picture" v-if="image.length > 0 && !errors.picture">
-            <img
-              v-for="img of image"
-              :src="img"
-              width="100"
-              height="100"
-              alt="تصویر ناقص است"
-            />
+          <div
+            class="d-flex flex-column justify-content-center align-items-center"
+          >
+            <div class="picture" v-if="image.length > 0 && !errors.picture">
+              <img
+                v-for="img of image"
+                :src="img"
+                width="100"
+                height="100"
+                alt="تصویر ناقص است"
+              />
+            </div>
+            <div>
+              <button
+                v-if="image.length !== 0"
+                class="btn btn-secondary m-2"
+                @click="removeImage"
+              >
+                حذف عکس ها
+              </button>
+            </div>
           </div>
-          <div>
-            <button
-              v-if="image.length !== 0"
-              class="btn btn-secondary m-2"
-              @click="removeImage"
-            >
-              حذف عکس ها
-            </button>
-          </div>
-        </div>
-        <v-text-field
-          label="نام محصول"
-          v-model="name"
-          placeholder="نام محصول را واردکنید"
-          id="name"
-          name="name"
-          ref="name"
-        ></v-text-field>
-        <v-text-field
-          label="توضیحات"
-          v-model="description"
-          placeholder="توضیحات محصول خود را وارد کنید"
-          id="description"
-          ref="description"
-          name="description"
-        ></v-text-field>
-        <v-btn class="primary" @click="register">ثبت</v-btn>
-      </v-form>
+          <v-text-field
+            label="نام محصول"
+            v-model="name"
+            placeholder="نام محصول را واردکنید"
+            id="name"
+            name="name"
+            ref="name"
+          ></v-text-field>
+          <v-textarea
+            label="توضیحات"
+            placeholder="توضیحات محصول خود را وارد کنید"
+            auto-grow
+            outlined
+            rows="3"
+            row-height="25"
+            shaped
+            id="description"
+            ref="description"
+            name="description"
+            v-model="description"
+          ></v-textarea>
+          <v-btn class="primary" @click="register">ثبت</v-btn>
+        </v-form>
+      </div>
     </div>
-  </div>
+  </v-flex>
 </template>
 
 <script>
@@ -132,17 +139,17 @@ export default {
       this.$refs.picture.value = ''
     },
     async register() {
-      const form=new FormData()
-      form.append('name',this.name)
-      form.append('description',this.description)
-      form.append('picture',this.$refs.picture.files[0])
-      form.append('_method',"PUT")
+      const form = new FormData()
+      form.append('name', this.name)
+      form.append('description', this.description)
+      form.append('picture', this.$refs.picture.files[0])
+      form.append('_method', 'PUT')
       const data = {
         token: $auth.$storage._state['_token.local'],
         id: route.params.id,
-        form:form
+        form: form,
       }
-      await this.$store.dispatch('edit_product',data)
+      await this.$store.dispatch('edit_product', data)
     },
   },
 }
