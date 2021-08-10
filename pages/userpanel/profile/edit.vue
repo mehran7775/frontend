@@ -5,91 +5,91 @@
         <btn class="pt-2 pr-2 pl-2" @event_fell="back()"> بازگشت </btn>
       </div>
     </div>
-    <div class="infoo">
-      <v-form>
-        <v-container>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="نام"
-                id="firstName"
-                name="firstname"
-                ref="firstName"
+    <v-flex xs12 sm10 md8 class="ma-auto">
+      <div class="infoo">
+        <v-form>
+          <v-container>
+            <v-row>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  label="نام"
+                  id="firstName"
+                  name="firstname"
+                  ref="firstName"
+                  :counter="25"
+                  :value="name"
+                  required
+                  placeholder="نام خودرا به فارسی وارد کنید"
+                ></v-text-field>
+              </v-col>
 
-                :counter="25"
-                :value="name"
-                required
-                placeholder="نام خودرا به فارسی وارد کنید"
-              ></v-text-field>
-            </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  label="نام خانوادگی"
+                  id="lastName"
+                  name="lastName"
+                  :counter="35"
+                  :value="lname"
+                  ref="lastName"
+                  placeholder="نام خانوادگی به فارسی وارد شود"
+                ></v-text-field>
+              </v-col>
 
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="نام خانوادگی"
-                id="lastName"
-                name="lastName"
-                :counter="35"
-                :value="lname"
-                ref="lastName"
-                placeholder="نام خانوادگی به فارسی وارد شود"
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="نام کاربری"
-                id="username"
-                name="username"
-                :counter="20"
-                ref="username"
-                placeholder="نام کاربری خود را وارد کنید"
-                :value="username"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="نام شرکت"
-                id="company"
-                name="company"
-                ref="company"
-                :counter="70"
-                placeholder="نام شرکت خودرا وارد کنید"
-                title="نام شرکت درست وارد نشده است"
-                v-model="company_name"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="شماره تلفن"
-                id="phoneNumber"
-                name="phoneNumber"
-                title="شماره تلفن اشتباه وارد شده است"
-                ref="phoneNumber"
-                :counter="11"
-                placeholder="09xxxxxxxxx"
-                v-model="phoneNumber"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="ایمیل"
-                id="email"
-                name="email"
-                ref="email"
-                :counter="50"
-                placeholder="ایمیل خود را وارد کنید"
-                title="ایمل اشتباه وارد شده است"
-                v-model="email"
-              ></v-text-field>
-            </v-col>
-
-          </v-row>
-           <div id="register" class="mt-4">
-                <btn class="pt-2" @event_fell="register()"> ثبت </btn>
-              </div>
-        </v-container>
-      </v-form>
-    </div>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  label="نام کاربری"
+                  id="username"
+                  name="username"
+                  :counter="20"
+                  ref="username"
+                  placeholder="نام کاربری خود را وارد کنید"
+                  :value="username"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  label="نام شرکت"
+                  id="company"
+                  name="company"
+                  ref="company"
+                  :counter="70"
+                  placeholder="نام شرکت خودرا وارد کنید"
+                  title="نام شرکت درست وارد نشده است"
+                  v-model="company_name"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  label="شماره تلفن"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  title="شماره تلفن اشتباه وارد شده است"
+                  ref="phoneNumber"
+                  :counter="11"
+                  placeholder="09xxxxxxxxx"
+                  v-model="phoneNumber"
+                ></v-text-field>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-text-field
+                  label="ایمیل"
+                  id="email"
+                  name="email"
+                  ref="email"
+                  :counter="50"
+                  placeholder="ایمیل خود را وارد کنید"
+                  title="ایمل اشتباه وارد شده است"
+                  v-model="email"
+                ></v-text-field>
+              </v-col>
+            </v-row>
+            <div id="register" class="mt-4">
+              <btn class="pt-2" @event_fell="register()"> ثبت </btn>
+            </div>
+          </v-container>
+        </v-form>
+      </div>
+    </v-flex>
   </div>
 </template>
 
@@ -121,9 +121,13 @@ export default {
     },
     async register() {
       const form = new FormData()
-      const company_name=this.info_user.company_name ? this.info_user.company_name :this.vcompany_name
-      const email=this.info_user.email ? this.info_user.email :this.vemail
-      const phone_number=this.info_user.phone_number ? this.info_user.phone_number :this.vphone_number
+      const company_name = this.info_user.company_name
+        ? this.info_user.company_name
+        : this.vcompany_name
+      const email = this.info_user.email ? this.info_user.email : this.vemail
+      const phone_number = this.info_user.phone_number
+        ? this.info_user.phone_number
+        : this.vphone_number
       form.append('firstname', this.info_user.fname)
       form.append('lastname', this.info_user.lname)
       form.append('username', this.info_user.username)
@@ -193,8 +197,8 @@ export default {
             value: value,
           }
           this.$store.commit('update_user', payload)
-        }else{
-          this.vphone_number=value
+        } else {
+          this.vphone_number = value
         }
       },
     },
@@ -213,8 +217,8 @@ export default {
             value: value,
           }
           this.$store.commit('update_user', payload)
-        }else{
-          this.vemail=value
+        } else {
+          this.vemail = value
         }
       },
     },
@@ -233,8 +237,8 @@ export default {
             value: value,
           }
           this.$store.commit('update_user', payload)
-        }else{
-          this.vcompany_name=value
+        } else {
+          this.vcompany_name = value
         }
       },
     },
