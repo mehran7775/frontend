@@ -10,7 +10,7 @@
           v-bind:key="product.id"
           :id="product.id"
           :title="product.name"
-          image=""
+          :image="product.product_image"
           :description="product.description"
         />
       </template>
