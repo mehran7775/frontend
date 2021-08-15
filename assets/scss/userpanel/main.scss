@@ -43,7 +43,7 @@
       }
 
       #profile {
-        width: max-content;
+        width: 60%;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -161,8 +161,9 @@
             color: map-get($colors, da_dismal);
             cursor: pointer;
             font-weight: bold;
+
             // background-color:indigo
-            span{
+            span {
               padding-right: 5px;
             }
           }
@@ -186,6 +187,11 @@
 
   #body_userpanel {
     border-top: solid 0.5px rgb(211, 211, 211);
+
+    .body_userpanel {
+      // background-color:#bbe1fa2d;
+      // background-color: map-get($colors2,back2);
+    }
   }
 
   #profile_page,
@@ -339,6 +345,7 @@
       padding: 20px;
       margin: 15px auto;
       box-sizing: border-box;
+
       // background-color: aquamarine;
       #name {
         width: 50%;
@@ -361,6 +368,15 @@
   #products {
     width: 100%;
 
+    .add_product{
+
+      a{
+        display: block;
+        color:map-get($colors , da_blue_light);
+        text-decoration: none;
+      }
+    }
+
     .products {
       width: 100%;
       display: flex;
@@ -369,44 +385,62 @@
       // align-items: center;
       align-content: center;
       padding: 15px 5px;
-      // background-color: #ced4da;
+       .v-card {
+         width: 230px;
+         margin: 10px 5px;
 
-      .v-card {
-        width: 230px;
-        margin: 10px 5px;
+         @include device_xsmall {
+           width: 95%;
+           max-width: 100%;
+         }
 
-        @include device_xsmall {
-          width: 95%;
-          max-width: 100%;
-        }
+          #product {
+            width: 230px;
 
-        .icons {
-          width: 100%;
-          display: flex;
-          justify-content: flex-end;
-
-          // background-color: red;
-          a {
             color: unset;
+            text-decoration: none;
+
+
           }
 
-          .trash,
-          .edit {
-            font-size: 19px;
-            cursor: pointer;
-            transition: all 0.2s;
-          }
+         .icons {
+           width: 100%;
+           display: flex;
+           justify-content: flex-end;
 
-          .trash:hover {
-            color: red;
-          }
 
-          .edit:hover {
-            color: map-get($colors, da_blue_light);
-          }
-        }
-      }
+           #delete_icon {
+             display: absolute;
+             z-index: 500;
+           }
+
+           // background-color: red;
+           a {
+             color: unset;
+           }
+
+           .trash,
+           .edit {
+             font-size: 19px;
+             cursor: pointer;
+             transition: all 0.2s;
+           }
+
+           .trash:hover {
+             color: red;
+           }
+
+           .edit:hover {
+             color: map-get($colors, da_blue_light);
+           }
+         }
+       }
+      // background-color: #ced4da;
     }
+  }
+
+  .name_pro {
+    color: map-get($colors, da_blue_light)
   }
 
 }
