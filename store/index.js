@@ -109,7 +109,7 @@ export const actions = {
         data: form
       })
     } catch (e) {
-      console.log('e', e.response)
+      console.log('e', e)
     }
   },
   async do_login({

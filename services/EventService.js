@@ -43,8 +43,8 @@ export default {
   create_product(payload) {
     return apiClient.post('userpanel/products', payload.form, {
       headers: {
-        "Authorization": payload.token,
-        "content-type": "multipart/form-data"
+        "Authorization": payload.token
+        // "content-type": "multipart/form-data"
       }
     })
   },
