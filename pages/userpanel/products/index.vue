@@ -9,10 +9,9 @@
           v-for="product in products"
           v-bind:key="product.id"
           :id="product.id"
-          :title="product.title"
+          :title="product.name"
           :image="product.product_image"
           :description="product.description"
-          :slug="product.slug"
         />
       </template>
       <template v-else>محصولی ایجاد نکرده اید </template>

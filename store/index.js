@@ -55,7 +55,7 @@ export const mutations = {
     Vue.set(state,'product_edit',payload)
   },
   UPDATENAME(state,payload){
-    state.product_edit.title=payload
+    state.product_edit.name=payload
   },
   UPDATEDESCRIPTION(state, payload) {
     state.product_edit.description=payload
@@ -119,6 +119,7 @@ export const actions = {
       await this.$auth.loginWith('local', {
         data: form,
       })
+      console.log(this.$auth)
     } catch (e) {
       console.log('e', e.response)
     }
@@ -141,6 +142,8 @@ export const actions = {
     try {
       await EventService.get_orders(payload)
         .then(response => {
+          console.log(response.status)
+          console.log('r',response.data)
           commit('SET_ORDERS', response.data.results)
         })
     } catch (e) {
@@ -178,6 +181,7 @@ export const actions = {
     try {
       await EventService.get_products_supplier(payload)
         .then(response => {
+          console.log(response.data.results)
           commit('SET_PRODUCTS_PANEL', response.data.results)
         })
     } catch (e) {

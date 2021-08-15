@@ -26,12 +26,12 @@
           v-if="errors.picture"
           v-text="errors.picture"
         ></small> -->
-          <!-- <div
+          <div
             class="d-flex flex-column justify-content-center align-items-center"
           >
             <div class="picture" v-if="image.length > 0 && !errors.picture">
               <img
-                v-for="(img ,i) of image" v-bind:key="i"
+                v-for="img of image"
                 :src="img"
                 width="100"
                 height="100"
@@ -47,7 +47,7 @@
                 حذف عکس ها
               </button>
             </div>
-          </div> -->
+          </div>
           <v-text-field
             label="نام محصول"
             v-model="name"
@@ -89,9 +89,12 @@ export default {
     await store.dispatch('get_product_edit', data)
   },
   computed: {
+    // ...mapState({
+    //   product: (state) => state.product_edit,
+    // }),
     name: {
       get() {
-        return this.$store.state.product_edit.title
+        return this.$store.state.product_edit.name
       },
       set(value) {
         this.$store.commit('UPDATENAME', value)

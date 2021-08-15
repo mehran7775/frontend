@@ -20,25 +20,12 @@
             </div>
             <div id="pro_log">
               <div id="profile">
-                <!-- <v-card class="mx-auto" max-width="200" tile>
-                  <v-img
-                    height="79"
-                    src="https://cdn.vuetifyjs.com/images/cards/server-room.jpg"
-                  >
-                    <v-row align="end" class="fill-height">
-                      <v-col class="py-0">
-                        <v-list-item-subtitle class="white--text text-center"
-                          >Network Engineer</v-list-item-subtitle
-                        >
-                      </v-col>
-                    </v-row>
-                  </v-img>
-                </v-card> -->
                 <div id="pic_pro">
                   <img src="" alt="" />
                 </div>
                 <div id="name_pro">
                   <span v-text="$auth.user.username"></span>
+                  <!-- <span>بی نام</span> -->
                 </div>
               </div>
               <div id="logout" @click="$auth.logout()">
@@ -55,7 +42,7 @@
           <v-flex sm3 md2 id="sidebar">
             <div class="sidebar">
               <ul>
-                <li v-if="!is_buyer">
+                <li>
                   <nuxt-link to="/userpanel/customers">
                     <img
                       width="28"
@@ -64,17 +51,6 @@
                       alt=""
                     />
                     <span>مشتریان من</span>
-                  </nuxt-link>
-                </li>
-                <li v-if="is_buyer">
-                  <nuxt-link to="/userpanel/inquiries">
-                    <img
-                      width="28"
-                      height="28"
-                      src="/images/add-product-1-68ds7275.png"
-                      alt=""
-                    />
-                    <span>استعلام های من</span>
                   </nuxt-link>
                 </li>
                 <!-- <li>
@@ -88,7 +64,7 @@
                       <span>افزودن محصول</span>
                     </nuxt-link>
                   </li> -->
-                <li v-if="!is_buyer">
+                <li>
                   <nuxt-link to="/userpanel/products">
                     <img
                       width="28"
@@ -122,7 +98,7 @@
               </ul>
             </div>
           </v-flex>
-          <v-flex xs12 sm9 md10 class="body_userpanel">
+          <v-flex xs12 sm9 md10>
             <transition name="fade">
               <Nuxt />
             </transition>
@@ -131,10 +107,7 @@
       </v-layout>
       <template>
         <modal>
-          <template v-slot:title="payload">
-            آیا میخواهید <span class="name_pro">{{ payload.title }}</span> را
-            حذف کنید
-          </template>
+          <template v-slot:title> آیا میخواهید این مورد را حذف کنید </template>
         </modal>
       </template>
     </v-container>
@@ -150,7 +123,6 @@ export default {
   data() {
     return {
       bars_menu_active: false,
-      // user:null
     }
   },
   mounted() {
@@ -162,16 +134,8 @@ export default {
       document.getElementById('settings').click()
     }
   },
-  // created(){
-  //   console.log(this.$auth.user)
-  // },
   destroyed() {
     document.removeEventListener('resize', this.onResize)
-  },
-  computed: {
-    is_buyer() {
-      return false
-    },
   },
   methods: {
     onResize() {
