@@ -9,6 +9,7 @@ const apiClient = axios.create({
     'Content-Type': 'application/json'
   }
 })
+// var auth_token =$auth.$storage._state["_token.local"]
 
 export default {
   get_home() {

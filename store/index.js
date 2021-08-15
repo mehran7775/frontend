@@ -143,6 +143,7 @@ export const actions = {
     try {
       await EventService.get_orders(payload)
         .then(response => {
+          console.log(response)
           commit('SET_ORDERS', JSON.parse(response.data))
         })
     } catch (e) {
@@ -155,6 +156,7 @@ export const actions = {
     try {
       await EventService.verify_order(payload)
         .then(response => {
+           console.log(response)
           console.log(response)
         })
     } catch (e) {
@@ -180,6 +182,7 @@ export const actions = {
     try {
       await EventService.get_products_supplier(payload)
         .then(response => {
+           console.log(response)
           commit('SET_PRODUCTS_PANEL', JSON.parse(response.data))
         })
     } catch (e) {
@@ -190,7 +193,7 @@ export const actions = {
     try {
       EventService.remove_product(payload)
       .then(response =>{
-        // console.log(response)
+        console.log(response)
       })
     } catch (e) {
       console.log(e)
@@ -210,6 +213,7 @@ export const actions = {
     try{
       await EventService.get_product_edit(payload)
         .then(response => {
+           console.log(response)
           commit('SET_PRODUCT_EDIT',JSON.parse(response.data))
         })
     }catch(e){

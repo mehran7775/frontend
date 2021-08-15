@@ -3,6 +3,7 @@
     <div class="w-100">
       <div id="btn_edit">
         <btn class="pt-2 pr-2 pl-2" @event_fell="edit_info()">
+          <!-- <template #></template> -->
           تکمیل اطلاعات
         </btn>
       </div>
