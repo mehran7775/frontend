@@ -6,21 +6,15 @@
           <div id="search">
             <div class="form-group">
               <label>جست و جو براساس نام یا شماره</label>
-              <!-- <div class="btn_search"> -->
-                <!-- <input type="search" class="form-control" />
+              <div class="btn_search">
+                <input type="search" class="form-control" />
                 <div @click="search()">
                   <font-awesome-icon
                     id="icon_search"
                     :icon="['fas', 'search']"
                   ></font-awesome-icon>
-                </div> -->
-                <v-autocomplete
-                dense
-                class="mt-4 px-2"
-                label="نام یا شماره را وارد کنید ..."
-                append-icon=""
-              ></v-autocomplete>
-              <!-- </div> -->
+                </div>
+              </div>
             </div>
           </div>
           <!-- <div id="state">

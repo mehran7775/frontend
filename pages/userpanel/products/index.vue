@@ -4,6 +4,17 @@
       <nuxt-link to="/userpanel/products/create">افزودن محصول جدید</nuxt-link>
     </div>
     <div class="products">
+      <!-- <template v-if="products.length > 0">
+        <product-card
+          v-for="product in products"
+          v-bind:key="product.id"
+          :id="product.id"
+          :title="product.name"
+          image=""
+          :description="product.description"
+        />
+      </template>
+      <template v-else> محصولی ایجاد نکرده اید </template> -->
       <template v-if="products.length > 0">
         <product-card
           v-for="product in products"

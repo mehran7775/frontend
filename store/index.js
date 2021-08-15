@@ -60,26 +60,6 @@ export const mutations = {
   UPDATEDESCRIPTION(state, payload) {
     state.product_edit.description=payload
   },
-  update_user(state,payload){
-    if(payload.id==="fname"){
-      state.auth.user.fname=payload.value
-    }
-    if(payload.id==="lname"){
-      state.auth.user.lname=payload.value
-    }
-    if(payload.id==="username"){
-      state.auth.user.username=payload.value
-    }
-    if (payload.id === "phone_number") {
-      state.auth.user.phone_number = payload.value
-    }
-    if (payload.id === "email") {
-      state.auth.user.email = payload.value
-    }
-    if (payload.id === "company_name") {
-      state.auth.user.company_name = payload.value
-    }
-  }
 }
 
 
@@ -215,16 +195,6 @@ export const actions = {
         .then(response => {
            console.log(response)
           commit('SET_PRODUCT_EDIT',JSON.parse(response.data))
-        })
-    }catch(e){
-      console.log(e)
-    }
-  },
-  async edit_product({commit},payload){
-    try{
-      await EventService.edit_product(payload)
-        .then(response => {
-          console.log(response)
         })
     }catch(e){
       console.log(e)

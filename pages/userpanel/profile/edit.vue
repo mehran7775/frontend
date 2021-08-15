@@ -1,247 +1,153 @@
 <template>
   <div id="edit_profile">
-    <div class="w-100">
-      <div id="btn_edit">
-        <btn class="pt-2 pr-2 pl-2" @event_fell="back()"> بازگشت </btn>
+     <div class="w-100">
+       <div id="btn_edit">
+        <btn class="pt-2 pr-2 pl-2" @event_fell="back()"
+        >
+        بازگشت
+        </btn>
       </div>
-    </div>
-    <div class="infoo">
-      <v-form>
-        <v-container>
-          <v-row>
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="نام"
-                id="firstName"
-                name="firstname"
-                ref="firstName"
-
-                :counter="25"
-                :value="name"
-                required
-                placeholder="نام خودرا به فارسی وارد کنید"
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="نام خانوادگی"
-                id="lastName"
-                name="lastName"
-                :counter="35"
-                :value="lname"
-                ref="lastName"
-                placeholder="نام خانوادگی به فارسی وارد شود"
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="نام کاربری"
-                id="username"
-                name="username"
-                :counter="20"
-                ref="username"
-                placeholder="نام کاربری خود را وارد کنید"
-                :value="username"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="نام شرکت"
-                id="company"
-                name="company"
-                ref="company"
-                :counter="70"
-                placeholder="نام شرکت خودرا وارد کنید"
-                title="نام شرکت درست وارد نشده است"
-                v-model="company_name"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="شماره تلفن"
-                id="phoneNumber"
-                name="phoneNumber"
-                title="شماره تلفن اشتباه وارد شده است"
-                ref="phoneNumber"
-                :counter="11"
-                placeholder="09xxxxxxxxx"
-                v-model="phoneNumber"
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-text-field
-                label="ایمیل"
-                id="email"
-                name="email"
-                ref="email"
-                :counter="50"
-                placeholder="ایمیل خود را وارد کنید"
-                title="ایمل اشتباه وارد شده است"
-                v-model="email"
-              ></v-text-field>
-            </v-col>
-
-          </v-row>
-           <div id="register" class="mt-4">
-                <btn class="pt-2" @event_fell="register()"> ثبت </btn>
-              </div>
-        </v-container>
-      </v-form>
-
-      <!-- ///////// -->
+     </div>
+    <div class="info">
+      <legend class="font-weight-bold mb-3">تکمیل اطلاعات</legend>
+      <div class="form-inline">
+        <div class="form-group">
+          <label for="firstName">نام</label>
+          <input
+            type="text"
+            title="نام درسا وارد نشده است"
+            required
+            placeholder="نام خودرا به فارسی وارد کنید"
+            id="firstName"
+            name="firstname"
+            ref="firstName"
+            :value="info_user.fname"
+            class="form-control"
+          />
+        </div>
+        <div class="form-group">
+          <label for="lastName">نام خانوادگی</label>
+          <input
+            type="text"
+            required
+            class="form-control"
+            title="نام خانوادگی درست وارد نشده است"
+            placeholder="نام خانوادگی به فارسی وارد شود"
+            id="lastName"
+            name="lastName"
+            :value="info_user.lname"
+            ref="lastName"
+          />
+        </div>
+      </div>
+      <div class="form-inline mt-2">
+        <div class="form-group">
+          <label for="username">نام کاربری</label>
+          <input
+            type="text"
+            required
+            class="form-control"
+            id="username"
+            name="username"
+            ref="username"
+            placeholder="نام کاربری خود را وارد کنید"
+            title="نام کاربری درست وارد نشده است"
+            :value="info_user.username"
+          />
+        </div>
+        <div class="form-group">
+          <label for="company">نام شرکت</label>
+          <input
+            type="text"
+            class="form-control"
+            id="company"
+            name="company"
+            ref="company"
+            placeholder="نام شرکت خودرا وارد کنید"
+            title="نام شرکت درست وارد نشده است"
+            :value="info_user.company ? info_user.company : ''"
+          />
+        </div>
+      </div>
+      <div class="form-inline mt-2">
+        <div class="form-group">
+          <label for="phoneNumber">شماره تلفن</label>
+          <input
+            type="text"
+            class="form-control"
+            required
+            id="phoneNumber"
+            name="phoneNumber"
+            title="شماره تلفن اشتباه وارد شده است"
+            ref="phoneNumber"
+            placeholder="09xxxxxxxxx"
+            :value="info_user.phone_number ? info_user.phone_number : ''"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">ایمیل</label>
+          <input
+            type="email"
+            class="form-control"
+            required
+            id="email"
+            name="email"
+            ref="email"
+            placeholder="ایمیل خود را وارد کنید"
+            title="ایمل اشتباه وارد شده است"
+            :value="info_user.email ? info_user.email : ''"
+          />
+        </div>
+      </div>
+      <div id="register">
+        <btn class="pt-2" @event_fell="register()"
+        >
+        ثبت
+        </btn>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import btn from '@/components/buttons/btn.vue'
+import btn from "@/components/buttons/btn.vue"
 export default {
   data() {
     return {
-      valid: false,
-      vphone_number: '',
-      vemail: '',
-      vcompany_name: '',
-      // nameRules: [
-      //   (v) => !!v || 'Name is required',
-      //   (v) => v.length <= 10 || 'Name must be less than 10 characters',
-      // ],
-      // emailRules: [
-      //   (v) => !!v || 'E-mail is required',
-      //   (v) => /.+@.+/.test(v) || 'E-mail must be valid',
-      // ],
+      // user:this.$store.state.auth.user
     }
   },
-  components: {
-    btn,
+  components:{
+    btn
   },
-  methods: {
-    back() {
+  methods:{
+    back(){
       this.$router.back()
     },
-    async register() {
-      const form = new FormData()
-      const company_name=this.info_user.company_name ? this.info_user.company_name :this.vcompany_name
-      const email=this.info_user.email ? this.info_user.email :this.vemail
-      const phone_number=this.info_user.phone_number ? this.info_user.phone_number :this.vphone_number
-      form.append('firstname', this.info_user.fname)
-      form.append('lastname', this.info_user.lname)
-      form.append('username', this.info_user.username)
-      form.append('company', company_name)
-      form.append('phoneNumber', phone_number)
-      form.append('email', email)
-      const data = {
-        token: this.$auth.$storage._state['_token.local'],
-        form: form,
+    async register(){
+      const form=new FormData()
+      // console.log(this.$refs.firstname.value)
+      form.append('firstname',this.$refs.firstName.value)
+      form.append('lastname',this.$refs.lastName.value)
+      form.append('username',this.$refs.username.value)
+      form.append('company',this.$refs.company.value)
+      form.append('phoneNumber',this.$refs.phoneNumber.value)
+      form.append('email',this.$refs.email.value)
+      const data={
+        token:this.$auth.$storage._state["_token.local"],
+        form:form
       }
-      await this.$store.dispatch('complete_information', data)
-    },
+      await this.$store.dispatch('complete_information',data)
+    }
   },
-  computed: {
-    info_user() {
-      const data = this.$auth.user
+  computed:{
+    info_user(){
+      const data=this.$auth.user
       return data
-    },
-    name: {
-      get() {
-        return this.$store.state.auth.user.fname
-      },
-      set(value) {
-        const payload = {
-          id: 'fname',
-          value: value,
-        }
-        this.$store.commit('update_user', payload)
-      },
-    },
-    lname: {
-      get() {
-        return this.$store.state.auth.user.lname
-      },
-      set(value) {
-        const payload = {
-          id: 'lname',
-          value: value,
-        }
-        this.$store.commit('update_user', payload)
-      },
-    },
-    username: {
-      get() {
-        return this.$store.state.auth.user.username
-      },
-      set(value) {
-        const payload = {
-          id: 'username',
-          value: value,
-        }
-        this.$store.commit('update_user', payload)
-      },
-    },
-    phoneNumber: {
-      get() {
-        if (this.$store.state.auth.user.phone_number) {
-          return this.$store.state.auth.user.phone_number
-        } else {
-          return this.vphone_number
-        }
-      },
-      set(value) {
-        if (this.$store.state.auth.user.phone_number) {
-          const payload = {
-            id: 'phone_number',
-            value: value,
-          }
-          this.$store.commit('update_user', payload)
-        }else{
-          this.vphone_number=value
-        }
-      },
-    },
-    email: {
-      get() {
-        if (this.$store.state.auth.user.email) {
-          return this.$store.state.auth.user.email
-        } else {
-          return this.vemail
-        }
-      },
-      set(value) {
-        if (this.$store.state.auth.user.email) {
-          const payload = {
-            id: 'email',
-            value: value,
-          }
-          this.$store.commit('update_user', payload)
-        }else{
-          this.vemail=value
-        }
-      },
-    },
-    company_name: {
-      get() {
-        if (this.$store.state.auth.user.company_name) {
-          return this.$store.state.auth.user.company_name
-        } else {
-          return this.vcompany_name
-        }
-      },
-      set(value) {
-        if (this.$store.state.auth.user.company_name) {
-          const payload = {
-            id: 'company_name',
-            value: value,
-          }
-          this.$store.commit('update_user', payload)
-        }else{
-          this.vcompany_name=value
-        }
-      },
-    },
-  },
-}
+    }
+
+  }
+};
 </script>
 
 <style lang="scss" scoped>
