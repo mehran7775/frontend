@@ -73,6 +73,14 @@
             name="description"
             v-model="description"
           ></v-textarea>
+          <!-- <v-text-field
+          label="توضیحات"
+          placeholder="توضیحات محصول خود را وارد کنید"
+          id="description"
+          ref="description"
+          name="description"
+          v-model="description"
+        ></v-text-field> -->
           <v-btn class="primary" @click="register">ثبت</v-btn>
         </v-form>
         <!-- <div class="w-50 m-auto">
