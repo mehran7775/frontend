@@ -1,9 +1,9 @@
 $desktop:840px;
-$xsmall:600px;
-$small:960px;
-$medium:1264px;
-$large:1904px;
-// $xlarge:220px;
+$xsmall:480px;
+$small:576px;
+$medium:768px;
+$large:992px;
+$xlarge:1200px;
 
 @mixin desktop {
   @media (min-width: #{$desktop}) {
@@ -30,8 +30,8 @@ $large:1904px;
     @content;
   }
 }
-// @mixin device_xlarge {
-//   @media (max-width: #{$xlarge}) {
-//     @content;
-//   }
-// }
+@mixin device_xlarge {
+  @media (max-width: #{$xlarge}) {
+    @content;
+  }
+}
