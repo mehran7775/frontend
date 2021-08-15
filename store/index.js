@@ -130,7 +130,8 @@ export const actions = {
     try {
       await EventService.get_product(slug)
         .then(response => {
-          commit('SET_PRODUCT', response.data.results)
+          let product = JSON.parse(response.data)
+          commit('SET_PRODUCT', product)
         })
     } catch (e) {
       console.log('e', e)
@@ -142,9 +143,7 @@ export const actions = {
     try {
       await EventService.get_orders(payload)
         .then(response => {
-          console.log(response.status)
-          console.log('r',response.data)
-          commit('SET_ORDERS', response.data.results)
+          commit('SET_ORDERS', JSON.parse(response.data))
         })
     } catch (e) {
       console.log(e)
@@ -181,8 +180,7 @@ export const actions = {
     try {
       await EventService.get_products_supplier(payload)
         .then(response => {
-          console.log(response.data.results)
-          commit('SET_PRODUCTS_PANEL', response.data.results)
+          commit('SET_PRODUCTS_PANEL', JSON.parse(response.data))
         })
     } catch (e) {
       console.log(e)
@@ -212,7 +210,7 @@ export const actions = {
     try{
       await EventService.get_product_edit(payload)
         .then(response => {
-          commit('SET_PRODUCT_EDIT',response.data)
+          commit('SET_PRODUCT_EDIT',JSON.parse(response.data))
         })
     }catch(e){
       console.log(e)
