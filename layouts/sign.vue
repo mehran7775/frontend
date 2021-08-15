@@ -1,16 +1,13 @@
 <template>
-  <v-container>
-    <v-layout column>
-      <v-layout row>
-        <Nuxt />
-      </v-layout>
-    </v-layout>
-  </v-container>
+  <Nuxt />
 </template>
 
 <script>
-export default {}
+  export default {
+
+  }
 </script>
 
 <style lang="scss" scoped>
+
 </style>

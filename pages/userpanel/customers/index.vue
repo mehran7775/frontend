@@ -96,22 +96,22 @@ export default {
       return this.$store.getters.re_render_components
     },
   },
-  methods: {
-    search() {},
-    async verify_order(id) {
-      const payload = {
-        token: this.$auth.$storage._state['_token.local'],
-        id: id,
-      }
-      try {
-        await this.$store.dispatch('verify_order', payload)
-        // this.$router.go(0)
-        this.$nuxt.refresh()
-      } catch (e) {
-        console.log(e)
-      }
-    },
-  },
+  // methods: {
+  //   search() {},
+  //   async verify_order(id) {
+  //     const payload = {
+  //       token: this.$auth.$storage._state['_token.local'],
+  //       id: id,
+  //     }
+  //     try {
+  //       await this.$store.dispatch('verify_order', payload)
+  //       // this.$router.go(0)
+  //       this.$nuxt.refresh()
+  //     } catch (e) {
+  //       console.log(e)
+  //     }
+  //   },
+  // },
 }
 </script>
 

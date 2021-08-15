@@ -1,31 +1,43 @@
 <template>
-  <v-flex xs12 sm10 md8 class="ma-auto">
-    <div id="signup">
-      <div class="signup">
-        <v-card>
-          <v-card-title>
-            <h3>ثبت نام</h3>
-          </v-card-title>
-          <v-card-text>
-            <v-form>
-              <v-text-field label="نام" v-model="fname"></v-text-field>
-              <v-text-field label="نام خانوادگی" v-model="lname"></v-text-field>
-              <v-text-field
-                label="نام کاربری"
-                v-model="username"
-              ></v-text-field>
-              <v-text-field
-                label="شماره تلفن"
-                v-model="phone_number"
-              ></v-text-field>
-              <v-text-field label="رمز عبور" v-model="password"></v-text-field>
-              <v-btn class="primary--text" @click="register">ثبت</v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-      </div>
-    </div>
-  </v-flex>
+  <v-container>
+    <v-layout column>
+      <v-layout row>
+        <v-flex xs12 sm10 md8 class="ma-auto">
+          <div id="signup">
+            <div class="signup">
+              <v-card>
+                <v-card-title>
+                  <h3>ثبت نام</h3>
+                </v-card-title>
+                <v-card-text>
+                  <v-form>
+                    <v-text-field label="نام" v-model="fname"></v-text-field>
+                    <v-text-field
+                      label="نام خانوادگی"
+                      v-model="lname"
+                    ></v-text-field>
+                    <v-text-field
+                      label="نام کاربری"
+                      v-model="username"
+                    ></v-text-field>
+                    <v-text-field
+                      label="شماره تلفن"
+                      v-model="phone_number"
+                    ></v-text-field>
+                    <v-text-field
+                      label="رمز عبور"
+                      v-model="password"
+                    ></v-text-field>
+                    <v-btn class="primary--text" @click="register">ثبت</v-btn>
+                  </v-form>
+                </v-card-text>
+              </v-card>
+            </div>
+          </div>
+        </v-flex>
+      </v-layout>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
