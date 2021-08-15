@@ -39,7 +39,7 @@
           </div>
         </v-layout>
         <v-layout row id="body_userpanel">
-          <v-flex sm3 md2 id="sidebar">
+          <v-flex sm-3 md2 id="sidebar">
             <div class="sidebar">
               <ul>
                 <li>
@@ -115,10 +115,10 @@
 </template>
 
 <script>
-import Modal from '@/components/modals/Modal.vue'
+import Modal from "@/components/modals/Modal.vue";
 export default {
-  components: {
-    Modal,
+  components:{
+    Modal
   },
   data() {
     return {
