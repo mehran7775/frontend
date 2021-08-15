@@ -100,6 +100,17 @@
                       label="شماره همراه"
                       validate-on-blur
                     />
+                    <div v-for="question in request_for_quotation.questions" :key="question.id">
+                      <v-textarea v-if="!question.selective"
+                      v-model="question.customerAnswer"
+                      outlined
+                      :name="question.subject"
+                      :label="question.subject"
+                      />
+                      <!-- <v-select v-else :items="question.answers.map((item)=>item.answer)" 
+                        :name="question.subject"
+                      :label="question.subject" /> -->
+                    </div>
                     <v-textarea
                       v-model="request_for_quotation.extra_fields"
                       outlined
@@ -276,6 +287,36 @@ export default {
         success: false,
         error: false,
         message: '',
+        questions:[
+          {
+            id:1,
+            subject: "blah blah blah",
+            title:"is this blah blah blah?",
+            selective: true,
+            answers:[
+              {
+                id:1,
+                answer:'yes'
+              },
+              {
+                id:2,
+                answer:'no',
+              },
+              {
+                id:3,
+                answer:'no-difference',
+              }
+            ],
+            customerAnswer:''
+          },
+          {
+            id:2,
+            subject: "opinion",
+            title:"how should be ...?",
+            selective: false,
+            customerAnswer:''
+          },
+        ],
         name: '',
         extra_fields: '',
         phone_number: '',
@@ -367,10 +408,13 @@ export default {
       const isValid = await this.$refs.RequestForQuotationForm.validate()
       if (!isValid) return
       this.request_for_quotation.loading = true
+      const cumulative_description=this.request_for_quotation.questions
+      ``````.map((item)=>`${item.subject}: ${item.customerAnswer}\n`)
+            +this.request_for_quotation.extra_fields
       const data = {
         name: this.request_for_quotation.name,
         phone_number: this.request_for_quotation.phone_number,
-        extra_fields: this.request_for_quotation.extra_fields,
+        extra_fields: cumulative_description,
         item: this.page.id,
       }
       try {
