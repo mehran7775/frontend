@@ -52,7 +52,7 @@
               tile
               elevation="0"
               color="primary"
-              href="/signin"
+              href="/users/entry/"
               class="pa-0 ma-1"
             >
               <v-icon>mdi-account</v-icon>
