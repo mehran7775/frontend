@@ -46,7 +46,7 @@
             <tbody>
               <tr v-for="order in orders" v-bind:key="order.id">
                 <th scope="row" class="mw-t" v-text="order.id">1</th>
-                <td class="mw-t1">Markrhtrhjtdyj drjdtyhndytjy strjtyj</td>
+                <td class="mw-t1" v-text="order.title">Markrhtrhjtdyj drjdtyhndytjy strjtyj</td>
                 <td class="mw-t2" v-text="order.name">Otto</td>
                 <td class="mw-t3" v-text="order.description">@mdo</td>
                 <td class="mw-t4">

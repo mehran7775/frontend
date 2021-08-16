@@ -55,7 +55,7 @@
           <v-flex sm3 md2 id="sidebar">
             <div class="sidebar">
               <ul>
-                <li v-if="!is_buyer">
+                <li v-if="$auth.user.is_producer">
                   <nuxt-link to="/userpanel/customers">
                     <img
                       width="28"
@@ -66,7 +66,7 @@
                     <span>مشتریان من</span>
                   </nuxt-link>
                 </li>
-                <li v-if="is_buyer">
+                <li v-if="!$auth.user.is_producer">
                   <nuxt-link to="/userpanel/inquiries">
                     <img
                       width="28"
@@ -88,7 +88,7 @@
                       <span>افزودن محصول</span>
                     </nuxt-link>
                   </li> -->
-                <li v-if="!is_buyer">
+                <li v-if="$auth.user.is_producer">
                   <nuxt-link to="/userpanel/products">
                     <img
                       width="28"
@@ -170,7 +170,7 @@ export default {
   },
   computed: {
     is_buyer() {
-      return false
+      return true
     },
   },
   methods: {

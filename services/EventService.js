@@ -33,6 +33,20 @@ export default {
       }
     })
   },
+  get_inquiries(payload) {
+    return apiClient.get('userpanel/inquiries', {
+      headers: {
+        "Authorization": payload
+      }
+    })
+  },
+  get_inquiry(payload) {
+    return apiClient.get(`userpanel/inquiries/${payload.id}`, {
+      headers: {
+        "Authorization": payload.token
+      }
+    })
+  },
   verify_order(payload) {
     return apiClient.post('userpanel/orders_verify/' + payload.id, null, {
       headers: {
