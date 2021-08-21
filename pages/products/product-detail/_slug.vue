@@ -100,16 +100,42 @@
                       label="شماره همراه"
                       validate-on-blur
                     />
-                    <div v-for="question in request_for_quotation.questions" :key="question.id">
-                      <v-textarea v-if="!question.selective"
-                      v-model="question.customerAnswer"
-                      outlined
-                      :name="question.subject"
-                      :label="question.subject"
+                    <div
+                      v-for="question in questions"
+                      :key="question.id"
+                    >
+                      <v-textarea
+                        v-if="question.question_type === 'B'"
+                        v-model="question.customerAnswer"
+                        outlined
+                        :name="question.question"
+                        :label="question.question"
                       />
-                      <!-- <v-select v-else :items="question.answers.map((item)=>item.answer)" 
-                        :name="question.subject"
-                      :label="question.subject" /> -->
+                      <v-checkbox
+                        v-else-if="question.question_type === 'A'"
+                        v-model="question.customerAnswer"
+                        :name="question.question"
+                        :label="question.question"
+                      />
+                      <v-select 
+                        v-else-if="question.question_type === 'C'"
+                        v-model="question.customerAnswer"
+                        :items="question.choices.split(/[،,]+/)"
+                        :name="question.question"
+                        :label="question.question" 
+                        outlined
+                        dense
+                      />
+                      <v-select 
+                        v-else-if="question.question_type === 'D'" 
+                        v-model="question.customerAnswer"
+                        :items="question.choices.split(/[،,]+/)"
+                        :name="question.question"
+                        :label="question.question" 
+                        chips
+                        multiple
+                        outlined
+                      />
                     </div>
                     <v-textarea
                       v-model="request_for_quotation.extra_fields"
@@ -194,7 +220,8 @@
                 :src="product.product_image"
                 :alt="product.image_alt"
                 class="ma-5"
-                height="200" contain
+                height="200"
+                contain
               >
                 <template v-slot:placeholder>
                   <v-skeleton-loader
@@ -287,36 +314,6 @@ export default {
         success: false,
         error: false,
         message: '',
-        questions:[
-          {
-            id:1,
-            subject: "blah blah blah",
-            title:"is this blah blah blah?",
-            selective: true,
-            answers:[
-              {
-                id:1,
-                answer:'yes'
-              },
-              {
-                id:2,
-                answer:'no',
-              },
-              {
-                id:3,
-                answer:'no-difference',
-              }
-            ],
-            customerAnswer:''
-          },
-          {
-            id:2,
-            subject: "opinion",
-            title:"how should be ...?",
-            selective: false,
-            customerAnswer:''
-          },
-        ],
         name: '',
         extra_fields: '',
         phone_number: '',
@@ -393,6 +390,9 @@ export default {
         },
       ]
     },
+    questions(){
+      return this.page.category[0].questions
+    }
   },
   watch: {
     request_for_quotation(val) {
@@ -408,13 +408,14 @@ export default {
       const isValid = await this.$refs.RequestForQuotationForm.validate()
       if (!isValid) return
       this.request_for_quotation.loading = true
-      const cumulative_description=this.request_for_quotation.questions
-      ``````.map((item)=>`${item.subject}: ${item.customerAnswer}\n`)
-            +this.request_for_quotation.extra_fields
+      const cumulativeDescription =
+        this.request_for_quotation.questions``````.map(
+          (item) => `${item.subject}: ${item.customerAnswer}\n`
+        ) + this.request_for_quotation.extra_fields
       const data = {
         name: this.request_for_quotation.name,
         phone_number: this.request_for_quotation.phone_number,
-        extra_fields: cumulative_description,
+        extra_fields: cumulativeDescription,
         item: this.page.id,
       }
       try {
