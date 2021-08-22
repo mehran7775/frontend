@@ -409,8 +409,8 @@ export default {
       if (!isValid) return
       this.request_for_quotation.loading = true
       const cumulativeDescription =
-        this.request_for_quotation.questions``````.map(
-          (item) => `${item.subject}: ${item.customerAnswer}\n`
+        this.questions.map(
+          (item) => `${item.question}: ${item.customerAnswer}\n`
         ) + this.request_for_quotation.extra_fields
       const data = {
         name: this.request_for_quotation.name,
@@ -431,7 +431,6 @@ export default {
           'خطای سرور! لطفا بعدا دوباره امتحان کنید.'
         console.log(err)
       }
-
       this.request_for_quotation.loading = false
     },
   },
