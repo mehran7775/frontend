@@ -100,6 +100,43 @@
                       label="شماره همراه"
                       validate-on-blur
                     />
+                    <div
+                      v-for="question in questions"
+                      :key="question.id"
+                    >
+                      <v-textarea
+                        v-if="question.question_type === 'B'"
+                        v-model="question.customerAnswer"
+                        outlined
+                        :name="question.question"
+                        :label="question.question"
+                      />
+                      <v-checkbox
+                        v-else-if="question.question_type === 'A'"
+                        v-model="question.customerAnswer"
+                        :name="question.question"
+                        :label="question.question"
+                      />
+                      <v-select 
+                        v-else-if="question.question_type === 'C'"
+                        v-model="question.customerAnswer"
+                        :items="question.choices.split(/[،,]+/)"
+                        :name="question.question"
+                        :label="question.question" 
+                        outlined
+                        dense
+                      />
+                      <v-select 
+                        v-else-if="question.question_type === 'D'" 
+                        v-model="question.customerAnswer"
+                        :items="question.choices.split(/[،,]+/)"
+                        :name="question.question"
+                        :label="question.question" 
+                        chips
+                        multiple
+                        outlined
+                      />
+                    </div>
                     <v-textarea
                       v-model="request_for_quotation.extra_fields"
                       outlined
@@ -183,7 +220,8 @@
                 :src="product.product_image"
                 :alt="product.image_alt"
                 class="ma-5"
-                height="200" contain
+                height="200"
+                contain
               >
                 <template v-slot:placeholder>
                   <v-skeleton-loader
@@ -352,6 +390,9 @@ export default {
         },
       ]
     },
+    questions(){
+      return this.page.category[0].questions
+    }
   },
   watch: {
     request_for_quotation(val) {
@@ -367,10 +408,14 @@ export default {
       const isValid = await this.$refs.RequestForQuotationForm.validate()
       if (!isValid) return
       this.request_for_quotation.loading = true
+      const cumulativeDescription =
+        this.request_for_quotation.questions``````.map(
+          (item) => `${item.subject}: ${item.customerAnswer}\n`
+        ) + this.request_for_quotation.extra_fields
       const data = {
         name: this.request_for_quotation.name,
         phone_number: this.request_for_quotation.phone_number,
-        extra_fields: this.request_for_quotation.extra_fields,
+        extra_fields: cumulativeDescription,
         item: this.page.id,
       }
       try {
