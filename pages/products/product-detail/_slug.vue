@@ -373,7 +373,7 @@ export default {
         {
           text: this.page.category[0].title,
           disabled: false,
-          href: `/categories/${this.page.category[0].slug}`,
+          href: `/product-category/${this.page.category[0].slug}`,
         },
         {
           text: this.page.title,
