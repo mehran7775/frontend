@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import EventService from '@/services/EventService'
 export default {
   layout: 'sign',
   middleware: 'guest',
@@ -54,7 +55,7 @@ export default {
     }
   },
   methods: {
-    register() {
+    async register() {
       let form = new FormData()
       form.append('fname', this.fname)
       form.append('lname', this.lname)
@@ -63,6 +64,18 @@ export default {
       form.append('password', this.password)
       // formData.append('data', JSON.stringify(this.data));
       this.$store.dispatch('do_register', form)
+      try {
+        await EventService.do_register(form)
+        .then(res =>{
+          console.log(res)
+        })
+        await this.$auth.loginWith('local', {
+          data: form,
+        })
+      } catch (e) {
+        console.log(e)
+      }
+
     },
   },
 }

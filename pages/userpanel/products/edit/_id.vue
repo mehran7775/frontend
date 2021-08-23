@@ -78,15 +78,21 @@
 
 <script>
 import btn from '@/components/buttons/btn.vue'
+import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
-  async fetch({ route, store, $auth }) {
-    // console.log($auth.$storage._state['_token.local'])
+  async asyncData({ route, store, $auth }) {
     const data = {
       token: $auth.$storage._state['_token.local'],
       id: route.params.id,
     }
-    await store.dispatch('get_product_edit', data)
+    await EventService.get_product_edit(data)
+      .then((response) => {
+        console.log(response)
+      })
+      .then((error) => {
+        console.log(error)
+      })
   },
   computed: {
     name: {
@@ -146,7 +152,13 @@ export default {
         id: route.params.id,
         form: form,
       }
-      await this.$store.dispatch('edit_product', data)
+      try {
+        await EventService.edit_product(data).then((response) => {
+          console.log(response)
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
   },
 }

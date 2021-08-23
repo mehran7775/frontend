@@ -15,7 +15,7 @@
             </div>
             <div id="brand" class="brand_userpanel">
               <nuxt-link to="/">
-                <img src="/images/icons/brand_da.png" alt="" />
+                <v-img src="/images/icons/brand_da.png"></v-img>
               </nuxt-link>
             </div>
             <div id="pro_log">
@@ -150,7 +150,6 @@ export default {
   data() {
     return {
       bars_menu_active: false,
-      // user:null
     }
   },
   mounted() {
@@ -162,22 +161,12 @@ export default {
       document.getElementById('settings').click()
     }
   },
-  // created(){
-  //   console.log(this.$auth.user)
-  // },
   destroyed() {
     document.removeEventListener('resize', this.onResize)
   },
-  computed: {
-    is_buyer() {
-      return true
-    },
-  },
+  computed: {},
   methods: {
     onResize() {
-      // if(process.client){
-      //   console.log('client')
-      // }
       if (window.innerWidth > 600) {
         const el = document.getElementById('sidebar')
         el.style.visibility = 'visible'
@@ -200,8 +189,6 @@ export default {
     },
     toggle_sub_settings() {
       const el = document.getElementById('sub_settings')
-      // console.log(el.childElementCount)
-      // const number_child = el.childElementCount;
       if (!el.style.height || el.style.height === '0px') {
         el.style.transition = 'all 0.2s linear'
         el.style.height = el.childElementCount * 40 + 'px'

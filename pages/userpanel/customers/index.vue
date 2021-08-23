@@ -1,5 +1,5 @@
 <template>
-  <v-layout column v-if="re_render.customers" id="customers" class="pa-3">
+  <v-layout column id="customers" class="pa-3">
     <v-row>
       <v-col cols="12">
         <div id="search_category">
@@ -68,6 +68,7 @@
 
 <script>
 import btn from '@/components/buttons/btn.vue'
+import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
   components: {
@@ -79,8 +80,10 @@ export default {
   async asyncData(context) {
     try {
       const token = context.$auth.$storage._state['_token.local']
-      // console.log(token)
-      await context.store.dispatch('get_orders', token)
+      const {data}=await EventService.get_orders(token)
+      return {
+        orders:data.results
+      }
     } catch (e) {
       context.error({
         statusCode: 503,
@@ -89,12 +92,6 @@ export default {
     }
   },
   computed: {
-    orders() {
-      return this.$store.getters.orders
-    },
-    re_render() {
-      return this.$store.getters.re_render_components
-    },
   },
   methods: {
     search() {},
@@ -104,8 +101,7 @@ export default {
         id: id,
       }
       try {
-        await this.$store.dispatch('verify_order', payload)
-        // this.$router.go(0)
+        await EventService.verify_order(payload)
         this.$nuxt.refresh()
       } catch (e) {
         console.log(e)

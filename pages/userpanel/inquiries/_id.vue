@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
   data() {

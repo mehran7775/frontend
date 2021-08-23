@@ -95,6 +95,7 @@
 
 <script>
 import btn from '@/components/buttons/btn.vue'
+import EventService from '@/services/EventService'
 export default {
   data() {
     return {
@@ -138,7 +139,13 @@ export default {
         token: this.$auth.$storage._state['_token.local'],
         form: form,
       }
-      await this.$store.dispatch('complete_information', data)
+      try {
+        await EventService.complete_information(data).then((response) => {
+          console.log(response)
+        })
+      } catch (e) {
+        console.log(e)
+      }
     },
   },
   computed: {

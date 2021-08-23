@@ -50,11 +50,17 @@ export default {
     }
   },
   methods: {
-    login() {
+    async login() {
       let form = new FormData()
       form.append('username', this.username)
       form.append('password', this.password)
-      this.$store.dispatch('do_login', form)
+      try {
+        await this.$auth.loginWith('local', {
+          data: form,
+        })
+      } catch (e) {
+        console.log('e', e.response)
+      }
     },
   },
 }

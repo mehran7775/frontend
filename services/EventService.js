@@ -11,9 +11,6 @@ const apiClient = axios.create({
 })
 
 export default {
-  get_home() {
-    return apiClient.get('/')
-  },
   do_login(form) {
     return apiClient.post('/signin', form)
   },

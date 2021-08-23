@@ -24,6 +24,7 @@
 
 <script>
 import btn from '@/components/buttons/btn.vue'
+import EventService from '@/services/EventService'
 export default {
   data() {
     return {
@@ -43,7 +44,6 @@ export default {
       el.style.visibility = 'visible'
       el.style.opacity = 1
       const h = window.innerHeight
-      // alert(h)
       document.querySelector('#userpanel').style.height = h + 'px'
       document.querySelector('#userpanel').style.overflow = 'hidden'
     })
@@ -61,7 +61,7 @@ export default {
         token: this.$auth.$storage._state['_token.local'],
         id: this.id,
       }
-      await this.$store.dispatch('remove_product', data)
+      await EventService.remove_product(data)
       this.close_modal()
     },
   },

@@ -22,6 +22,7 @@
 
 <script>
 import ProductCard from '@/components/layouts/userpanel/ProductCard.vue'
+import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
   data() {
@@ -30,21 +31,21 @@ export default {
   components: {
     ProductCard,
   },
-  async fetch(context) {
+  async asyncData(context) {
     const token = context.$auth.$storage._state['_token.local']
     try {
-      await context.store.dispatch('get_products_supplier', token)
+      const { data } = await EventService.get_products_supplier(token)
+      if (data.count > 0) {
+        return {
+          products: data.results,
+        }
+      }
     } catch (e) {
       context.error({
         statusCode: 500,
         message: 'خطایی رخ داده است',
       })
     }
-  },
-  computed: {
-    products() {
-      return this.$store.getters.products_panel
-    },
   },
   methods: {},
 }

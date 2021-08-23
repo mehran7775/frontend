@@ -34,13 +34,13 @@
             class="d-flex flex-column justify-content-center align-items-center"
           >
             <div class="picture" v-if="image.length > 0 && !errors.picture">
-              <img
+              <v-img
                 v-for="img of image"
                 :src="img"
                 width="100"
                 height="100"
                 alt="تصویر ناقص است"
-              />
+              ></v-img>
             </div>
             <div>
               <button
@@ -85,6 +85,7 @@
 
 <script>
 import btn from '@/components/buttons/btn.vue'
+import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
   components: {
@@ -175,22 +176,24 @@ export default {
       this.image = []
       this.$refs.picture.value = ''
     },
-    register() {
-      // console.log(this.$refs.picture.files[0])
-      // this.$refs.picture = this.picture;
+    async register() {
       const form = new FormData()
       form.append('name', this.name)
       form.append('description', this.description)
       form.append('image', document.getElementById('picture').files[0])
-      // this.picture.forEach((element, i) => {
-      //   form.append('pics[' + i + ']', element[0])
-      // })
 
       const data = {
         form: form,
         token: this.$auth.$storage._state['_token.local'],
       }
-      this.$store.dispatch('create_product', data)
+      try{
+        await EventService.create_product(data)
+        .then(response =>{
+          console.log(response)
+        })
+      }catch(e){
+        console.log(e)
+      }
     },
   },
 }
