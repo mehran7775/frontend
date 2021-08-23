@@ -2,9 +2,9 @@
   <v-layout column>
     <v-layout row class="px-3">
       <v-flex md2 class="hidden-sm-and-down menu3">
-        <Menu @get_id_sub="set_sub_id($event)" />
+        <Menu @get_id_sub="set_sub_id($event)" :items="items" />
         <div class="m2" id="subMenu">
-          <Menu :sId="sub_id" he="max-content" />
+          <Menu :sId="sub_id" he="max-content" :items="items" />
         </div>
       </v-flex>
       <v-flex xs12 md10 id="slider">
@@ -16,47 +16,44 @@
     <v-layout row class="" id="det">
       <div class="det">
         <section>
-          <div class="svg">rg</div>
+          <div class="svg">
+            <v-img src="/images/shield.svg" width="70"></v-img>
+          </div>
           <div class="text">
-            <font-awesome-icon :icon="['fas', 'sign-out-altcircle']" />
+            <v-icon x-small color="primary">mdi-circle</v-icon>
             <span class="font-weight-bold">گارانتی</span>
           </div>
         </section>
         <section>
-          <div class="svg">ilui</div>
+          <div class="svg">
+            <v-img src="/images/hand.svg" width="70"></v-img>
+          </div>
           <div class="text">
-            <font-awesome-icon :icon="['fas', 'sign-out-altcircle']" />
+            <v-icon x-small color="primary">mdi-circle</v-icon>
             <span class="font-weight-bold">دسرسی به تامین کننگان</span>
           </div>
         </section>
         <section>
-          <div class="svg">tky</div>
+          <div class="svg">
+            <v-img src="/images/award.svg" width="70"></v-img>
+          </div>
           <div class="text">
-            <font-awesome-icon :icon="['fas', 'sign-out-altcircle']" />
+            <v-icon x-small color="primary">mdi-circle</v-icon>
             <span class="font-weight-bold">تایید کنترل کیفیت</span>
           </div>
         </section>
         <section>
-          <div class="svg">u6</div>
+          <div class="svg">
+            <v-img src="/images/return-box.svg" width="70"></v-img>
+          </div>
           <div class="text">
-            <font-awesome-icon :icon="['fas', 'sign-out-altcircle']" />
+            <v-icon x-small color="primary">mdi-circle</v-icon>
             <span class="font-weight-bold">مرجوعی کالا</span>
           </div>
         </section>
       </div>
     </v-layout>
-
-    <!-- <v-layout row>
-    <v-col cols="3" class="">d</v-col>
-    <v-col cols="9" class="blue">v</v-col>
-  </v-layout> -->
   </v-layout>
-  <!-- <v-card height="400" elevation="0">
-    <v-layout justify-space-between align-center fill-height>
-      <v-card height="60" width="60" >  </v-card>
-      <v-card height="60" width="60" >  </v-card>
-    </v-layout>
-  </v-card> -->
 </template>
 
 <script>
@@ -73,6 +70,21 @@ export default {
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+  },
+  async asyncData({$axios,error}) {
+    try{
+      return await $axios.get('api/categories-api/main-categories')
+      .then((res) =>{
+        return{
+          items:res.data.results
+        }
+      })
+    }catch(e){
+       error({
+          statusCode:503,
+          message:'خطایی رخ داده است'
+        })
+    }
   },
   components: {
     Menu: () => import('@/components/MenuSidebarIndex.vue'),
@@ -95,18 +107,16 @@ export default {
 .menu3 {
   .m2 {
     width: 200px;
-    height: max-content !important;
+    height: max-content;
     opacity: 0;
     visibility: hidden;
     position: absolute;
-    // subs.style.position='10px'
     right: 283px;
-    z-index: 9999;
+    z-index: 999;
   }
 }
 
 #slider {
-  // padding: 1.5px;
   border: 5px solid rgba(173, 173, 173, 0.171) !important;
   border-right: none;
   box-sizing: border-box;
@@ -116,7 +126,6 @@ export default {
     width: 100%;
     height: 100%;
     background-color: #fff;
-    // direction: ltr;
   }
 }
 #det {
@@ -135,6 +144,10 @@ export default {
       .svg {
         background-color: #fff;
         text-align: center;
+        padding: 20px 0;
+        .v-image {
+          margin: auto;
+        }
       }
       .text {
         border-top: 2px solid rgba(173, 173, 173, 0.171) !important;

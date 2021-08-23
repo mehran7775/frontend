@@ -6,15 +6,15 @@
           v-for="item in items"
           :id="item.id"
           :key="item.id"
-          :to="`/${item.title}`"
+          :to="`/${item.slug}`"
         >
           <v-list-item
             @mouseover="observe_subs(item.id)"
             @mouseleave="hide_subs"
           >
-            <v-list-item-icon>
+            <!-- <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+            </v-list-item-icon> -->
 
             <v-list-item-content>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -24,18 +24,15 @@
       </v-list>
       <v-list v-else>
         <nuxt-link
-          v-for="item in sItem.subs"
+          v-for="item in sItem.category_set"
           :id="item.id"
           :key="item.id"
-          :to="`/${item.title}`"
+          :to="`/${item.slug}`"
         >
-          <v-list-item
-            @mouseover="observe_subs2()"
-            @mouseleave="hide_subs"
-          >
-            <v-list-item-icon>
+          <v-list-item @mouseover="observe_subs2()" @mouseleave="hide_subs">
+            <!-- <v-list-item-icon>
               <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-icon>
+            </v-list-item-icon> -->
 
             <v-list-item-content>
               <v-list-item-title>{{ item.title }}</v-list-item-title>
@@ -50,62 +47,58 @@
 <script>
 export default {
   props: {
+    items:{
+      default:null
+    },
     sId: {
       default: null,
       type: Number,
     },
-    he:{
-      default:null,
-      type:String
-    }
+    he: {
+      default: null,
+      type: String,
+    },
   },
-  // fetch() {
-  //   if (this.sId) {
-  //     console.log('ye')
-  //   } else {
-  //     console.log('no')
-  //   }
-  // },
   data() {
     return {
-      items: [
-        {
-          id: 1,
-          title: 'خط تولید',
-          icon: 'mdi-view-dashboard',
-          subs: [
-            {
-              id: 1,
-              title: 'خط تولید سیمان',
-              icon: 'mdi-view-dashboard',
-            },
-          ],
-        },
-        {
-          id: 2,
-          title: 'بسته بندی',
-          icon: 'mdi-account-box',
-          subs: [
-            {
-              id: 1,
-              title: 'بسته بندی مرغ',
-              icon: 'mdi-view-dashboard',
-            },
-          ],
-        },
-        {
-          id: 3,
-          title: 'مخازن',
-          icon: 'mdi-gavel',
-          subs: [
-            {
-              id: 1,
-              title: 'مخازن استریل',
-              icon: 'mdi-view-dashboard',
-            },
-          ],
-        },
-      ],
+      // items: [
+      //   {
+      //     id: 1,
+      //     title: 'خط تولید',
+      //     icon: 'mdi-view-dashboard',
+      //     subs: [
+      //       {
+      //         id: 1,
+      //         title: 'خط تولید سیمان',
+      //         icon: 'mdi-view-dashboard',
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     id: 2,
+      //     title: 'بسته بندی',
+      //     icon: 'mdi-account-box',
+      //     subs: [
+      //       {
+      //         id: 1,
+      //         title: 'بسته بندی مرغ',
+      //         icon: 'mdi-view-dashboard',
+      //       },
+      //     ],
+      //   },
+      //   {
+      //     id: 3,
+      //     title: 'مخازن',
+      //     icon: 'mdi-gavel',
+      //     subs: [
+      //       {
+      //         id: 1,
+      //         title: 'مخازن استریل',
+      //         icon: 'mdi-view-dashboard',
+      //       },
+      //     ],
+      //   },
+      // ],
     }
   },
   methods: {
@@ -127,7 +120,8 @@ export default {
     observe_subs2() {
       const subs = document.getElementById('subMenu')
       subs.style.visibility = 'visible'
-      subs.style.opacity = 1    },
+      subs.style.opacity = 1
+    },
   },
   computed: {
     sItem() {
