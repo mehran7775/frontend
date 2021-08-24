@@ -69,15 +69,15 @@
             name="description"
             v-model="description"
           ></v-textarea>
-          <v-btn class="primary" @click="register">ثبت</v-btn>
+          <v-btn color="#BBE1FA" class="#1B262C--text" @click="register()">
+            ثبت
+          </v-btn>
         </v-form>
       </div>
     </div>
   </v-flex>
 </template>
-
 <script>
-import btn from '@/components/buttons/btn.vue'
 import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
@@ -111,9 +111,6 @@ export default {
         this.$store.commit('UPDATEDESCRIPTION', value)
       },
     },
-  },
-  components: {
-    btn,
   },
   data() {
     return {

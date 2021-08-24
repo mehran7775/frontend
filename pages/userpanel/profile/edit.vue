@@ -2,7 +2,9 @@
   <div id="edit_profile">
     <div class="w-100">
       <div id="btn_edit">
-        <btn class="pt-2 pr-2 pl-2" @event_fell="back()"> بازگشت </btn>
+        <v-btn color="#BBE1FA" class="#1B262C--text" @click="$router.back()">
+          بازگشت
+        </v-btn>
       </div>
     </div>
     <v-flex xs12 sm10 md8 class="ma-auto">
@@ -84,7 +86,9 @@
               </v-col>
             </v-row>
             <div id="register" class="mt-4">
-              <btn class="pt-2" @event_fell="register()"> ثبت </btn>
+              <v-btn width="100%" color="#BBE1FA" class="#1B262C--text" @click="register()">
+                ثبت
+              </v-btn>
             </div>
           </v-container>
         </v-form>
@@ -94,7 +98,6 @@
 </template>
 
 <script>
-import btn from '@/components/buttons/btn.vue'
 import EventService from '@/services/EventService'
 export default {
   data() {
@@ -112,9 +115,6 @@ export default {
       //   (v) => /.+@.+/.test(v) || 'E-mail must be valid',
       // ],
     }
-  },
-  components: {
-    btn,
   },
   methods: {
     back() {

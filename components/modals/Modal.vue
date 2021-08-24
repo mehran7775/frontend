@@ -1,68 +1,58 @@
 <template>
-  <div class="modal_delete">
-    <div id="modal_delete">
-      <p>
-        <strong>
-          <slot name="title" :title="title"></slot>
-        </strong>
-      </p>
-      <div id="btns">
-        <div class="bt ml-3">
-          <btn class="pt-1" @event_fell="verify_handler()">
-            <span>تایید</span>
-          </btn>
-        </div>
-        <div class="bt">
-          <btn class="pt-1" @event_fell="close_modal()">
-            <span>انصراف</span>
-          </btn>
-        </div>
-      </div>
-    </div>
-  </div>
+  <v-row justify="center" style='z-index:20001'>
+    <v-dialog v-model="dialog" persistent  max-width="75%">
+      <v-card>
+        <v-card-title class="text-h5">
+          آیا مطممئن هستید میخواهید
+          <span v-text="title" class="px-2 primary--text"></span>
+          را حذف کنید؟
+        </v-card-title>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false">
+            انصراف
+          </v-btn>
+          <v-btn color="green darken-1" text @click="verify_delete">
+            تایید
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 
 <script>
-import btn from '@/components/buttons/btn.vue'
 import EventService from '@/services/EventService'
 export default {
   data() {
     return {
       id: null,
-      title: null,
+      title: '',
+      dialog: false,
     }
-  },
-  components: {
-    btn,
   },
   mounted() {
     this.$nuxt.$on('delete_product', (item) => {
+
       this.id = item.id
       this.title = item.title
-      const el = document.querySelector('.modal_delete')
-      el.style.transition = 'all 0.3s'
-      el.style.visibility = 'visible'
-      el.style.opacity = 1
-      const h = window.innerHeight
-      document.querySelector('#userpanel').style.height = h + 'px'
-      document.querySelector('#userpanel').style.overflow = 'hidden'
+      this.dialog=true
+
     })
   },
   methods: {
-    close_modal() {
-      const el = document.querySelector('.modal_delete')
-      el.style.visibility = 'hidden'
-      el.style.opacity = 0
-      document.querySelector('#userpanel').style.height = '100%'
-      document.querySelector('#userpanel').style.overflow = 'visible'
-    },
-    async verify_handler() {
+    async verify_delete() {
       const data = {
         token: this.$auth.$storage._state['_token.local'],
         id: this.id,
       }
       await EventService.remove_product(data)
-      this.close_modal()
+      .then((response) =>{
+        console.log(response)
+        this.dialog=false
+      }).catch((e) =>{
+        console.log(e)
+      })
     },
   },
 }

@@ -15,7 +15,7 @@
             </div>
             <div id="brand" class="brand_userpanel">
               <nuxt-link to="/">
-                <v-img src="/images/icons/brand_da.png"></v-img>
+                <img src="/images/icons/brand_da.png" alt="" />
               </nuxt-link>
             </div>
             <div id="pro_log">
@@ -57,12 +57,13 @@
               <ul>
                 <li v-if="$auth.user.is_producer">
                   <nuxt-link to="/userpanel/customers">
-                    <img
-                      width="28"
-                      height="28"
+                    <v-img
+                      max-height="28"
+                      max-width="28"
                       src="/images/add-product-1-68ds7275.png"
                       alt=""
-                    />
+                    ></v-img>
+                    <img />
                     <span>مشتریان من</span>
                   </nuxt-link>
                 </li>
@@ -131,10 +132,6 @@
       </v-layout>
       <template>
         <modal>
-          <template v-slot:title="payload">
-            آیا میخواهید <span class="name_pro">{{ payload.title }}</span> را
-            حذف کنید
-          </template>
         </modal>
       </template>
     </v-container>
@@ -150,6 +147,7 @@ export default {
   data() {
     return {
       bars_menu_active: false,
+      // user:null
     }
   },
   mounted() {
@@ -161,12 +159,22 @@ export default {
       document.getElementById('settings').click()
     }
   },
+  // created(){
+  //   console.log(this.$auth.user)
+  // },
   destroyed() {
     document.removeEventListener('resize', this.onResize)
   },
-  computed: {},
+  computed: {
+    is_buyer() {
+      return true
+    },
+  },
   methods: {
     onResize() {
+      // if(process.client){
+      //   console.log('client')
+      // }
       if (window.innerWidth > 600) {
         const el = document.getElementById('sidebar')
         el.style.visibility = 'visible'
@@ -189,6 +197,8 @@ export default {
     },
     toggle_sub_settings() {
       const el = document.getElementById('sub_settings')
+      // console.log(el.childElementCount)
+      // const number_child = el.childElementCount;
       if (!el.style.height || el.style.height === '0px') {
         el.style.transition = 'all 0.2s linear'
         el.style.height = el.childElementCount * 40 + 'px'

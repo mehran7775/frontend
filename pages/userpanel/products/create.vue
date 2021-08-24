@@ -34,13 +34,13 @@
             class="d-flex flex-column justify-content-center align-items-center"
           >
             <div class="picture" v-if="image.length > 0 && !errors.picture">
-              <v-img
+              <img
                 v-for="img of image"
                 :src="img"
                 width="100"
                 height="100"
                 alt="تصویر ناقص است"
-              ></v-img>
+              />
             </div>
             <div>
               <button
@@ -73,7 +73,13 @@
             name="description"
             v-model="description"
           ></v-textarea>
-          <v-btn class="primary" @click="register">ثبت</v-btn>
+          <v-btn
+            color="#BBE1FA"
+            class="#1B262C--text"
+            @click="register()"
+          >
+            ثبت
+          </v-btn>
         </v-form>
         <!-- <div class="w-50 m-auto">
         <btn @event_fell="register" class="pt-1 pb-1">ثبت</btn>
@@ -84,13 +90,9 @@
 </template>
 
 <script>
-import btn from '@/components/buttons/btn.vue'
 import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
-  components: {
-    btn,
-  },
   data() {
     return {
       name: '',

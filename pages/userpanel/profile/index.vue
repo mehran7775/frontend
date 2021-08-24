@@ -2,9 +2,13 @@
   <div id="profile_page">
     <div class="w-100">
       <div id="btn_edit">
-        <btn class="pt-2 pr-2 pl-2" @event_fell="edit_info()">
+        <v-btn
+          color="#BBE1FA"
+          class="#1B262C--text"
+          @click="$router.push('/userpanel/profile/edit')"
+        >
           تکمیل اطلاعات
-        </btn>
+        </v-btn>
       </div>
       <v-flex xs12 sm10 md8 class="ma-auto">
         <div class="infoo">
@@ -79,21 +83,9 @@
     </div>
   </div>
 </template>
-    </div>
-  </div>
-</template>
 
 <script>
-import btn from '@/components/buttons/btn.vue'
 export default {
-  components: {
-    btn,
-  },
-  methods: {
-    edit_info() {
-      this.$router.push('/userpanel/profile/edit')
-    },
-  },
 }
 </script>
 

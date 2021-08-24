@@ -7,14 +7,14 @@
             <div class="form-group">
               <label>جست و جو براساس نام یا شماره</label>
               <!-- <div class="btn_search"> -->
-                <!-- <input type="search" class="form-control" />
+              <!-- <input type="search" class="form-control" />
                 <div @click="search()">
                   <font-awesome-icon
                     id="icon_search"
                     :icon="['fas', 'search']"
                   ></font-awesome-icon>
                 </div> -->
-                <v-autocomplete
+              <v-autocomplete
                 dense
                 class="mt-4 px-2"
                 label="نام یا شماره را وارد کنید ..."
@@ -36,7 +36,7 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col">شماره </th>
+                <th scope="col">شماره</th>
                 <th scope="col">نام دستگاه</th>
                 <th scope="col">توضیحات</th>
                 <th scope="col"></th>
@@ -48,9 +48,15 @@
                 <td class="mw-t2" v-text="inq.name">Otto</td>
                 <td class="mw-t3" v-text="inq.description">@mdo</td>
                 <td class="mw-t4">
-                   <btn class="p-0">
-                    <nuxt-link :to="`/userpanel/inquiries/${inq.id}`"><span>مشاهده بیشتر</span></nuxt-link>
-                  </btn>
+                  <v-btn
+                    color="#BBE1FA"
+                    class="#1B262C--text"
+                    @click="verify_order(order.id)"
+                  >
+                    <nuxt-link :to="`/userpanel/inquiries/${inq.id}`"
+                      ><span>مشاهده بیشتر</span></nuxt-link
+                    >
+                  </v-btn>
                 </td>
               </tr>
             </tbody>
@@ -65,7 +71,6 @@
 </template>
 
 <script>
-import btn from '@/components/buttons/btn.vue'
 import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
@@ -78,9 +83,9 @@ export default {
   async asyncData(context) {
     try {
       const token = context.$auth.$storage._state['_token.local']
-      const {data}=await EventService.get_inquiries(token)
-      return{
-        inquiries:data.results
+      const { data } = await EventService.get_inquiries(token)
+      return {
+        inquiries: data.results,
       }
     } catch (e) {
       context.error({
@@ -89,9 +94,7 @@ export default {
       })
     }
   },
-  computed: {
-
-  },
+  computed: {},
   methods: {
     search() {},
   },
@@ -107,7 +110,7 @@ export default {
     width: 900px !important;
   }
 }
-a{
+a {
   width: 100%;
   height: 100%;
   text-decoration: none;

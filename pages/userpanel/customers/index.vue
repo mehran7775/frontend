@@ -1,5 +1,5 @@
 <template>
-  <v-layout column id="customers" class="pa-3">
+  <v-layout column  id="customers" class="pa-3">
     <v-row>
       <v-col cols="12">
         <div id="search_category">
@@ -7,14 +7,14 @@
             <div class="form-group">
               <label>جست و جو براساس نام یا شماره</label>
               <!-- <div class="btn_search"> -->
-                <!-- <input type="search" class="form-control" />
+              <!-- <input type="search" class="form-control" />
                 <div @click="search()">
                   <font-awesome-icon
                     id="icon_search"
                     :icon="['fas', 'search']"
                   ></font-awesome-icon>
                 </div> -->
-                <v-autocomplete
+              <v-autocomplete
                 dense
                 class="mt-4 px-2"
                 label="نام یا شماره را وارد کنید ..."
@@ -46,13 +46,19 @@
             <tbody>
               <tr v-for="order in orders" v-bind:key="order.id">
                 <th scope="row" class="mw-t" v-text="order.id">1</th>
-                <td class="mw-t1" v-text="order.title">Markrhtrhjtdyj drjdtyhndytjy strjtyj</td>
+                <td class="mw-t1" v-text="order.title">
+                  Markrhtrhjtdyj drjdtyhndytjy strjtyj
+                </td>
                 <td class="mw-t2" v-text="order.name">Otto</td>
                 <td class="mw-t3" v-text="order.description">@mdo</td>
                 <td class="mw-t4">
-                  <btn @event_fell="verify_order(order.id)" class="p-0">
-                    <span>تایید مشتری</span>
-                  </btn>
+                  <v-btn
+                    color="#BBE1FA"
+                    class="#1B262C--text"
+                    @click="verify_order(order.id)"
+                  >
+                    تایید مشتری
+                  </v-btn>
                 </td>
               </tr>
             </tbody>
@@ -67,22 +73,18 @@
 </template>
 
 <script>
-import btn from '@/components/buttons/btn.vue'
 import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
-  components: {
-    btn,
-  },
   data() {
     return {}
   },
   async asyncData(context) {
     try {
       const token = context.$auth.$storage._state['_token.local']
-      const {data}=await EventService.get_orders(token)
+      const { data } = await EventService.get_orders(token)
       return {
-        orders:data.results
+        orders: data.results,
       }
     } catch (e) {
       context.error({
@@ -91,8 +93,7 @@ export default {
       })
     }
   },
-  computed: {
-  },
+  computed: {},
   methods: {
     search() {},
     async verify_order(id) {
