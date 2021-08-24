@@ -56,9 +56,7 @@ export default {
     // https://go.nuxtjs.dev/eslint
     // '@nuxtjs/eslint-module',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
-
-    '@nuxtjs/fontawesome'
+    '@nuxtjs/vuetify'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -132,19 +130,7 @@ export default {
       'assets/scss/_variables.scss'
     ]
   },
-  fontawesome: {
-    // component:'fa',
-    icons: {
-      solid: true,
-      brands: true,
-      // solid:['faEventLop','faLock'],
-      // brands:true
-    },
-    imports: [{
-      set: '@fortawesome/free-solid-svg-icons',
-      icons: ['faHome']
-    }]
-  },
+
   // publicRuntimeConfig: {
   //   axios: {
   //     browserBaseURL: process.env.BROWSER_BASE_API_URL || 'http://127.0.0.1:8000',

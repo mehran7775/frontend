@@ -5,13 +5,21 @@
         <v-layout row>
           <div id="header">
             <div id="toggle_sidebar" @click="toggle_sidebar">
-              <font-awesome-icon
+              <!-- <font-awesome-icon
                 :class="[
                   bars_menu_active ? 'bars_menu_active' : null,
                   'bars_menu',
                 ]"
                 :icon="['fas', 'bars']"
-              />
+              /> -->
+              <v-icon
+                large
+                :class="[
+                  bars_menu_active ? 'bars_menu_active' : null,
+                  'bars_menu',
+                ]"
+                >mdi-menu</v-icon
+              >
             </div>
             <div id="brand" class="brand_userpanel">
               <nuxt-link to="/">
@@ -42,11 +50,7 @@
                 </div>
               </div>
               <div id="logout" @click="$auth.logout()">
-                <font-awesome-icon
-                  title="خروج"
-                  class="fa-2x fa-rotate-180 logout"
-                  :icon="['fa', 'sign-out-alt']"
-                />
+                <v-icon title="خروج" large class="logout">mdi-logout</v-icon>
               </div>
             </div>
           </div>
@@ -78,17 +82,6 @@
                     <span>استعلام های من</span>
                   </nuxt-link>
                 </li>
-                <!-- <li>
-                    <nuxt-link to="/userpanel/products/create">
-                      <img
-                        width="28"
-                        height="28"
-                        src="/images/icons/add-product-1-68ds7275.png"
-                        alt=""
-                      />
-                      <span>افزودن محصول</span>
-                    </nuxt-link>
-                  </li> -->
                 <li v-if="$auth.user.is_producer">
                   <nuxt-link to="/userpanel/products">
                     <img
@@ -102,21 +95,21 @@
                 </li>
                 <li>
                   <div id="settings" @click="toggle_sub_settings">
-                    <font-awesome-icon
+                    <!-- <font-awesome-icon
                       class="fa-lg"
                       :icon="['fas', 'cog']"
-                    ></font-awesome-icon>
+                    ></font-awesome-icon> -->
+                    <v-icon>mdi-settings</v-icon>
                     <span>تنظیمات</span>
                   </div>
                 </li>
                 <li id="sub_settings">
                   <nuxt-link to="/userpanel/profile">
-                    <img
-                      width="28"
-                      height="28"
+                    <v-img
+                      max-width="28"
                       src="/images/edit-icon-vector-16.png"
                       alt=""
-                    />
+                    ></v-img>
                     <span>پروفایل</span>
                   </nuxt-link>
                 </li>
@@ -131,8 +124,7 @@
         </v-layout>
       </v-layout>
       <template>
-        <modal>
-        </modal>
+        <modal> </modal>
       </template>
     </v-container>
   </v-app>

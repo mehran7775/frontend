@@ -73,15 +73,15 @@
       }
 
       #logout {
-        width: 32px;
-        height: 32px;
+        // width: 32px;
+        // height: 32px;
 
         // background-color: greenyellow;
         .logout {
           color: rgba(0, 0, 0, 0.63);
           transition: all 0.2s;
           cursor: pointer;
-          direction: rtl !important;
+          transform: rotateY(180deg);
         }
 
         .logout:hover {
