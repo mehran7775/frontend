@@ -5,13 +5,6 @@
         <v-layout row>
           <div id="header">
             <div id="toggle_sidebar" @click="toggle_sidebar">
-              <!-- <font-awesome-icon
-                :class="[
-                  bars_menu_active ? 'bars_menu_active' : null,
-                  'bars_menu',
-                ]"
-                :icon="['fas', 'bars']"
-              /> -->
               <v-icon
                 large
                 :class="[
@@ -95,10 +88,6 @@
                 </li>
                 <li>
                   <div id="settings" @click="toggle_sub_settings">
-                    <!-- <font-awesome-icon
-                      class="fa-lg"
-                      :icon="['fas', 'cog']"
-                    ></font-awesome-icon> -->
                     <v-icon>mdi-settings</v-icon>
                     <span>تنظیمات</span>
                   </div>

@@ -5,15 +5,6 @@
     </div>
     <div class="products">
       <template v-if="products.length > 0">
-        <!-- <product-card
-          v-for="product in products"
-          v-bind:key="product.id"
-          :id="product.id"
-          :title="product.title"
-          :image="product.product_image"
-          :description="product.description"
-          :slug="product.slug"
-        /> -->
         <v-card
           max-width="344"
           outlined
