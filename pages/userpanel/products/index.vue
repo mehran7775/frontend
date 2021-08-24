@@ -45,7 +45,7 @@
               >
                 <v-icon title="حذف" class="trash">mdi-delete</v-icon>
               </span>
-              <nuxt-link :to="`/userpanel/products/edit/${id}`">
+              <nuxt-link :to="`/userpanel/products/edit/${product.id}`">
                 <v-icon title="ویرایش" class="edit">mdi-delete</v-icon>
               </nuxt-link>
             </div>
@@ -82,10 +82,11 @@ export default {
   },
   methods: {
     delete_event(id, title) {
-      $nuxt.$emit('delete_product', {
-        id: id,
-        title: title,
-      })
+      const data={
+        id:id,
+        title:title
+      }
+      $nuxt.$emit('delete_product', data)
     },
   },
 }
