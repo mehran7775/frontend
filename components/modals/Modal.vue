@@ -3,7 +3,7 @@
     <v-dialog v-model="dialog" persistent  max-width="75%">
       <v-card>
         <v-card-title class="text-h5">
-          آیا مطممئن هستید میخواهید
+          آیا مطممئنید میخواهید
           <span v-text="title" class="px-2 primary--text"></span>
           را حذف کنید؟
         </v-card-title>
