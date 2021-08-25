@@ -154,9 +154,6 @@ export default {
         token: {
           property: 'token'
         },
-        user: {
-          user: '/api/user',
-        },
         endpoints: {
           login: {
             url: '/api/signin',
@@ -169,7 +166,8 @@ export default {
           },
           user: {
             url: '/api/user',
-            method: 'get'
+            method: 'get',
+            user:'user'
           }
         },
 
