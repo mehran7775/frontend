@@ -33,7 +33,7 @@
         </v-col>
         <v-col cols="12" md="3" class="pa-5 d-flex flex-column justify-center align-center">
           <div >
-            <span class=" primary--text text-h6" v-text="item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') " />
+            <span class=" primary--text text-h6" v-text="item.price? item.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'' " />
             <span class="font-weight-bold">تومان</span>
           </div>
         </v-col>

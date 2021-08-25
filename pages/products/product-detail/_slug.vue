@@ -44,7 +44,7 @@
               </div>
               <div class="font-weight-bold">
                 قیمت:
-                <span class="text-h5 primary--text" v-text="page.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' تومان'"/>
+                <span class="text-h5 primary--text" v-text="page.price? page.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'' + ' تومان'"/>
               </div>
             </v-col>
             <v-col cols="12" md="3" class="d-flex flex-column justify-end">
@@ -256,10 +256,10 @@
                 <v-row>
                   <v-col cols="9">
                     <div>
-                      از <b v-text="product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') " /> تومان
+                      از <b v-text="product.price? product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'-' " /> تومان
                     </div>
                     <div>
-                      تا <b v-text="product.second_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') " /> تومان
+                      تا <b v-text="product.second_price? product.second_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'-' " /> تومان
                     </div>
                   </v-col>
                   <v-col cols="3">
