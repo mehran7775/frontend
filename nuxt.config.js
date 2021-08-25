@@ -155,20 +155,20 @@ export default {
           property: 'token'
         },
         user: {
-          user: 'user',
+          user: '/api/user',
         },
         endpoints: {
           login: {
-            url: '/signin',
+            url: '/api/signin',
             method: 'post',
           },
           // logout: false,
           logout: {
-            url: '/logout',
+            url: '/api/logout',
             method: 'post'
           },
           user: {
-            url: '/user',
+            url: '/api/user',
             method: 'get'
           }
         },
