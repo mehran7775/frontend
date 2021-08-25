@@ -1,11 +1,13 @@
 <template>
-  <v-container>
-    <v-layout column>
-      <v-layout row>
-        <Nuxt />
+  <v-app>
+    <v-container>
+      <v-layout column>
+        <v-layout row>
+          <Nuxt />
+        </v-layout>
       </v-layout>
-    </v-layout>
-  </v-container>
+    </v-container>
+  </v-app>
 </template>
 
 <script>

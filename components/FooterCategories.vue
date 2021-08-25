@@ -1,5 +1,5 @@
 <template>
-  <v-layout column>
+  <v-layout column  id="products-footer">
     <v-card elevation="0" class="text-h6 text-center pa-5 font-weight-bold my-1"
       >لیست دسته‌بندی ها</v-card
     >
