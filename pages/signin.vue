@@ -68,10 +68,7 @@ export default {
 
 <style lang="scss" scoped>
 @import 'assets/scss/variables';
-// @import "assets/scss/main";
 #signin {
-  width: 100%;
-  // background-color:  map-get($colors,da_light);
 
   .signin {
     width: 60%;
@@ -82,7 +79,6 @@ export default {
     // margin: auto;
     // background-color: map-get($colors, da_light);
     .to_signup {
-      width: 100%;
       margin: auto;
       text-align: center;
       padding: 10px;
