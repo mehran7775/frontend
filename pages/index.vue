@@ -1,12 +1,12 @@
 <template>
   <v-layout column>
     <v-layout row class="px-3">
-      <!-- <v-flex md2 class="hidden-sm-and-down menu3">
+      <v-flex md2 class="hidden-sm-and-down menu3">
         <Menu @get_id_sub="set_sub_id($event)" :items="items" />
         <div class="m2" id="subMenu">
           <Menu :sId="sub_id" he="max-content" :items="items" />
         </div>
-      </v-flex> -->
+      </v-flex>
       <v-flex xs12 md10 id="slider">
         <div class="slider">
           <Carousel />
@@ -188,7 +188,7 @@ export default {
       const la = (await $axios.get('/api')).data
       return {
         items: data.results,
-        labels: la.results,
+        labels: la.results
       }
     } catch (e) {
       console.log(e)
@@ -204,61 +204,13 @@ export default {
   },
   data() {
     return {
-      sub_id: null,
-      // labels: [
-      //   {
-      //     title: 'ویژه',
-      //     products: [
-      //       {
-      //         id: 1,
-      //         title: 'محصول ویژه 1',
-      //         price: 2000000,
-      //         second_price: 25000000,
-      //         slug: 'محصول-ویژه-1',
-      //         product_image: 'f.png',
-      //         image_alt: 'rd',
-      //       },
-      //       {
-      //         id: 2,
-      //         title: 'محصول ویژه 2',
-      //         price: 4000000,
-      //         second_price: 45000000,
-      //         slug: 'محصول-ویژه-2',
-      //         product_image: 'f.png',
-      //         image_alt: 'rd',
-      //       },
-      //     ],
-      //   },
-      //   {
-      //     title: 'جدید',
-      //     products: [
-      //       {
-      //         id: 1,
-      //         title: 'محصول جدید 1',
-      //         price: 3200000,
-      //         second_price: 28000000,
-      //         slug: 'محصول-جدید-1',
-      //         product_image: 'f.png',
-      //         image_alt: 'rd',
-      //       },
-      //       {
-      //         id: 2,
-      //         title: 'محصول جدید 2',
-      //         price: 9000000,
-      //         second_price: 110000000,
-      //         slug: 'محصول-جدید-2',
-      //         product_image: 'f.png',
-      //         image_alt: 'rd',
-      //       },
-      //     ],
-      //   },
-      // ],
+      sub_id: null
     }
   },
   methods: {
     set_sub_id(value) {
       this.sub_id = value
-    },
+    }
   },
 }
 </script>
