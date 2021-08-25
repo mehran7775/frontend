@@ -1,0 +1,32 @@
+@import "./admin/main.scss";
+@import "./userpanel/main.scss";
+@import "./index/main.scss";
+@import "./components/main.scss";
+
+
+body,
+#__nuxt,
+#__layout {
+  direction: rtl;
+  height: 100%;
+  text-align: right;
+}
+*{
+  // color: map-get($colors, da_dismal);
+  font-weight: bold;
+}
+label {
+  font-weight: bold;
+}
+
+.is-invalid {
+  border: 1px solid #e3356f;
+}
+
+.is-valid {
+  border: 1px solid #43c761;
+}
+
+
+
+
