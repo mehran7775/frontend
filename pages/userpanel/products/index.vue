@@ -24,7 +24,7 @@
               </v-list-item-content>
 
               <v-list-item-avatar tile size="80" color="grey">
-                <img :src="product.image" width="80" height="80" />
+                <img :src="product.product_image" width="80" height="80" />
               </v-list-item-avatar>
             </v-list-item>
           </nuxt-link>
