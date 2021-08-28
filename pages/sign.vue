@@ -5,10 +5,11 @@
         <h3>ورود/ثبت نام</h3>
       </v-card-title>
       <v-card-text>
-        <v-form @submit.prevent="continuee()">
+        <v-form lazy-validation ref="form" @submit.prevent="continuee()">
           <v-text-field
             label="شماره تلفن"
             v-model="phone_number"
+            :rules="phone_numberRules"
           ></v-text-field>
           <!-- <v-btn class="primary" @click="login">ورود</v-btn> -->
           <v-btn class="primary" @click="continuee()">ادامه</v-btn>
@@ -38,20 +39,37 @@ export default {
   data() {
     return {
       phone_number: '',
+      phone_numberRules: [
+        (v) => !!v || this.msg_regEx.phone_number.empty,
+        (v) =>
+          this.regEx.phone_number.test(v) ||
+          this.regEx.phone_number2.test(v) ||
+          this.msg_regEx.phone_number.valid,
+      ],
     }
   },
   methods: {
     async continuee() {
-      try {
-        await EventService.send_sms_to_number(this.phone_number).then(
-          (response) => {
-            console.log(response)
-          }
-        )
-        this.$router.push(`signVerify/${this.phone_number}`)
-      } catch (e) {
-        console.log(e)
+      if (this.$refs.form.validate()) {
+        try {
+          await EventService.send_sms_to_number(this.phone_number).then(
+            (response) => {
+              console.log(response)
+            }
+          )
+          this.$router.push(`signVerify/${this.phone_number}`)
+        } catch (e) {
+          console.log(e)
+        }
       }
+    },
+  },
+  computed: {
+    msg_regEx() {
+      return this.$store.getters.msg_regEx
+    },
+    regEx() {
+      return this.$store.getters.regEx
     },
   },
 }

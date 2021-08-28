@@ -27,7 +27,7 @@
           <button
             class="btn_again_code"
             type="button"
-            @click="continue_register()"
+            @click="again_send_code_verify()"
             :disabled="again_send_code"
           >
             دریافت دوباره کد -
@@ -135,7 +135,7 @@ export default {
         }
       }, 1000)
     },
-    async continue_register() {
+    async again_send_code_verify() {
       try {
         await EventService.send_sms_to_number(
           this.$route.params.phoneNumber
