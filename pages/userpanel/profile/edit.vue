@@ -276,7 +276,7 @@ export default {
           token: this.$auth.$storage._state['_token.local'],
           form: form,
         }
-        this.$store.dispatch('complete_information', data)
+        this.$store.dispatch('complete_information', datas)
       }
     },
   },

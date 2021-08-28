@@ -33,7 +33,7 @@
     <v-row>
       <v-col cols="12">
         <div id="table" v-if="orders.length > 0">
-          <table class="table">
+          <table class="table py-2">
             <thead>
               <tr>
                 <th scope="col">شماره درخواست</th>

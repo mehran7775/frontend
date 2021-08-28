@@ -20,7 +20,9 @@
                     label="نام"
                     id="firstName"
                     readonly
-                    :value="$auth.user.fname"
+                    :value="
+                      $auth.user.fname ? $auth.user.fname : 'وارد نشده است'
+                    "
                   ></v-text-field>
                 </v-col>
 

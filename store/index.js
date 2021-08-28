@@ -197,7 +197,7 @@ export const actions = {
     } catch (e) {
       const data = {
         snackbar: true,
-        text: 'خطایی ثبت محصول رخ داده است.',
+        text: 'خطایی در ثبت محصول رخ داده است.',
         color: 'red lighten-1'
       }
       commit('SET_INFO_SNACKBAR', data)
