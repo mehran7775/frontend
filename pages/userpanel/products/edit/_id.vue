@@ -2,14 +2,14 @@
   <v-flex xs12 sm10 md8 class="ma-auto">
     <div id="create_product" class="w-100">
       <div class="form">
-        <v-form>
+        <v-form ref="form" @submit.prevent="register">
           <v-file-input
-            placeholder="Upload your documents"
+            placeholder="عکس را آپلود کنید"
             label="عکس محصول"
-            multiple
-            prepend-icon="mdi-paperclip"
+            prepmend-icon="mdi-paperclip"
             id="picture"
-            ref="picture"
+            :rules="pictureRules"
+            accept="image/png,image/jpeg,image/bmp"
           >
             <template v-slot:selection="{ text }">
               <v-chip small label color="primary">
@@ -17,44 +17,14 @@
               </v-chip>
             </template>
           </v-file-input>
-          <!--
-        <small v-if="image.length < 1" class="des_image"
-          >می توانید هرتعداد عکسی که از محصول میخواهید آپلود کنید</small
-        >
-        <small
-          class="text text-danger"
-          v-if="errors.picture"
-          v-text="errors.picture"
-        ></small> -->
-          <!-- <div
-            class="d-flex flex-column justify-content-center align-items-center"
-          >
-            <div class="picture" v-if="image.length > 0 && !errors.picture">
-              <img
-                v-for="(img ,i) of image" v-bind:key="i"
-                :src="img"
-                width="100"
-                height="100"
-                alt="تصویر ناقص است"
-              />
-            </div>
-            <div>
-              <button
-                v-if="image.length !== 0"
-                class="btn btn-secondary m-2"
-                @click="removeImage"
-              >
-                حذف عکس ها
-              </button>
-            </div>
-          </div> -->
           <v-text-field
             label="نام محصول"
-            v-model="name"
+            v-model="product.name"
             placeholder="نام محصول را واردکنید"
             id="name"
             name="name"
             ref="name"
+            :rules="nameRules"
           ></v-text-field>
           <v-textarea
             label="توضیحات"
@@ -67,9 +37,10 @@
             id="description"
             ref="description"
             name="description"
-            v-model="description"
+            v-model="product.description"
+            :rules="descriptionRules"
           ></v-textarea>
-          <v-btn color="#BBE1FA" class="#1B262C--text" @click="register()">
+          <v-btn type="submit" color="#BBE1FA" class="#1B262C--text">
             ثبت
           </v-btn>
         </v-form>
@@ -82,35 +53,20 @@ import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
   async asyncData({ route, store, $auth }) {
-    const data = {
+    const datas = {
       token: $auth.$storage._state['_token.local'],
       id: route.params.id,
     }
-    await EventService.get_product_edit(data)
-      .then((response) => {
-        console.log(response)
-      })
-      .then((error) => {
-        console.log(error)
-      })
-  },
-  computed: {
-    name: {
-      get() {
-        return this.$store.state.product_edit.title
-      },
-      set(value) {
-        this.$store.commit('UPDATENAME', value)
-      },
-    },
-    description: {
-      get() {
-        return this.$store.state.product_edit.description
-      },
-      set(value) {
-        this.$store.commit('UPDATEDESCRIPTION', value)
-      },
-    },
+    try {
+      const { data } = await EventService.get_product_edit(datas)
+      if (data.count > 0) {
+        return {
+          product: data.results,
+        }
+      }
+    } catch (e) {
+      console.log(e)
+    }
   },
   data() {
     return {
@@ -119,29 +75,25 @@ export default {
       errors: {
         picture: '',
       },
+      pictureRules: [
+        (v) => !!v || this.msg_regEx.product.picture.empty,
+        // (v) => v.size > 5242880 || this.msg_regEx.product.length,
+      ],
+      nameRules: [
+        (v) => !!v || this.msg_regEx.product.name.empty,
+        (v) => v.length > 2 || this.msg_regEx.product.name.length,
+      ],
+      descriptionRules: [
+        (v) => !!v || this.msg_regEx.product.description.empty,
+        (v) => v.length > 9 || this.msg_regEx.product.description.length,
+      ],
     }
   },
   methods: {
-    createImage(file) {
-      new Image()
-      var reader = new FileReader()
-      var vm = this
-
-      reader.onload = (e) => {
-        // vm.image = e.target.result;
-        vm.image.push(e.target.result)
-      }
-      reader.readAsDataURL(file)
-    },
-    removeImage(e) {
-      this.validated.picture = false
-      this.image = []
-      this.$refs.picture.value = ''
-    },
     async register() {
       const form = new FormData()
-      form.append('name', this.name)
-      form.append('description', this.description)
+      form.append('name', this.product.name)
+      form.append('description', this.product.description)
       form.append('picture', this.$refs.picture.files[0])
       form.append('_method', 'PUT')
       const data = {
@@ -149,13 +101,7 @@ export default {
         id: route.params.id,
         form: form,
       }
-      try {
-        await EventService.edit_product(data).then((response) => {
-          console.log(response)
-        })
-      } catch (e) {
-        console.log(e)
-      }
+      this.$store.dispatch('edit_product', data)
     },
   },
 }

@@ -9,7 +9,7 @@
     </div>
     <v-flex xs12 sm10 md8 class="ma-auto">
       <div class="infoo">
-        <v-form>
+        <v-form ref="info_form" @submit.prevent="register">
           <v-container>
             <v-row>
               <v-col cols="12" md="4">
@@ -22,6 +22,7 @@
                   :value="name"
                   required
                   placeholder="نام خودرا به فارسی وارد کنید"
+                  :rules="fnameRules"
                 ></v-text-field>
               </v-col>
 
@@ -34,6 +35,7 @@
                   :value="lname"
                   ref="lastName"
                   placeholder="نام خانوادگی به فارسی وارد شود"
+                  :rules="lnameRules"
                 ></v-text-field>
               </v-col>
 
@@ -46,6 +48,7 @@
                   ref="username"
                   placeholder="نام کاربری خود را وارد کنید"
                   :value="username"
+                  :rules="usernameRules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -58,6 +61,7 @@
                   placeholder="نام شرکت خودرا وارد کنید"
                   title="نام شرکت درست وارد نشده است"
                   v-model="company_name"
+                  :rules="company_nameRules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -70,6 +74,7 @@
                   :counter="11"
                   placeholder="09xxxxxxxxx"
                   v-model="phoneNumber"
+                  :rules="phone_numberRules"
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -82,11 +87,17 @@
                   placeholder="ایمیل خود را وارد کنید"
                   title="ایمل اشتباه وارد شده است"
                   v-model="email"
+                  :rules="emailRules"
                 ></v-text-field>
               </v-col>
             </v-row>
             <div id="register" class="mt-4">
-              <v-btn width="100%" color="#BBE1FA" class="#1B262C--text" @click="register()">
+              <v-btn
+                type="submit"
+                width="100%"
+                color="#BBE1FA"
+                class="#1B262C--text"
+              >
                 ثبت
               </v-btn>
             </div>
@@ -98,7 +109,6 @@
 </template>
 
 <script>
-import EventService from '@/services/EventService'
 export default {
   data() {
     return {
@@ -106,47 +116,36 @@ export default {
       vphone_number: '',
       vemail: '',
       vcompany_name: '',
-      // nameRules: [
-      //   (v) => !!v || 'Name is required',
-      //   (v) => v.length <= 10 || 'Name must be less than 10 characters',
-      // ],
-      // emailRules: [
-      //   (v) => !!v || 'E-mail is required',
-      //   (v) => /.+@.+/.test(v) || 'E-mail must be valid',
-      // ],
+      fnameRules: [
+        (v) => !!v || this.msg_regEx.fname.empty,
+        (v) => v.length >= 3 || this.msg_regEx.fname.length,
+        // (v) => this.regEx.fname.test(v) || this.msg_regEx.fname.alphabet,
+      ],
+      lnameRules: [
+        (v) => !!v || this.msg_regEx.lname.empty,
+        (v) => v.length >= 2 || this.msg_regEx.lname.length,
+        // (v) => this.regEx.lname.test(v) || this.msg_regEx.lname.alphabet,
+      ],
+      usernameRules: [
+        (v) => !!v || this.msg_regEx.username.empty,
+        (v) => v.length >= 3 || this.msg_regEx.username.length,
+      ],
+      company_nameRules: [
+        (v) => !!v || this.msg_regEx.company_name.empty,
+        (v) => v.length >= 3 || this.msg_regEx.company_name.empty,
+      ],
+      phone_numberRules: [
+        (v) => !!v || this.msg_regEx.phone_number.empty,
+        (v) =>
+          this.regEx.phone_number.test(v) ||
+          this.regEx.phone_number2.test(v) ||
+          this.msg_regEx.phone_number.valid,
+      ],
+      emailRules: [
+        (v) => !!v || this.msg_regEx.email.empty,
+        (v) => this.regEx.email.test(v) || this.msg_regEx.email.valid,
+      ],
     }
-  },
-  methods: {
-    back() {
-      this.$router.back()
-    },
-    async register() {
-      const form = new FormData()
-      const company_name = this.info_user.company_name
-        ? this.info_user.company_name
-        : this.vcompany_name
-      const email = this.info_user.email ? this.info_user.email : this.vemail
-      const phone_number = this.info_user.phone_number
-        ? this.info_user.phone_number
-        : this.vphone_number
-      form.append('firstname', this.info_user.fname)
-      form.append('lastname', this.info_user.lname)
-      form.append('username', this.info_user.username)
-      form.append('company', company_name)
-      form.append('phoneNumber', phone_number)
-      form.append('email', email)
-      const data = {
-        token: this.$auth.$storage._state['_token.local'],
-        form: form,
-      }
-      try {
-        await EventService.complete_information(data).then((response) => {
-          console.log(response)
-        })
-      } catch (e) {
-        console.log(e)
-      }
-    },
   },
   computed: {
     info_user() {
@@ -248,6 +247,37 @@ export default {
           this.vcompany_name = value
         }
       },
+    },
+    msg_regEx() {
+      return this.$store.getters.msg_regEx
+    },
+    regEx() {
+      return this.$store.getters.regEx
+    },
+  },
+  methods: {
+    async register() {
+      if (this.$refs.info_form.validate()) {
+        const company_name = this.info_user.company_name
+          ? this.info_user.company_name
+          : this.vcompany_name
+        const email = this.info_user.email ? this.info_user.email : this.vemail
+        const phone_number = this.info_user.phone_number
+          ? this.info_user.phone_number
+          : this.vphone_number
+        const form = new FormData()
+        form.append('firstname', this.info_user.fname)
+        form.append('lastname', this.info_user.lname)
+        form.append('username', this.info_user.username)
+        form.append('company', company_name)
+        form.append('phoneNumber', phone_number)
+        form.append('email', email)
+        const datas = {
+          token: this.$auth.$storage._state['_token.local'],
+          form: form,
+        }
+        this.$store.dispatch('complete_information', datas)
+      }
     },
   },
 }
