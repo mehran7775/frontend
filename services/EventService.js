@@ -99,5 +99,10 @@ export default {
          "content-type": "multipart/form-data"
       }
     })
-  }
+  },
+  send_sms_to_number(payload) {
+    let form = new FormData()
+    form.append('phone_number', JSON.stringify(payload))
+    return apiClient.post('api/get-phone', form)
+  },
 }
