@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: `http://127.0.0.1:8000/api`,
+  baseURL: process.env.BROWSER_BASE_API_URL || 'http://127.0.0.1:8000/api',
   // baseURL:'http://damirco.com',
   withCredentials: false,
   headers: {
@@ -11,6 +11,9 @@ const apiClient = axios.create({
 })
 
 export default {
+  get_csrf_token(){
+    return apiClient.get('/api/get-csrftoken')
+  },
   do_login(form) {
     return apiClient.post('/signin', form)
   },

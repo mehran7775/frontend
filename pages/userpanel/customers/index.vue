@@ -102,7 +102,8 @@ export default {
         id: id,
       }
       try {
-        await EventService.verify_order(payload)
+        const {data}=await EventService.verify_order(payload)
+        console.log(data)
         this.$nuxt.refresh()
       } catch (e) {
         console.log(e)

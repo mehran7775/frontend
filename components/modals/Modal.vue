@@ -1,6 +1,6 @@
 <template>
-  <v-row justify="center" style='z-index:20001'>
-    <v-dialog v-model="dialog" persistent  max-width="75%">
+  <v-row justify="center" style="z-index: 20001">
+    <v-dialog v-model="dialog" persistent max-width="75%">
       <v-card>
         <v-card-title class="text-h5">
           آیا مطممئنید میخواهید
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import EventService from '@/services/EventService'
 export default {
   data() {
     return {
@@ -35,8 +34,7 @@ export default {
     this.$nuxt.$on('delete_product', (item) => {
       this.id = item.id
       this.title = item.title
-      this.dialog=true
-
+      this.dialog = true
     })
   },
   methods: {
@@ -45,13 +43,12 @@ export default {
         token: this.$auth.$storage._state['_token.local'],
         id: this.id,
       }
-      await EventService.remove_product(data)
-      .then((response) =>{
-        console.log(response)
+      try {
+        await this.$store.dispatch('remove_product', data)
         this.dialog=false
-      }).catch((e) =>{
-        console.log(e)
-      })
+      } catch (e) {
+        this.dialog=false
+      }
     },
   },
 }
