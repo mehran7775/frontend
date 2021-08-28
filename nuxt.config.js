@@ -156,7 +156,7 @@ export default {
         },
         endpoints: {
           login: {
-            url: '/api/signin',
+            url: '/api/verify-token ',
             method: 'post',
           },
           // logout: false,
