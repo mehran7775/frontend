@@ -156,7 +156,7 @@ export default {
         },
         endpoints: {
           login: {
-            url: '/api/verify-token ',
+            url: '/api/signin/',
             method: 'post',
           },
           // logout: false,
@@ -165,12 +165,11 @@ export default {
             method: 'post'
           },
           user: {
-            url: '/api/user',
+            url: '/api/user/',
             method: 'get',
             user:'user'
           }
         },
-
       }
     }
   },

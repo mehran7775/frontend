@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 sm10 md8 class="ma-auto">
     <div id="signup">
-      <div class="signup">
+      <div class="signup" max-width="500">
         <v-card>
           <v-card-title>
             <h3>ثبت نام</h3>
@@ -19,7 +19,7 @@
                 v-model="phone_number"
               ></v-text-field>
               <v-text-field label="رمز عبور" v-model="password"></v-text-field>
-              <v-btn class="primary--text" @click="register">ثبت</v-btn>
+              <v-btn class="primary" @click="register">ثبت</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -62,11 +62,9 @@ export default {
       form.append('username', this.username)
       form.append('phone_number', this.phone_number)
       form.append('password', this.password)
-      // formData.append('data', JSON.stringify(this.data));
       this.$store.dispatch('do_register', form)
       try {
-        await EventService.do_register(form)
-        .then(res =>{
+        await EventService.do_register(form).then((res) => {
           console.log(res)
         })
         await this.$auth.loginWith('local', {
@@ -75,23 +73,20 @@ export default {
       } catch (e) {
         console.log(e)
       }
-
     },
   },
 }
 </script>
 
 <style lang="scss" scoped>
-#signup {
-  width: 100%;
-}
 .signup {
-  width: 60%;
+  min-width: 320px;
+  max-width: 500px;
+  padding: 10px;
   position: absolute;
-  top: 100px;
-  right: 19%;
-  // vertical-align: middle;
-  // margin: auto;
-  // background-color: map-get($colors, da_light);
+  top: 50%;
+  left: 50%;
+  padding: 5px;
+  transform: translate(-50%, -50%);
 }
 </style>

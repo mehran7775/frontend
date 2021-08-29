@@ -7,18 +7,24 @@ const apiClient = axios.create({
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
-  }
+  },
 })
 
 export default {
-  get_csrf_token(){
+  get_csrf_token() {
     return apiClient.get('api/get-csrftoken')
   },
   do_login(form) {
     return apiClient.post('api/signin', form)
   },
-  do_register(form) {
-    return apiClient.post('api/signup', form)
+  async do_register(form) {
+    const re = await this.get_csrf_token()
+    const csrf = re.data.csrftoken
+    return apiClient.post('api/signup', form, {
+      headers: {
+        'X-CSRFToken': csrf
+      }
+    })
   },
   get_product(slug) {
     return apiClient.get('api/products/' + slug)
@@ -47,62 +53,83 @@ export default {
       }
     })
   },
-  verify_order(payload) {
+  async verify_order(payload) {
+    const re = await this.get_csrf_token()
+    const csrf = re.data.csrftoken
     return apiClient.post('api/userpanel/orders_verify/' + payload.id, null, {
       headers: {
-        "Authorization": payload.token
+        "Authorization": payload.token,
+        'X-CSRFToken': csrf
       }
     })
   },
-  create_product(payload) {
+  async create_product(payload) {
+    const re = await this.get_csrf_token()
+    const csrf = re.data.csrftoken
     return apiClient.post('api/userpanel/products', payload.form, {
       headers: {
         "Authorization": payload.token,
-        "content-type": "multipart/form-data"
+        "content-type": "multipart/form-data",
+        'X-CSRFToken': csrf
       }
     })
   },
   get_products_supplier(payload) {
     return apiClient.get('api/userpanel/products', {
-      headers:{
+      headers: {
         "Authorization": payload
       }
     })
   },
-  remove_product(payload){
-    let form=new FormData()
-    form.append('_method','DELETE')
-    return apiClient.post('api/userpanel/products/'+payload.id,form,{
-      headers:{
-        "Authorization" :payload.token
+  async remove_product(payload) {
+    const re = await this.get_csrf_token()
+    const csrf = re.data.csrftoken
+    let form = new FormData()
+    form.append('_method', 'DELETE')
+    return apiClient.post('api/userpanel/products/' + payload.id, form, {
+      headers: {
+        "Authorization": payload.token,
+        'X-CSRFToken': csrf
       }
     })
   },
-  complete_information(payload){
-    return apiClient.post('api/userpanel/user/edit',payload.form,{
-      headers:{
+  async complete_information(payload) {
+    const re = await this.get_csrf_token()
+    const csrf = re.data.csrftoken
+    return apiClient.post('api/userpanel/user/edit', payload.form, {
+      headers: {
+        "Authorization": payload.token,
+        'X-CSRFToken': csrf
+      }
+    })
+  },
+  get_product_edit(payload) {
+    return apiClient.get('api/userpanel/products/' + payload.id, {
+      headers: {
         "Authorization": payload.token
       }
     })
   },
-  get_product_edit(payload){
-    return apiClient.get('api/userpanel/products/'+payload.id,{
-      headers:{
-        "Authorization": payload.token
+  async edit_product(payload) {
+    const re = await this.get_csrf_token()
+    const csrf = re.data.csrftoken
+    return apiClient.post(`api/userpanel/products/${payload.id}`, payload.form, {
+      headers: {
+        "Authorization": payload.token,
+        "content-type": "multipart/form-data",
+        'X-CSRFToken': csrf
       }
     })
   },
-  edit_product(payload){
-    return apiClient.post(`api/userpanel/products/${payload.id}`,payload.form,{
-      headers:{
-         "Authorization": payload.token,
-         "content-type": "multipart/form-data"
-      }
-    })
-  },
-  send_sms_to_number(payload) {
+  async send_sms_to_number(payload) {
+    const re = await this.get_csrf_token()
+    const csrf = re.data.csrftoken
     let form = new FormData()
     form.append('phone_number', JSON.stringify(payload))
-    return apiClient.post('api/get-phone', form)
+    return apiClient.post('api/get-phone/', form, {
+      headers: {
+        'X-CSRFToken': csrf
+      }
+    })
   },
 }

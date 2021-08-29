@@ -82,7 +82,7 @@ export default {
   width: 100%;
 
   .signin {
-    width: 60%;
+    padding:0 30px;
     position: absolute;
     top: 100px;
     right: 19%;
