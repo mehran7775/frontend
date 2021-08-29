@@ -6,10 +6,18 @@
           <h3>ورود</h3>
         </v-card-title>
         <v-card-text>
-          <v-form>
-            <v-text-field label="نام کاربری" v-model="username"></v-text-field>
-            <v-text-field label="رمز عبور" v-model="password"></v-text-field>
-            <v-btn class="primary" @click="login">ورود</v-btn>
+          <v-form ref="form_login" lazy-validation @submit.prevent="login">
+            <v-text-field
+              label="نام کاربری"
+              v-model="username"
+              :rules="usernameRules"
+            ></v-text-field>
+            <v-text-field
+              label="رمز عبور"
+              v-model="password"
+              :rules="passwordRules"
+            ></v-text-field>
+            <v-btn type="submit" class="primary mt-2">ورود</v-btn>
             <div class="mt-5">
               هنوز ثبت نام نکرده اید،برای ثبت نام
               <nuxt-link to="/signup">کلیک</nuxt-link>
@@ -42,19 +50,39 @@ export default {
     return {
       username: '',
       password: '',
+      usernameRules: [
+        (v) => !!v || this.msg_regEx.username.empty,
+        (v) => v.length >= 3 || this.msg_regEx.username.length,
+      ],
+      passwordRules: [
+        (v) => !!v || this.msg_regEx.password.empty,
+        (v) => v.length >= 4 || this.msg_regEx.username.length,
+      ],
+
     }
+  },
+  computed: {
+    regEx() {
+      return this.$store.getters.regEx
+    },
+    msg_regEx() {
+      return this.$store.getters.msg_regEx
+    },
   },
   methods: {
     async login() {
-      let form = new FormData()
-      form.append('username', this.username)
-      form.append('password', this.password)
-      try {
-        await this.$auth.loginWith('local', {
-          data: form,
-        })
-      } catch (e) {
-        console.log('e', e.response)
+      if (this.$refs.form_login.validate()) {
+        let form = new FormData()
+        form.append('username', this.username)
+        form.append('paswords', this.password)
+        try {
+          await
+            await this.$auth.loginWith('local', {
+              data: form,
+            })
+        } catch (e) {
+          console.log('e', e.response)
+        }
       }
     },
   },
@@ -65,14 +93,14 @@ export default {
 @import 'assets/scss/variables';
 // #signin {
 //   width: 100%;
-  .signin {
-    min-width: 320px;
-    max-width:500px;
-    padding: 10px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    padding: 5px;
-    transform: translate(-50%,-50%);
-  }
+.signin {
+  min-width: 320px;
+  max-width: 500px;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 5px;
+  transform: translate(-50%, -50%);
+}
 </style>

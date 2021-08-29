@@ -7,19 +7,21 @@
             <h3>ثبت نام</h3>
           </v-card-title>
           <v-card-text>
-            <v-form>
+            <v-form ref="form" lazy-validation @submit.prevent="register">
               <v-text-field label="نام" v-model="fname"></v-text-field>
               <v-text-field label="نام خانوادگی" v-model="lname"></v-text-field>
               <v-text-field
                 label="نام کاربری"
                 v-model="username"
+                :rules="usernameRules"
               ></v-text-field>
               <v-text-field
                 label="شماره تلفن"
                 v-model="phone_number"
+                :rules="phoneRules"
               ></v-text-field>
-              <v-text-field label="رمز عبور" v-model="password"></v-text-field>
-              <v-btn class="primary" @click="register">ثبت</v-btn>
+              <v-text-field label="رمز عبور" v-model="password" :rules="passwordRules"></v-text-field>
+              <v-btn class="primary mt-2" type="submit">ثبت</v-btn>
             </v-form>
           </v-card-text>
         </v-card>
@@ -52,26 +54,51 @@ export default {
       username: '',
       password: '',
       phone_number: '',
+      usernameRules: [
+        (v) => !!v || this.msg_regEx.username.empty,
+        (v) => v.length >= 3 || this.msg_regEx.username.length,
+      ],
+      phoneRules: [
+        (v) => !!v || this.msg_regEx.phone_number.empty,
+        (v) =>
+          this.regEx.phone_number.test(v) ||
+          this.regEx.phone_number2.test(v) ||
+          this.msg_regEx.phone_number.valid,
+      ],
+      passwordRules: [
+        (v) => !!v || this.msg_regEx.password.empty,
+        (v) => v.length >= 4 || this.msg_regEx.username.length,
+      ],
     }
+  },
+  computed: {
+    regEx() {
+      return this.$store.getters.regEx
+    },
+    msg_regEx() {
+      return this.$store.getters.msg_regEx
+    },
   },
   methods: {
     async register() {
-      let form = new FormData()
-      form.append('fname', this.fname)
-      form.append('lname', this.lname)
-      form.append('username', this.username)
-      form.append('phone_number', this.phone_number)
-      form.append('password', this.password)
-      this.$store.dispatch('do_register', form)
-      try {
-        await EventService.do_register(form).then((res) => {
-          console.log(res)
-        })
-        await this.$auth.loginWith('local', {
-          data: form,
-        })
-      } catch (e) {
-        console.log(e)
+      if (this.$refs.form.validate()) {
+        let form = new FormData()
+        form.append('fname', this.fname)
+        form.append('lname', this.lname)
+        form.append('username', this.username)
+        form.append('phone_number', this.phone_number)
+        form.append('password', this.password)
+        this.$store.dispatch('do_register', form)
+        try {
+          await EventService.do_register(form).then((res) => {
+            console.log(res)
+          })
+          await this.$auth.loginWith('local', {
+            data: form,
+          })
+        } catch (e) {
+          console.log(e)
+        }
       }
     },
   },

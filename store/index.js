@@ -52,6 +52,10 @@ export const state = () => ({
         length: 'توضیخات باید حداقل ده کاراکترباشد!',
       },
     },
+    password: {
+      empty: 'لطفا رمزعبور خود را وارد کنید!',
+      length: 'رمز عبور حداقل باید چهارکاراکتر باشد!'
+    }
   },
   info_snackbar: {
     snackbar: false,
@@ -197,7 +201,7 @@ export const actions = {
     } catch (e) {
       const data = {
         snackbar: true,
-        text: 'خطایی در ثبت محصول رخ داده است.',
+        text: 'خطایی در ثبت اطلاعات رخ داده است.',
         color: 'red lighten-1'
       }
       commit('SET_INFO_SNACKBAR', data)
