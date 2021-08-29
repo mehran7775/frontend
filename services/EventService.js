@@ -14,8 +14,14 @@ export default {
   get_csrf_token() {
     return apiClient.get('api/get-csrftoken')
   },
-  do_login(form) {
-    return apiClient.post('api/signin', form)
+  async do_login(form) {
+    const re = await this.get_csrf_token()
+    const csrf = re.data.csrftoken
+    return apiClient.post('api/signin/', form, {
+      headers: {
+        'X-CSRFToken': csrf
+      }
+    })
   },
   async do_register(form) {
     const re = await this.get_csrf_token()

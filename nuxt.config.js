@@ -161,7 +161,7 @@ export default {
           },
           // logout: false,
           logout: {
-            url: '/api/logout',
+            url: '/api/logout/',
             method: 'post'
           },
           user: {
