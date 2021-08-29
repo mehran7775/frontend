@@ -17,7 +17,7 @@
                 <div class="text-overline mb-4">تایید نشده</div>
                 <v-list-item-title class="text-h6 mb-1" v-text="product.title">
                 </v-list-item-title>
-                <v-list-item-subtitle v-text="product.description"
+                <v-list-item-subtitle v-text="product.short_discription"
                   >Greyhound divisely hello coldly
                   fonwderfully</v-list-item-subtitle
                 >
