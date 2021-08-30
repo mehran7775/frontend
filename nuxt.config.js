@@ -83,6 +83,7 @@ export default {
   axios: {
     baseURL: process.env.API_URL || 'http://127.0.0.1:8000',
     browserBaseURL: process.env.API_URL_BROWSER || 'http://127.0.0.1:8000',
+    withCredentials: false,
     headers : {
       common: {
         'Content-Type':'application/json',
@@ -172,7 +173,6 @@ export default {
           }
         },
       }
-    },
-    cookie:false
+    }
   },
 }
