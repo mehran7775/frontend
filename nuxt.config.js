@@ -86,7 +86,7 @@ export default {
     headers : {
       common: {
         'Content-Type':'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
       },
     }
   },
@@ -139,13 +139,13 @@ export default {
 
   publicRuntimeConfig: {
     axios: {
-      browserBaseURL: process.env.BROWSER_BASE_API_URL || 'http://127.0.0.1:8000',
+      browserBaseURL: process.env.API_URL_BROWSER || 'http://127.0.0.1:8000',
     }
   },
 
   privateRuntimeConfig: {
     axios: {
-      baseURL: process.env.BASE_API_URL || 'http://127.0.0.1:8000',
+      baseURL: process.env.API_URL || 'http://127.0.0.1:8000',
     }
   },
   auth: {
@@ -156,12 +156,13 @@ export default {
         },
         endpoints: {
           login: {
+            headers: { "Cookie":""},
             url: '/api/signin/',
             method: 'post',
           },
           // logout: false,
           logout: {
-            url: '/api/logout',
+            url: '/api/logout/',
             method: 'post'
           },
           user: {

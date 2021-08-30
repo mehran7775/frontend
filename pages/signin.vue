@@ -15,6 +15,7 @@
             <v-text-field
               label="رمز عبور"
               v-model="password"
+              type="password"
               :rules="passwordRules"
             ></v-text-field>
             <v-btn type="submit" class="primary mt-2">ورود</v-btn>
@@ -72,13 +73,14 @@ export default {
   methods: {
     async login() {
       if (this.$refs.form_login.validate()) {
-        const form = new FormData()
-        form.append('username', this.username)
-        form.append('password', this.password)
+        const credential = {
+          "username" : this.username,
+          "password" : this.password
+        }
         try {
             await this.$auth.loginWith('local', {
-            data: form,
-          })
+              data: credential,
+            })
         } catch (e) {
           console.log(e)
         }
