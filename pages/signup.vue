@@ -20,7 +20,12 @@
                 v-model="phone_number"
                 :rules="phoneRules"
               ></v-text-field>
-              <v-text-field label="رمز عبور" v-model="password" :rules="passwordRules"></v-text-field>
+              <v-text-field
+                label="رمز عبور"
+                v-model="password"
+                :rules="passwordRules"
+                type="password"
+              ></v-text-field>
               <v-btn class="primary mt-2" type="submit">ثبت</v-btn>
             </v-form>
           </v-card-text>
@@ -31,7 +36,7 @@
 </template>
 
 <script>
-import EventService from '@/services/EventService'
+// import EventService from '@/services/EventService'
 export default {
   layout: 'sign',
   middleware: 'guest',
@@ -50,7 +55,7 @@ export default {
   data() {
     return {
       fname: '',
-      lanme: '',
+      lname: '',
       username: '',
       password: '',
       phone_number: '',
@@ -67,7 +72,7 @@ export default {
       ],
       passwordRules: [
         (v) => !!v || this.msg_regEx.password.empty,
-        (v) => v.length >= 4 || this.msg_regEx.username.length,
+        (v) => v.length >= 4 || this.msg_regEx.password.length,
       ],
     }
   },
@@ -83,16 +88,17 @@ export default {
     async register() {
       if (this.$refs.form.validate()) {
         let form = new FormData()
-        form.append('fname', this.fname)
-        form.append('lname', this.lname)
+        form.append('first_name', this.fname)
+        form.append('last_name', this.lname)
         form.append('username', this.username)
         form.append('phone_number', this.phone_number)
         form.append('password', this.password)
-        this.$store.dispatch('do_register', form)
         try {
-          await EventService.do_register(form).then((res) => {
-            console.log(res)
-          })
+          // await EventService.do_register(form).then((res) => {
+          //   console.log(res)
+          const res = await this.$axios.get('/api/get-csrftoken')
+          this.$axios.defaults.headers.common['X-CSRFToken'] =res.data.csrftoken
+          await this.$axios.post('/api/signup', form)
           await this.$auth.loginWith('local', {
             data: form,
           })

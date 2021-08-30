@@ -72,16 +72,15 @@ export default {
   methods: {
     async login() {
       if (this.$refs.form_login.validate()) {
-        let form = new FormData()
+        const form = new FormData()
         form.append('username', this.username)
-        form.append('paswords', this.password)
+        form.append('password', this.password)
         try {
-          await
             await this.$auth.loginWith('local', {
-              data: form,
-            })
+            data: form,
+          })
         } catch (e) {
-          console.log('e', e.response)
+          console.log(e)
         }
       }
     },
