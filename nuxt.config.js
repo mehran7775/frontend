@@ -158,7 +158,7 @@ export default {
         endpoints: {
           login: {
             headers: { "Cookie":""},
-            url: '/api/signin/',
+            url: '/verify-token/',
             method: 'post',
           },
           // logout: false,

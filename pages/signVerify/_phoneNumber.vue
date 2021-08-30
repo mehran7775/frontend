@@ -1,49 +1,50 @@
 <template>
-  <div class="verify">
-    <v-card>
-      <v-card-title>
-        <h3>
-          کد ارسال شده به شماره <span>({{ phone_number }})</span> را وارکنید
-        </h3>
-      </v-card-title>
-      <v-card-text>
-        <!-- <v-form> -->
-        <section class="inputs_code">
-          <input
-            type="text"
-            id="input_code"
-            size="1"
-            v-for="(key, i) in activationKeyFields"
-            :key="i"
-            :maxlength="key.length"
-            :data-length="key.length"
-            :data-index="i"
-            :ref="`input-${i}`"
-            v-model="key.value"
-            @input="handleActivationInput($event)"
-          />
-        </section>
-        <section id="send_again">
-          <button
-            class="btn_again_code"
-            type="button"
-            @click="again_send_code_verify()"
-            :disabled="again_send_code"
-          >
-            دریافت دوباره کد -
-          </button>
-          <span id="counter_time"></span>
-        </section>
-        <div>
-          <div class="end_register">
-            <input type="hidden" name="code_email" :value="activationKey" />
-            <v-btn
-              :class="[activationKey.length === 5 ? 'active-btn' : null]"
-              :disabled="activationKey.length === 5 ? false : true"
-              @click="end_sign()"
-              >ثبت
-            </v-btn>
-            <!-- <input
+  <v-flex>
+    <div class="verify">
+      <v-card class="px-6 py-2">
+        <v-card-title>
+          <h3>
+            کد ارسال شده به شماره <span class="primary--text">{{ phone_number }}</span> را وارد کنید
+          </h3>
+        </v-card-title>
+        <v-card-text>
+          <!-- <v-form> -->
+          <section class="inputs_code text-center">
+            <input
+              type="text"
+              id="input_code"
+              size="1"
+              v-for="(key, i) in activationKeyFields"
+              :key="i"
+              :maxlength="key.length"
+              :data-length="key.length"
+              :data-index="i"
+              :ref="`input-${i}`"
+              v-model="key.value"
+              @input="handleActivationInput($event)"
+            />
+          </section>
+          <section id="send_again">
+            <button
+              class="btn_again_code"
+              type="button"
+              @click="again_send_code_verify()"
+              :disabled="again_send_code"
+            >
+              دریافت دوباره کد -
+            </button>
+            <span id="counter_time"></span>
+          </section>
+          <div>
+            <div class="end_register">
+              <input type="hidden" name="code_email" :value="activationKey" />
+              <v-btn
+                :class="[activationKey.length === 5 ? 'active-btn' : null ,'primary mt-3']"
+                :disabled="activationKey.length === 5 ? false : true"
+                @click="end_sign()"
+                >ثبت
+              </v-btn>
+              <!-- <input
                 :class="[
                   activationKey.length === 5 ? 'active-btn' : null,
                   'w-100 text-center form-control font-weight-bold',
@@ -52,12 +53,13 @@
                 value="ثبت"
                 :disabled="activationKey.length === 5 ? false : true"
               /> -->
+            </div>
           </div>
-        </div>
-        <!-- </v-form> -->
-      </v-card-text>
-    </v-card>
-  </div>
+          <!-- </v-form> -->
+        </v-card-text>
+      </v-card>
+    </div>
+  </v-flex>
 </template>
 
 <script>
@@ -137,6 +139,7 @@ export default {
     },
     async again_send_code_verify() {
       try {
+        this.again_send_code=true
         await EventService.send_sms_to_number(
           this.$route.params.phoneNumber
         ).then((response) => {
@@ -153,8 +156,8 @@ export default {
       form.append('phone_number', this.$route.params.phoneNumber)
       form.append('code_verify', this.activationKey)
       try {
-        await this.$auth.loginWith('local',{
-          data:form
+        await this.$auth.loginWith('local', {
+          data: form,
         })
       } catch (e) {
         console.log(e)
@@ -166,17 +169,20 @@ export default {
 
 <style lang="scss" scoped>
 .verify {
-  width: 60%;
+  min-width: 320px;
+  max-width: 500px;
+  padding: 10px;
   position: absolute;
-  top: 100px;
-  right: 19%;
-
+  top: 50%;
+  left: 50%;
+  padding: 5px;
+  transform: translate(-50%, -50%);
   .inputs_code {
     direction: ltr;
 
     #input_code {
-      width: 30px;
-      height: 30px;
+      width: 40px;
+      height: 40px;
       background-color: whitesmoke;
       margin: 5px;
       border: solid 1px solid;

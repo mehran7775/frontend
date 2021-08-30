@@ -1,22 +1,24 @@
 <template>
-  <div class="signin">
-    <v-card>
-      <v-card-title>
-        <h3>ورود/ثبت نام</h3>
-      </v-card-title>
-      <v-card-text>
-        <v-form lazy-validation ref="form" @submit.prevent="continuee()">
-          <v-text-field
-            label="شماره تلفن"
-            v-model="phone_number"
-            :rules="phone_numberRules"
-          ></v-text-field>
-          <!-- <v-btn class="primary" @click="login">ورود</v-btn> -->
-          <v-btn class="primary" @click="continuee()">ادامه</v-btn>
-        </v-form>
-      </v-card-text>
-    </v-card>
-  </div>
+  <v-flex>
+    <div class="sign">
+      <v-card class="px-5 py-2">
+        <v-card-title>
+          <h3>ورود/ثبت نام</h3>
+        </v-card-title>
+        <v-card-text>
+          <v-form lazy-validation ref="form" @submit.prevent="continuee()">
+            <v-text-field
+              label="شماره تلفن"
+              v-model="phone_number"
+              :rules="phone_numberRules"
+            ></v-text-field>
+            <!-- <v-btn class="primary" @click="login">ورود</v-btn> -->
+            <v-btn class="primary mt-2" type="submit">ادامه</v-btn>
+          </v-form>
+        </v-card-text>
+      </v-card>
+    </div>
+  </v-flex>
 </template>
 
 <script>
@@ -78,24 +80,15 @@ export default {
 <
 <style lang="scss" scoped>
 @import 'assets/scss/variables';
-#signin {
-  width: 100%;
 
-  .signin {
-    padding:0 30px;
-    position: absolute;
-    top: 100px;
-    right: 19%;
-    .to_signup {
-      width: 100%;
-      margin: auto;
-      text-align: center;
-      padding: 10px;
-      font-weight: bold;
-      a {
-        color: map-get($colors, da_blue_light);
-      }
-    }
-  }
+  .sign {
+   min-width: 320px;
+  max-width: 500px;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 5px;
+  transform: translate(-50%, -50%);
 }
 </style>
