@@ -86,7 +86,7 @@ export default {
     headers : {
       common: {
         'Content-Type':'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
       },
     }
   },
@@ -156,6 +156,7 @@ export default {
         },
         endpoints: {
           login: {
+            headers: { "Cookie":""},
             url: '/api/signin/',
             method: 'post',
           },
