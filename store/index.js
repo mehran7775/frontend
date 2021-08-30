@@ -81,10 +81,10 @@ export const mutations = {
   },
   update_user(state, payload) {
     if (payload.id === "fname") {
-      state.auth.user.fname = payload.value
+      state.auth.user.first_name = payload.value
     }
     if (payload.id === "lname") {
-      state.auth.user.lname = payload.value
+      state.auth.user.last_name = payload.value
     }
     if (payload.id === "username") {
       state.auth.user.username = payload.value
@@ -96,7 +96,7 @@ export const mutations = {
       state.auth.user.email = payload.value
     }
     if (payload.id === "company_name") {
-      state.auth.user.company_name = payload.value
+      state.auth.user.company = payload.value
     }
   },
   SET_INFO_SNACKBAR(state, payload) {

@@ -19,7 +19,7 @@
           </v-file-input>
           <v-text-field
             label="نام محصول"
-            v-model="product.name"
+            v-model="product.title"
             placeholder="نام محصول را واردکنید"
             id="name"
             name="name"
@@ -37,7 +37,7 @@
             id="description"
             ref="description"
             name="description"
-            v-model="product.description"
+            v-model="product.short_discription"
             :rules="descriptionRules"
           ></v-textarea>
           <v-btn type="submit" color="#BBE1FA" class="#1B262C--text">
@@ -59,14 +59,20 @@ export default {
     }
     try {
       const { data } = await EventService.get_product_edit(datas)
-      if (data.count > 0) {
         return {
-          product: data.results,
+          product: data
         }
-      }
     } catch (e) {
       console.log(e)
     }
+  },
+   computed: {
+    regEx() {
+      return this.$store.getters.regEx
+    },
+    msg_regEx() {
+      return this.$store.getters.msg_regEx
+    },
   },
   data() {
     return {
@@ -92,9 +98,9 @@ export default {
   methods: {
     async register() {
       const form = new FormData()
-      form.append('name', this.product.name)
-      form.append('description', this.product.description)
-      form.append('picture', this.$refs.picture.files[0])
+      form.append('title', this.product.name)
+      form.append('short_discription', this.product.description)
+      form.append('product_image', this.$refs.picture.files[0])
       form.append('_method', 'PUT')
       const data = {
         token: $auth.$storage._state['_token.local'],
