@@ -78,12 +78,11 @@ export default {
           "password" : this.password
         }
         try {
-          await
             await this.$auth.loginWith('local', {
               data: credential,
             })
         } catch (e) {
-          console.log('e', e.response)
+          console.log(e)
         }
       }
     },

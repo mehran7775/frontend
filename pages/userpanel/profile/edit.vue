@@ -154,7 +154,7 @@ export default {
     },
     name: {
       get() {
-        return this.$store.state.auth.user.fname
+        return this.$store.state.auth.user.first_name
       },
       set(value) {
         const payload = {
@@ -166,7 +166,7 @@ export default {
     },
     lname: {
       get() {
-        return this.$store.state.auth.user.lname
+        return this.$store.state.auth.user.last_name
       },
       set(value) {
         const payload = {
@@ -230,14 +230,14 @@ export default {
     },
     company_name: {
       get() {
-        if (this.$store.state.auth.user.company_name) {
-          return this.$store.state.auth.user.company_name
+        if (this.$store.state.auth.user.company) {
+          return this.$store.state.auth.user.company
         } else {
           return this.vcompany_name
         }
       },
       set(value) {
-        if (this.$store.state.auth.user.company_name) {
+        if (this.$store.state.auth.user.company) {
           const payload = {
             id: 'company_name',
             value: value,
@@ -266,11 +266,11 @@ export default {
           ? this.info_user.phone_number
           : this.vphone_number
         const form = new FormData()
-        form.append('firstname', this.info_user.fname)
-        form.append('lastname', this.info_user.lname)
+        form.append('first_name', this.info_user.fname)
+        form.append('last_name', this.info_user.lname)
         form.append('username', this.info_user.username)
         form.append('company', company_name)
-        form.append('phoneNumber', phone_number)
+        form.append('phone_number', phone_number)
         form.append('email', email)
         const datas = {
           token: this.$auth.$storage._state['_token.local'],

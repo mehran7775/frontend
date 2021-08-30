@@ -21,7 +21,7 @@
                     id="firstName"
                     readonly
                     :value="
-                      $auth.user.fname ? $auth.user.fname : 'وارد نشده است'
+                      $auth.user.first_name ? $auth.user.first_name : 'وارد نشده است'
                     "
                   ></v-text-field>
                 </v-col>
@@ -32,7 +32,7 @@
                     id="lastName"
                     readonly
                     :value="
-                      $auth.user.lname ? $auth.user.lname : 'وارد نشده است'
+                      $auth.user.last_name ? $auth.user.last_name : 'وارد نشده است'
                     "
                   ></v-text-field>
                 </v-col>
