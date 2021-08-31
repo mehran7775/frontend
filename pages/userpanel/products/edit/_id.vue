@@ -1,22 +1,22 @@
 <template>
   <v-flex xs12 sm10 md8 class="ma-auto">
-    <div id="create_product" class="w-100">
+    <div id="edit_product" class="w-100">
       <div class="form">
         <v-form ref="form" @submit.prevent="register">
-          <v-file-input
-            placeholder="عکس را آپلود کنید"
-            label="عکس محصول"
-            prepmend-icon="mdi-paperclip"
-            id="picture"
-            :rules="pictureRules"
-            accept="image/png,image/jpeg,image/bmp"
-          >
-            <template v-slot:selection="{ text }">
-              <v-chip small label color="primary">
-                {{ text }}
-              </v-chip>
-            </template>
-          </v-file-input>
+          <div id="image">
+            <input
+              type="file"
+              id="input_image"
+              accept="image/png,image/jpeg,image/bmp"
+              ref="image_local"
+              @change="selectImage"
+            />
+            <div v-if="image_local" class="show_image" :style="'backgroundImage:url('+ image_local+ ')'">
+            </div>
+            <div v-else class="show_image" :style="'backgroundImage:url('+ product.product_image+ ')'">
+            </div>
+          </div>
+            <div class="text-center "><small class="primary--text">برای ویرایش عکس محصول روی عکس کلیک کنید</small></div>
           <v-text-field
             label="نام محصول"
             v-model="product.title"
@@ -26,20 +26,6 @@
             ref="name"
             :rules="nameRules"
           ></v-text-field>
-          <!-- <v-textarea
-            label="توضیحات"
-            placeholder="توضیحات محصول خود را وارد کنید"
-            auto-grow
-            outlined
-            rows="3"
-            row-height="25"
-            shaped
-            id="description"
-            ref="description"
-            name="description"
-            v-model="product.short_discription"
-            :rules="descriptionRules"
-          ></v-textarea> -->
           <ClientOnly>
             <tiptap-vuetify
               v-model="product.description"
@@ -92,7 +78,7 @@ export default {
       console.log(e)
     }
   },
-  components:{
+  components: {
     TiptapVuetify,
   },
   computed: {
@@ -106,7 +92,7 @@ export default {
   data() {
     return {
       picture: [],
-      image: [],
+      image_local:null,
       errors: {
         picture: '',
       },
@@ -122,7 +108,7 @@ export default {
         (v) => !!v || this.msg_regEx.product.description.empty,
         (v) => v.length > 9 || this.msg_regEx.product.description.length,
       ],
-       extensions: [
+      extensions: [
         History,
         Blockquote,
         Link,
@@ -154,7 +140,9 @@ export default {
       const form = new FormData()
       form.append('title', this.product.name)
       form.append('discription', this.product.description)
-      form.append('product_image', this.$refs.picture.files[0])
+      if(this.image_local){
+       form.append('product_image', this.$refs.image_local.files[0])
+      }
       form.append('_method', 'PUT')
       const data = {
         token: $auth.$storage._state['_token.local'],
@@ -163,6 +151,11 @@ export default {
       }
       this.$store.dispatch('edit_product', data)
     },
+    selectImage(e){
+      const file=e.target.files[0]
+      this.image_local=URL.createObjectURL(file)
+      console.log(this.image_local)
+    }
   },
 }
 </script>
