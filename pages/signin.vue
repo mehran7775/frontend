@@ -59,7 +59,6 @@ export default {
         (v) => !!v || this.msg_regEx.password.empty,
         (v) => v.length >= 4 || this.msg_regEx.username.length,
       ],
-
     }
   },
   computed: {
@@ -74,12 +73,16 @@ export default {
     async login() {
       if (this.$refs.form_login.validate()) {
         const credential = {
-          "username" : this.username,
-          "password" : this.password
+          username: this.username,
+          password: this.password,
         }
         try {
-            await this.$auth.loginWith('local', {
+          await this.$auth
+            .loginWith('local', {
               data: credential,
+            })
+            .then((res) => {
+              this.$router.back()
             })
         } catch (e) {
           console.log(e)

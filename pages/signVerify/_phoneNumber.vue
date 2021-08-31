@@ -153,8 +153,10 @@ export default {
       form.append('phone_number', this.$route.params.phoneNumber)
       form.append('code_verify', this.activationKey)
       try {
-        await this.$auth.loginWith('local',{
-          data:form
+        await this.$auth.loginWith('local', {
+          data: form,
+        }).then(res =>{
+          this.$router.back()
         })
       } catch (e) {
         console.log(e)

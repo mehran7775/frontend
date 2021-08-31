@@ -23,7 +23,7 @@
             </template>
           </v-file-input>
           <v-text-field
-          class="my-2"
+            class="my-2"
             label="نام محصول"
             placeholder="نام محصول را واردکنید"
             id="name"
@@ -32,39 +32,50 @@
             v-model="name"
             :rules="nameRules"
           ></v-text-field>
-          <v-textarea
-            label="توضیحات"
-            placeholder="توضیحات محصول خود را وارد کنید"
-            auto-grow
-            outlined
-            rows="3"
-            row-height="25"
-            shaped
-            id="description"
-            ref="description"
-            name="description"
-            v-model="description"
-            :rules="descriptionRules"
-          ></v-textarea>
-          <v-btn type="submit" color="#BBE1FA" class="#1B262C--text">
+
+          <ClientOnly>
+            <tiptap-vuetify
+              v-model="description"
+              :extensions="extensions"
+              placeholder="توضیحات محصول خود را وارد کنید"
+            />
+            <template #placeholder> Loading... </template>
+          </ClientOnly>
+          <v-btn type="submit" color="#BBE1FA" class="#1B262C--text mt-5">
             ثبت
           </v-btn>
         </v-form>
-        <!-- <div class="w-50 m-auto">
-        <btn @event_fell="register" class="pt-1 pb-1">ثبت</btn>
-      </div> -->
       </div>
     </div>
   </v-flex>
 </template>
 
 <script>
+import {
+  TiptapVuetify,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  Paragraph,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Link,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify'
+
 export default {
   layout: 'userpanel/index',
   data() {
     return {
       name: '',
-      description: '',
+      description: ``,
       picture: [],
       image: [],
       btnStatus: true,
@@ -87,6 +98,31 @@ export default {
         (v) => !!v || this.msg_regEx.product.description.empty,
         (v) => v.length > 9 || this.msg_regEx.product.description.length,
       ],
+      extensions: [
+        History,
+        Blockquote,
+        Link,
+        Underline,
+        Strike,
+        Italic,
+        ListItem,
+        BulletList,
+        OrderedList,
+        [
+          Heading,
+          {
+            options: {
+              levels: [1, 2, 3],
+            },
+          },
+        ],
+        Bold,
+        Link,
+        Code,
+        HorizontalRule,
+        Paragraph,
+        HardBreak,
+      ],
     }
   },
   computed: {
@@ -96,13 +132,18 @@ export default {
     msg_regEx() {
       return this.$store.getters.msg_regEx
     },
+
+  },
+  components: {
+    TiptapVuetify,
   },
   methods: {
+
     register() {
       if (this.$refs.form.validate()) {
         const form = new FormData()
         form.append('title', this.name)
-        form.append('short_discription', this.description)
+        form.append('description', this.description)
         form.append(
           'product_image',
           document.getElementById('picture').files[0]
