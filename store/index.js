@@ -61,7 +61,7 @@ export const state = () => ({
     snackbar: false,
     text: '',
     color: 'success lighten-1'
-  }
+  },
 })
 
 export const getters = {
@@ -70,6 +70,9 @@ export const getters = {
   },
   msg_regEx(state) {
     return state.msg_regEx
+  },
+  content_editor(state){
+    return state.content_editor
   }
 }
 export const mutations = {
@@ -106,7 +109,7 @@ export const mutations = {
   },
   DEACTIVE_SNACKBAR(state, payload) {
     state.info_snackbar.snackbar = payload
-  }
+  },
 }
 
 
