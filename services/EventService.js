@@ -1,7 +1,6 @@
 import axios from 'axios'
 
 const apiClient = axios.create({
-  baseURL: process.env.API_URL_BROWSER || 'http://127.0.0.1:8000',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
