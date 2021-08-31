@@ -85,7 +85,6 @@ export default {
     }
     try {
       const { data } = await EventService.get_product_edit(datas)
-      console.log(data)
       return {
         product: data,
       }
