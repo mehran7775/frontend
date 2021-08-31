@@ -102,7 +102,7 @@ export default {
       if (this.$refs.form.validate()) {
         const form = new FormData()
         form.append('title', this.name)
-        form.append('discription', this.description)
+        form.append('description', this.description)
         form.append(
           'product_image',
           document.getElementById('picture').files[0]
