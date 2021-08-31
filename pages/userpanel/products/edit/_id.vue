@@ -13,7 +13,7 @@
             />
             <div v-if="image_local" class="show_image" :style="'backgroundImage:url('+ image_local+ ')'">
             </div>
-            <div v-else class="show_image" :style="'backgroundImage:url('+ product.product_image+ ')'">
+            <div v-else class="show_image"  :style="'backgroundImage:url('+ product.product_image+')'">
             </div>
           </div>
             <div class="text-center "><small class="primary--text">برای ویرایش عکس محصول روی عکس کلیک کنید</small></div>
