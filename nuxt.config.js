@@ -160,7 +160,6 @@ export default {
         },
         endpoints: {
           login: {
-            headers: { "Cookie":""},
             url: '/api/signin/',
             method: 'post',
           },
