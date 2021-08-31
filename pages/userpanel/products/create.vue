@@ -7,13 +7,14 @@
 
         </v-layout>
       </v-layout> -->
-        <v-form>
+        <v-form ref="form" lazy-validation @submit.prevent="register">
           <v-file-input
-            placeholder="Upload your documents"
+            placeholder="عکس را آپلود کنید"
             label="عکس محصول"
-            multiple
             prepend-icon="mdi-paperclip"
             id="picture"
+            :rules="pictureRules"
+            accept="image/png,image/jpeg,image/bmp"
           >
             <template v-slot:selection="{ text }">
               <v-chip small label color="primary">
@@ -21,82 +22,60 @@
               </v-chip>
             </template>
           </v-file-input>
-          <!--
-        <small v-if="image.length < 1" class="des_image"
-          >می توانید هرتعداد عکسی که از محصول میخواهید آپلود کنید</small
-        >
-        <small
-          class="text text-danger"
-          v-if="errors.picture"
-          v-text="errors.picture"
-        ></small> -->
-          <div
-            class="d-flex flex-column justify-content-center align-items-center"
-          >
-            <div class="picture" v-if="image.length > 0 && !errors.picture">
-              <img
-                v-for="img of image"
-                :src="img"
-                width="100"
-                height="100"
-                alt="تصویر ناقص است"
-              />
-            </div>
-            <div>
-              <button
-                v-if="image.length !== 0"
-                class="btn btn-secondary m-2"
-                @click="removeImage"
-              >
-                حذف عکس ها
-              </button>
-            </div>
-          </div>
           <v-text-field
+            class="my-2"
             label="نام محصول"
             placeholder="نام محصول را واردکنید"
             id="name"
             name="name"
             ref="name"
             v-model="name"
+            :rules="nameRules"
           ></v-text-field>
-          <v-textarea
-            label="توضیحات"
-            placeholder="توضیحات محصول خود را وارد کنید"
-            auto-grow
-            outlined
-            rows="3"
-            row-height="25"
-            shaped
-            id="description"
-            ref="description"
-            name="description"
-            v-model="description"
-          ></v-textarea>
-          <v-btn
-            color="#BBE1FA"
-            class="#1B262C--text"
-            @click="register()"
-          >
+
+          <ClientOnly>
+            <tiptap-vuetify
+              v-model="description"
+              :extensions="extensions"
+              placeholder="توضیحات محصول خود را وارد کنید"
+            />
+            <template #placeholder> Loading... </template>
+          </ClientOnly>
+          <v-btn type="submit" color="#BBE1FA" class="#1B262C--text mt-5">
             ثبت
           </v-btn>
         </v-form>
-        <!-- <div class="w-50 m-auto">
-        <btn @event_fell="register" class="pt-1 pb-1">ثبت</btn>
-      </div> -->
       </div>
     </div>
   </v-flex>
 </template>
 
 <script>
-import EventService from '@/services/EventService'
+import {
+  TiptapVuetify,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  Paragraph,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Link,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify'
+
 export default {
   layout: 'userpanel/index',
   data() {
     return {
       name: '',
-      description: '',
+      description: ``,
       picture: [],
       image: [],
       btnStatus: true,
@@ -107,94 +86,73 @@ export default {
       errors: {
         picture: '',
       },
+      pictureRules: [
+        (v) => !!v || this.msg_regEx.product.picture.empty,
+        // (v) => v.size > 5242880 || this.msg_regEx.product.length,
+      ],
+      nameRules: [
+        (v) => !!v || this.msg_regEx.product.name.empty,
+        (v) => v.length > 2 || this.msg_regEx.product.name.length,
+      ],
+      descriptionRules: [
+        (v) => !!v || this.msg_regEx.product.description.empty,
+        (v) => v.length > 9 || this.msg_regEx.product.description.length,
+      ],
+      extensions: [
+        History,
+        Blockquote,
+        Link,
+        Underline,
+        Strike,
+        Italic,
+        ListItem,
+        BulletList,
+        OrderedList,
+        [
+          Heading,
+          {
+            options: {
+              levels: [1, 2, 3],
+            },
+          },
+        ],
+        Bold,
+        Link,
+        Code,
+        HorizontalRule,
+        Paragraph,
+        HardBreak,
+      ],
     }
   },
   computed: {
     regEx() {
       return this.$store.getters.regEx
     },
-    // btnStatus() {
-    //   if (this.validated.picture && this.validated.name) {
-    //     return true
-    //   } else {
-    //     return false
-    //   }
-    // },
+    msg_regEx() {
+      return this.$store.getters.msg_regEx
+    },
+
+  },
+  components: {
+    TiptapVuetify,
   },
   methods: {
-    amount(e) {
-      // console.log(e.target.files.length);
-      if (e.target.files.length > 0) {
-        if (
-          e.target.files[0]['type'] === 'image/jpeg' ||
-          e.target.files[0]['type'] === 'image/png'
-        ) {
-          this.errors.picture = ''
-          this.picture.push(e.target.files)
-          const pic = e.target.files
-          this.createImage(pic[0])
-          this.validated.picture = true
-        } else {
-          this.errors.picture = 'فرمت فایل باید بصورت jpg یا png باشد'
-          e.target.value = ''
-          this.validated.picture = false
-        }
-      } else {
-        this.validated.picture = false
-      }
-    },
-    validate(e) {
-      const value = e.target.value
-      if (value === '') {
-        e.target.classList.remove('is-invalid', 'is-valid')
-      } else {
-        // this.$store.commit("RESET_EXIST_USER", "phoneNumber");
-        var res = value.match(this.regEx.regNameCompany)
-        if (res) {
-          e.target.classList.remove('is-invalid')
-          e.target.classList.add('is-valid')
-          this.validated.name = true
-          // this.valid_phoneNumber = true;
-        } else {
-          e.target.classList.remove('is-valid')
-          e.target.classList.add('is-invalid')
-          this.validated.name = false
-        }
-      }
-    },
-    createImage(file) {
-      new Image()
-      let reader = new FileReader()
-      let vm = this
 
-      reader.onload = (e) => {
-        // vm.image = e.target.result;
-        vm.image.push(e.target.result)
-      }
-      reader.readAsDataURL(file)
-    },
-    removeImage(e) {
-      this.validated.picture = false
-      this.image = []
-      this.$refs.picture.value = ''
-    },
-    async register() {
-      const form = new FormData()
-      form.append('name', this.name)
-      form.append('description', this.description)
-      form.append('image', document.getElementById('picture').files[0])
-
-      const data = {
-        form: form,
-        token: this.$auth.$storage._state['_token.local'],
-      }
-      try{
-        await EventService.create_product(data)
-        .then(response =>{
-          console.log(response)
-        })
-      }catch(e){
-        console.log(e)
+    register() {
+      if (this.$refs.form.validate()) {
+        const form = new FormData()
+        form.append('title', this.name)
+        form.append('description', this.description)
+        form.append(
+          'product_image',
+          document.getElementById('picture').files[0]
+        )
+        const data = {
+          form: form,
+          token: this.$auth.$storage._state['_token.local'],
+        }
+        this.$store.dispatch('create_product', data)
       }
     },
   },

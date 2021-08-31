@@ -1,28 +1,32 @@
 <template>
-  <v-flex xs12 sm10 md8 class="ma-auto">
-    <div id="signin">
-      <div class="signin">
-        <v-card>
-          <v-card-title>
-            <h3>ورود</h3>
-          </v-card-title>
-          <v-card-text>
-            <v-form>
-              <v-text-field
-                label="نام کاربری"
-                v-model="username"
-              ></v-text-field>
-              <v-text-field label="رمز عبور" v-model="password"></v-text-field>
-              <v-btn class="primary" @click="login">ورود</v-btn>
-            </v-form>
-          </v-card-text>
-        </v-card>
-        <div class="to_signup">
-          هنوز ثبت نام نکرده اید،برای ثبت نام
-          <nuxt-link to="/signup">کلیک</nuxt-link>
-          کنید
-        </div>
-      </div>
+  <v-flex class="ma-auto">
+    <div class="signin">
+      <v-card>
+        <v-card-title>
+          <h3>ورود</h3>
+        </v-card-title>
+        <v-card-text>
+          <v-form ref="form_login" lazy-validation @submit.prevent="login">
+            <v-text-field
+              label="نام کاربری"
+              v-model="username"
+              :rules="usernameRules"
+            ></v-text-field>
+            <v-text-field
+              label="رمز عبور"
+              v-model="password"
+              type="password"
+              :rules="passwordRules"
+            ></v-text-field>
+            <v-btn type="submit" class="primary mt-2">ورود</v-btn>
+            <div class="mt-5">
+              هنوز ثبت نام نکرده اید،برای ثبت نام
+              <nuxt-link to="/signup">کلیک</nuxt-link>
+              کنید
+            </div>
+          </v-form>
+        </v-card-text>
+      </v-card>
     </div>
   </v-flex>
 </template>
@@ -47,19 +51,42 @@ export default {
     return {
       username: '',
       password: '',
+      usernameRules: [
+        (v) => !!v || this.msg_regEx.username.empty,
+        (v) => v.length >= 3 || this.msg_regEx.username.length,
+      ],
+      passwordRules: [
+        (v) => !!v || this.msg_regEx.password.empty,
+        (v) => v.length >= 4 || this.msg_regEx.username.length,
+      ],
     }
+  },
+  computed: {
+    regEx() {
+      return this.$store.getters.regEx
+    },
+    msg_regEx() {
+      return this.$store.getters.msg_regEx
+    },
   },
   methods: {
     async login() {
-      let form = new FormData()
-      form.append('username', this.username)
-      form.append('password', this.password)
-      try {
-        await this.$auth.loginWith('local', {
-          data: form,
-        })
-      } catch (e) {
-        console.log('e', e.response)
+      if (this.$refs.form_login.validate()) {
+        const credential = {
+          username: this.username,
+          password: this.password,
+        }
+        try {
+          await this.$auth
+            .loginWith('local', {
+              data: credential,
+            })
+            .then((res) => {
+              this.$router.back()
+            })
+        } catch (e) {
+          console.log(e)
+        }
       }
     },
   },
@@ -68,25 +95,16 @@ export default {
 
 <style lang="scss" scoped>
 @import 'assets/scss/variables';
-#signin {
-
-  .signin {
-    width: 60%;
-    position: absolute;
-    top: 100px;
-    right: 19%;
-    // vertical-align: middle;
-    // margin: auto;
-    // background-color: map-get($colors, da_light);
-    .to_signup {
-      margin: auto;
-      text-align: center;
-      padding: 10px;
-      font-weight: bold;
-      a {
-        color: map-get($colors, da_blue_light);
-      }
-    }
-  }
+// #signin {
+//   width: 100%;
+.signin {
+  min-width: 320px;
+  max-width: 500px;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 5px;
+  transform: translate(-50%, -50%);
 }
 </style>

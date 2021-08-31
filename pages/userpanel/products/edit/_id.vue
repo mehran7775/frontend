@@ -1,75 +1,41 @@
 <template>
   <v-flex xs12 sm10 md8 class="ma-auto">
-    <div id="create_product" class="w-100">
+    <div id="edit_product" class="w-100">
       <div class="form">
-        <v-form>
-          <v-file-input
-            placeholder="Upload your documents"
-            label="عکس محصول"
-            multiple
-            prepend-icon="mdi-paperclip"
-            id="picture"
-            ref="picture"
-          >
-            <template v-slot:selection="{ text }">
-              <v-chip small label color="primary">
-                {{ text }}
-              </v-chip>
-            </template>
-          </v-file-input>
-          <!--
-        <small v-if="image.length < 1" class="des_image"
-          >می توانید هرتعداد عکسی که از محصول میخواهید آپلود کنید</small
-        >
-        <small
-          class="text text-danger"
-          v-if="errors.picture"
-          v-text="errors.picture"
-        ></small> -->
-          <!-- <div
-            class="d-flex flex-column justify-content-center align-items-center"
-          >
-            <div class="picture" v-if="image.length > 0 && !errors.picture">
-              <img
-                v-for="(img ,i) of image" v-bind:key="i"
-                :src="img"
-                width="100"
-                height="100"
-                alt="تصویر ناقص است"
-              />
+        <v-form ref="form" @submit.prevent="register">
+          <div id="image">
+            <input
+              type="file"
+              id="input_image"
+              accept="image/png,image/jpeg,image/bmp"
+              ref="image_local"
+              @change="selectImage"
+            />
+            <div v-if="image_local" class="show_image" :style="'backgroundImage:url('+ image_local+ ')'">
+
             </div>
-            <div>
-              <button
-                v-if="image.length !== 0"
-                class="btn btn-secondary m-2"
-                @click="removeImage"
-              >
-                حذف عکس ها
-              </button>
+            <div v-else class="show_image"  :style="'backgroundImage:url('+ product.product_image+')'">
             </div>
-          </div> -->
+          </div>
+            <div class="text-center "><small class="primary--text">برای ویرایش عکس محصول روی عکس کلیک کنید</small></div>
           <v-text-field
             label="نام محصول"
-            v-model="name"
+            v-model="product.title"
             placeholder="نام محصول را واردکنید"
             id="name"
             name="name"
             ref="name"
+            :rules="nameRules"
           ></v-text-field>
-          <v-textarea
-            label="توضیحات"
-            placeholder="توضیحات محصول خود را وارد کنید"
-            auto-grow
-            outlined
-            rows="3"
-            row-height="25"
-            shaped
-            id="description"
-            ref="description"
-            name="description"
-            v-model="description"
-          ></v-textarea>
-          <v-btn color="#BBE1FA" class="#1B262C--text" @click="register()">
+          <ClientOnly>
+            <tiptap-vuetify
+              v-model="product.description"
+              :extensions="extensions"
+              placeholder="توضیحات محصول خود را وارد کنید"
+            />
+            <template #placeholder> Loading... </template>
+          </ClientOnly>
+          <v-btn type="submit" color="#BBE1FA" class="#1B262C--text mt-5">
             ثبت
           </v-btn>
         </v-form>
@@ -78,85 +44,119 @@
   </v-flex>
 </template>
 <script>
+import {
+  TiptapVuetify,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  Paragraph,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Link,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify'
 import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
   async asyncData({ route, store, $auth }) {
-    const data = {
+    const datas = {
       token: $auth.$storage._state['_token.local'],
       id: route.params.id,
     }
-    await EventService.get_product_edit(data)
-      .then((response) => {
-        console.log(response)
-      })
-      .then((error) => {
-        console.log(error)
-      })
+    try {
+      const { data } = await EventService.get_product_edit(datas)
+      return {
+        product: data,
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  },
+  components: {
+    TiptapVuetify,
   },
   computed: {
-    name: {
-      get() {
-        return this.$store.state.product_edit.title
-      },
-      set(value) {
-        this.$store.commit('UPDATENAME', value)
-      },
+    regEx() {
+      return this.$store.getters.regEx
     },
-    description: {
-      get() {
-        return this.$store.state.product_edit.description
-      },
-      set(value) {
-        this.$store.commit('UPDATEDESCRIPTION', value)
-      },
+    msg_regEx() {
+      return this.$store.getters.msg_regEx
     },
   },
   data() {
     return {
       picture: [],
-      image: [],
+      image_local:null,
       errors: {
         picture: '',
       },
+      pictureRules: [
+        (v) => !!v || this.msg_regEx.product.picture.empty,
+        // (v) => v.size > 5242880 || this.msg_regEx.product.length,
+      ],
+      nameRules: [
+        (v) => !!v || this.msg_regEx.product.name.empty,
+        (v) => v.length > 2 || this.msg_regEx.product.name.length,
+      ],
+      descriptionRules: [
+        (v) => !!v || this.msg_regEx.product.description.empty,
+        (v) => v.length > 9 || this.msg_regEx.product.description.length,
+      ],
+      extensions: [
+        History,
+        Blockquote,
+        Link,
+        Underline,
+        Strike,
+        Italic,
+        ListItem,
+        BulletList,
+        OrderedList,
+        [
+          Heading,
+          {
+            options: {
+              levels: [1, 2, 3],
+            },
+          },
+        ],
+        Bold,
+        Link,
+        Code,
+        HorizontalRule,
+        Paragraph,
+        HardBreak,
+      ],
     }
   },
   methods: {
-    createImage(file) {
-      new Image()
-      var reader = new FileReader()
-      var vm = this
-
-      reader.onload = (e) => {
-        // vm.image = e.target.result;
-        vm.image.push(e.target.result)
-      }
-      reader.readAsDataURL(file)
-    },
-    removeImage(e) {
-      this.validated.picture = false
-      this.image = []
-      this.$refs.picture.value = ''
-    },
     async register() {
       const form = new FormData()
-      form.append('name', this.name)
-      form.append('description', this.description)
-      form.append('picture', this.$refs.picture.files[0])
+      form.append('title', this.product.name)
+      form.append('discription', this.product.description)
+      if(this.image_local){
+       form.append('product_image', this.$refs.image_local.files[0])
+      }
       form.append('_method', 'PUT')
       const data = {
         token: $auth.$storage._state['_token.local'],
         id: route.params.id,
         form: form,
       }
-      try {
-        await EventService.edit_product(data).then((response) => {
-          console.log(response)
-        })
-      } catch (e) {
-        console.log(e)
-      }
+      this.$store.dispatch('edit_product', data)
     },
+    selectImage(e){
+      const file=e.target.files[0]
+      this.image_local=URL.createObjectURL(file)
+      console.log(this.image_local)
+    }
   },
 }
 </script>

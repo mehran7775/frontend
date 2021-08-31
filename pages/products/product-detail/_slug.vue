@@ -44,9 +44,7 @@
               </div>
               <div class="font-weight-bold">
                 قیمت:
-                <span class="text-h5 primary--text"
-                  >{{ page.price }} تومان</span
-                >
+                <span class="text-h5 primary--text" v-text="page.price? page.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'' + ' تومان'"/>
               </div>
             </v-col>
             <v-col cols="12" md="3" class="d-flex flex-column justify-end">
@@ -117,21 +115,21 @@
                         :name="question.question"
                         :label="question.question"
                       />
-                      <v-select 
+                      <v-select
                         v-else-if="question.question_type === 'C'"
                         v-model="question.customerAnswer"
                         :items="question.choices.split(/[،,]+/)"
                         :name="question.question"
-                        :label="question.question" 
+                        :label="question.question"
                         outlined
                         dense
                       />
-                      <v-select 
-                        v-else-if="question.question_type === 'D'" 
+                      <v-select
+                        v-else-if="question.question_type === 'D'"
                         v-model="question.customerAnswer"
                         :items="question.choices.split(/[،,]+/)"
                         :name="question.question"
-                        :label="question.question" 
+                        :label="question.question"
                         chips
                         multiple
                         outlined
@@ -258,10 +256,10 @@
                 <v-row>
                   <v-col cols="9">
                     <div>
-                      از <b>{{ product.price }}</b> تومان
+                      از <b v-text="product.price? product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'-' " /> تومان
                     </div>
                     <div>
-                      تا <b>{{ product.second_price }}</b> تومان
+                      تا <b v-text="product.second_price? product.second_price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','):'-' " /> تومان
                     </div>
                   </v-col>
                   <v-col cols="3">
@@ -419,7 +417,7 @@ export default {
         item: this.page.id,
       }
       try {
-        const res1 = await this.$axios.get('/api/get-csrftoken')
+        const res1 = await this.$axios.get('/api/get-csrftoken/')
         this.$axios.defaults.headers.common['X-CSRFToken'] = res1.data.csrftoken
         await this.$axios.post('/api/products-api/miniorder/', data)
         this.request_for_quotation.success = true

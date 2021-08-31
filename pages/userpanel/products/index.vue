@@ -15,16 +15,16 @@
             <v-list-item three-line>
               <v-list-item-content>
                 <div class="text-overline mb-4">تایید نشده</div>
-                <v-list-item-title class="text-h5 mb-1" v-text="product.title">
+                <v-list-item-title class="text-h6 mb-1" v-text="product.title">
                 </v-list-item-title>
-                <v-list-item-subtitle v-text="product.description"
+                <v-list-item-subtitle v-text="product.short_discription"
                   >Greyhound divisely hello coldly
                   fonwderfully</v-list-item-subtitle
                 >
               </v-list-item-content>
 
               <v-list-item-avatar tile size="80" color="grey">
-                <img :src="product.image" width="80" height="80" />
+                <img :src="product.product_image" width="80" height="80" />
               </v-list-item-avatar>
             </v-list-item>
           </nuxt-link>
@@ -34,10 +34,12 @@
                 @click="delete_event(product.id, product.title)"
                 id="delete_icon"
               >
-                <v-icon title="حذف" class="trash">mdi-delete</v-icon>
+                <v-icon title="حذف" class="trash" size="22">mdi-delete</v-icon>
               </span>
               <nuxt-link :to="`/userpanel/products/edit/${product.id}`">
-                <v-icon title="ویرایش" class="edit">mdi-delete</v-icon>
+                <v-icon title="ویرایش" class="edit" size="22"
+                  >mdi-pencil</v-icon
+                >
               </nuxt-link>
             </div>
           </v-card-actions>
@@ -73,9 +75,9 @@ export default {
   },
   methods: {
     delete_event(id, title) {
-      const data={
-        id:id,
-        title:title
+      const data = {
+        id: id,
+        title: title,
       }
       $nuxt.$emit('delete_product', data)
     },

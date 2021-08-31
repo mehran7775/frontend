@@ -46,7 +46,9 @@ export default {
   ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/TiptapVuetify', mode: 'client' }
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -83,10 +85,11 @@ export default {
   axios: {
     baseURL: process.env.API_URL || 'http://127.0.0.1:8000',
     browserBaseURL: process.env.API_URL_BROWSER || 'http://127.0.0.1:8000',
+    withCredentials: false,
     headers : {
       common: {
         'Content-Type':'application/json',
-        'Accept': 'application/json'
+        'Accept': 'application/json',
       },
     }
   },
@@ -125,6 +128,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extractCSS: true,
+     transpile: ['vuetify/lib', "tiptap-vuetify"]
   },
 
   loading: {
@@ -139,13 +143,13 @@ export default {
 
   publicRuntimeConfig: {
     axios: {
-      browserBaseURL: process.env.BROWSER_BASE_API_URL || 'http://127.0.0.1:8000',
+      browserBaseURL: process.env.API_URL_BROWSER || 'http://127.0.0.1:8000',
     }
   },
 
   privateRuntimeConfig: {
     axios: {
-      baseURL: process.env.BASE_API_URL || 'http://127.0.0.1:8000',
+      baseURL: process.env.API_URL || 'http://127.0.0.1:8000',
     }
   },
   auth: {
@@ -156,21 +160,20 @@ export default {
         },
         endpoints: {
           login: {
-            url: '/api/signin',
+            url: '/api/signin/',
             method: 'post',
           },
           // logout: false,
           logout: {
-            url: '/api/logout',
+            url: '/api/logout/',
             method: 'post'
           },
           user: {
-            url: '/api/user',
+            url: '/api/user/',
             method: 'get',
             user:'user'
           }
         },
-
       }
     }
   },

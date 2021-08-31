@@ -80,7 +80,7 @@
                     <img
                       width="28"
                       height="28"
-                      src="/images/icons/add-product-1-68ds7275.png"
+                      src="/images/add-product-1-68ds7275.png"
                       alt=""
                     />
                     <span>محصولات من</span>
@@ -88,17 +88,13 @@
                 </li>
                 <li>
                   <div id="settings" @click="toggle_sub_settings">
-                    <v-icon>mdi-settings</v-icon>
+                    <v-icon>mdi-cog-outline</v-icon>
                     <span>تنظیمات</span>
                   </div>
                 </li>
                 <li id="sub_settings">
                   <nuxt-link to="/userpanel/profile">
-                    <v-img
-                      max-width="28"
-                      src="/images/edit-icon-vector-16.png"
-                      alt=""
-                    ></v-img>
+                    <v-icon size="28">mdi-account-edit-outline</v-icon>
                     <span>پروفایل</span>
                   </nuxt-link>
                 </li>
@@ -115,20 +111,25 @@
       <template>
         <modal> </modal>
       </template>
+      <template>
+        <snackbar
+        />
+      </template>
     </v-container>
   </v-app>
 </template>
 
 <script>
 import Modal from '@/components/modals/Modal.vue'
+import snackbar from '@/components/snackbar/snackbar'
 export default {
   components: {
     Modal,
+    snackbar
   },
   data() {
     return {
       bars_menu_active: false,
-      // user:null
     }
   },
   mounted() {
@@ -140,9 +141,6 @@ export default {
       document.getElementById('settings').click()
     }
   },
-  // created(){
-  //   console.log(this.$auth.user)
-  // },
   destroyed() {
     document.removeEventListener('resize', this.onResize)
   },
@@ -153,9 +151,6 @@ export default {
   },
   methods: {
     onResize() {
-      // if(process.client){
-      //   console.log('client')
-      // }
       if (window.innerWidth > 600) {
         const el = document.getElementById('sidebar')
         el.style.visibility = 'visible'
