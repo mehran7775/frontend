@@ -7,6 +7,7 @@
       <template v-if="products.length > 0">
         <v-card
           max-width="344"
+          width="290"
           outlined
           v-for="product in products"
           v-bind:key="product.id"
@@ -23,8 +24,8 @@
                 >
               </v-list-item-content>
 
-              <v-list-item-avatar tile size="80" color="grey">
-                <img :src="product.product_image" width="80" height="80" />
+              <v-list-item-avatar tile size="100" color="grey">
+                <img :src="product.product_image" width="100" height="100" />
               </v-list-item-avatar>
             </v-list-item>
           </nuxt-link>
