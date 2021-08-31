@@ -60,7 +60,7 @@ export default {
   async create_product(payload) {
     const re = await this.get_csrf_token()
     const csrf = re.data.csrftoken
-    return apiClient.post('/api/userpanel/products', payload.form, {
+    return apiClient.post('/api/userpanel/products/', payload.form, {
       headers: {
         "Authorization": payload.token,
         "content-type": "multipart/form-data",
