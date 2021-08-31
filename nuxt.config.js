@@ -172,6 +172,7 @@ export default {
           }
         },
       }
-    }
+    },
+    cookie:false
   },
 }
