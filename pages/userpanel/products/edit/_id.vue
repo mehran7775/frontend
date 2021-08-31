@@ -26,7 +26,7 @@
             ref="name"
             :rules="nameRules"
           ></v-text-field>
-          <v-textarea
+          <!-- <v-textarea
             label="توضیحات"
             placeholder="توضیحات محصول خود را وارد کنید"
             auto-grow
@@ -39,8 +39,16 @@
             name="description"
             v-model="product.short_discription"
             :rules="descriptionRules"
-          ></v-textarea>
-          <v-btn type="submit" color="#BBE1FA" class="#1B262C--text">
+          ></v-textarea> -->
+          <ClientOnly>
+            <tiptap-vuetify
+              v-model="product.description"
+              :extensions="extensions"
+              placeholder="توضیحات محصول خود را وارد کنید"
+            />
+            <template #placeholder> Loading... </template>
+          </ClientOnly>
+          <v-btn type="submit" color="#BBE1FA" class="#1B262C--text mt-5">
             ثبت
           </v-btn>
         </v-form>
@@ -49,6 +57,24 @@
   </v-flex>
 </template>
 <script>
+import {
+  TiptapVuetify,
+  Heading,
+  Bold,
+  Italic,
+  Strike,
+  Underline,
+  Code,
+  Paragraph,
+  BulletList,
+  OrderedList,
+  ListItem,
+  Link,
+  Blockquote,
+  HardBreak,
+  HorizontalRule,
+  History,
+} from 'tiptap-vuetify'
 import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
@@ -59,14 +85,18 @@ export default {
     }
     try {
       const { data } = await EventService.get_product_edit(datas)
-        return {
-          product: data
-        }
+      console.log(data)
+      return {
+        product: data,
+      }
     } catch (e) {
       console.log(e)
     }
   },
-   computed: {
+  components:{
+    TiptapVuetify,
+  },
+  computed: {
     regEx() {
       return this.$store.getters.regEx
     },
@@ -93,13 +123,38 @@ export default {
         (v) => !!v || this.msg_regEx.product.description.empty,
         (v) => v.length > 9 || this.msg_regEx.product.description.length,
       ],
+       extensions: [
+        History,
+        Blockquote,
+        Link,
+        Underline,
+        Strike,
+        Italic,
+        ListItem,
+        BulletList,
+        OrderedList,
+        [
+          Heading,
+          {
+            options: {
+              levels: [1, 2, 3],
+            },
+          },
+        ],
+        Bold,
+        Link,
+        Code,
+        HorizontalRule,
+        Paragraph,
+        HardBreak,
+      ],
     }
   },
   methods: {
     async register() {
       const form = new FormData()
       form.append('title', this.product.name)
-      form.append('short_discription', this.product.description)
+      form.append('discription', this.product.description)
       form.append('product_image', this.$refs.picture.files[0])
       form.append('_method', 'PUT')
       const data = {

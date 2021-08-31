@@ -58,7 +58,7 @@ export default {
       await $axios.get(
         `/api/categories-api/categories/?slug=${encodeURIComponent(
           params.subcategory
-        )}/`
+        )}`
       )
     ).data
     if (data.count > 0) {

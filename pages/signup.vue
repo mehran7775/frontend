@@ -101,6 +101,8 @@ export default {
           await this.$axios.post('/api/signup', form)
           await this.$auth.loginWith('local', {
             data: form,
+          }).then(res =>{
+            this.$router.back()
           })
         } catch (e) {
           console.log(e)
