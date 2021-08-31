@@ -11,7 +11,7 @@ const apiClient = axios.create({
 
 export default {
   get_csrf_token() {
-    return apiClient.get('/api/get-csrftoken/')
+    return apiClient.get('/api/get-csrftoken')
   },
   async do_register(form) {
     const re = await this.get_csrf_token()

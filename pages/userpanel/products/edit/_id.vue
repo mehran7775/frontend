@@ -146,8 +146,8 @@ export default {
       }
       form.append('_method', 'PUT')
       const data = {
-        token: $auth.$storage._state['_token.local'],
-        id: route.params.id,
+        token: this.$auth.$storage._state['_token.local'],
+        id: this.$route.params.id,
         form: form,
       }
       this.$store.dispatch('edit_product', data)
