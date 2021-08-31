@@ -113,7 +113,7 @@ export default {
         object_id: this.object_id,
       }
       try {
-        const res1 = await this.$axios.get('/api/get-csrftoken')
+        const res1 = await this.$axios.get('/api/get-csrftoken/')
         this.$axios.defaults.headers.common['X-CSRFToken'] = res1.data.csrftoken
         await this.$axios.post(this.post_url, data)
         this.success = true

@@ -115,21 +115,21 @@
                         :name="question.question"
                         :label="question.question"
                       />
-                      <v-select 
+                      <v-select
                         v-else-if="question.question_type === 'C'"
                         v-model="question.customerAnswer"
                         :items="question.choices.split(/[،,]+/)"
                         :name="question.question"
-                        :label="question.question" 
+                        :label="question.question"
                         outlined
                         dense
                       />
-                      <v-select 
-                        v-else-if="question.question_type === 'D'" 
+                      <v-select
+                        v-else-if="question.question_type === 'D'"
                         v-model="question.customerAnswer"
                         :items="question.choices.split(/[،,]+/)"
                         :name="question.question"
-                        :label="question.question" 
+                        :label="question.question"
                         chips
                         multiple
                         outlined
@@ -288,7 +288,7 @@ export default {
   async asyncData({ $axios, params }) {
     const data = (
       await $axios.get(
-        `/api/products-api/products/?slug=${encodeURIComponent(params.slug)}`
+        `/api/products-api/products/?slug=${encodeURIComponent(params.slug)}/`
       )
     ).data
     if (data.count > 0) {
@@ -417,7 +417,7 @@ export default {
         item: this.page.id,
       }
       try {
-        const res1 = await this.$axios.get('/api/get-csrftoken')
+        const res1 = await this.$axios.get('/api/get-csrftoken/')
         this.$axios.defaults.headers.common['X-CSRFToken'] = res1.data.csrftoken
         await this.$axios.post('/api/products-api/miniorder/', data)
         this.request_for_quotation.success = true
