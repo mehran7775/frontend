@@ -96,9 +96,9 @@ export default {
         try {
           // await EventService.do_register(form).then((res) => {
           //   console.log(res)
-          const res = await this.$axios.get('/api/get-csrftoken')
+          const res = await this.$axios.get('/api/get-csrftoken/')
           this.$axios.defaults.headers.common['X-CSRFToken'] =res.data.csrftoken
-          await this.$axios.post('/api/signup', form)
+          await this.$axios.post('/api/signup/', form)
           await this.$auth.loginWith('local', {
             data: form,
           }).then(res =>{
