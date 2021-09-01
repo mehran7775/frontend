@@ -87,20 +87,21 @@ export default {
   methods: {
     async register() {
       if (this.$refs.form.validate()) {
-        let form = new FormData()
-        form.append('first_name', this.fname)
-        form.append('last_name', this.lname)
-        form.append('username', this.username)
-        form.append('phone_number', this.phone_number)
-        form.append('password', this.password)
+        signup_data = {
+          first_name:this.fname,
+          last_name: this.lname,
+          username: this.username,
+          phone_number: this.phone_number,
+          password: this.password
+        }
         try {
           // await EventService.do_register(form).then((res) => {
           //   console.log(res)
           const res = await this.$axios.get('/api/get-csrftoken/')
           this.$axios.defaults.headers.common['X-CSRFToken'] =res.data.csrftoken
-          await this.$axios.post('/api/signup/', form)
+          await this.$axios.post('/api/signup/', signup_data)
           await this.$auth.loginWith('local', {
-            data: form,
+            data: signup_data,
           }).then(res =>{
             this.$router.back()
           })
