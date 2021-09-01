@@ -1,5 +1,4 @@
 import axios from 'axios'
-
 const apiClient = axios.create({
   headers: {
     'Accept': 'application/json',
@@ -8,6 +7,7 @@ const apiClient = axios.create({
 })
 
 export default {
+
   get_csrf_token() {
     return apiClient.get('/api/get-csrftoken/')
   },
@@ -25,7 +25,9 @@ export default {
   },
 
   //-------UserPanel-----------//
-
+  get_user(){
+    return apiClient.get('/api/user/')
+  },
   get_orders(payload) {
     return apiClient.get('/api/userpanel/orders/', {
       headers: {
@@ -78,9 +80,7 @@ export default {
   async remove_product(payload) {
     const re = await this.get_csrf_token()
     const csrf = re.data.csrftoken
-    let form = new FormData()
-    form.append('_method', 'DELETE')
-    return apiClient.post(`/api/userpanel/products/${payload.id}`, form, {
+    return apiClient.delete(`/api/userpanel/products/${payload.id}`, {
       headers: {
         "Authorization": payload.token,
         'X-CSRFToken': csrf
@@ -107,7 +107,7 @@ export default {
   async edit_product(payload) {
     const re = await this.get_csrf_token()
     const csrf = re.data.csrftoken
-    return apiClient.post(`/api/userpanel/products/${payload.id}`, payload.form, {
+    return apiClient.put(`/api/userpanel/products/${payload.id}/`, payload.form, {
       headers: {
         "Authorization": payload.token,
         "content-type": "multipart/form-data",

@@ -71,7 +71,7 @@ export const getters = {
   msg_regEx(state) {
     return state.msg_regEx
   },
-  content_editor(state){
+  content_editor(state) {
     return state.content_editor
   }
 }
@@ -126,6 +126,7 @@ export const actions = {
             text: 'محصول با موفقیت ایجاد شد',
             color: 'success lighten-1'
           }
+          this.$router.push('/userpanel/products/')
           commit('SET_INFO_SNACKBAR', data)
         })
     } catch (e) {
@@ -134,6 +135,7 @@ export const actions = {
         text: 'خطایی در ایجاد محصول رخ داد',
         color: 'red lighten-1'
       }
+
       commit('SET_INFO_SNACKBAR', data)
       console.log(e)
     }
@@ -150,6 +152,7 @@ export const actions = {
             text: 'محصول با موفقیت ویرایش شد',
             color: 'success lighten-1'
           }
+          this.$router.push('/userpanel/products/')
           commit('SET_INFO_SNACKBAR', data)
         })
     } catch (e) {
@@ -174,7 +177,7 @@ export const actions = {
             text: 'محصول با موفقیت حذف شد',
             color: 'success lighten-1'
           }
-          this.$nuxt.refresh()
+          $nuxt.refresh()
           commit('SET_INFO_SNACKBAR', data)
         })
     } catch (e) {
@@ -193,14 +196,18 @@ export const actions = {
     try {
       await EventService.complete_information(payload)
         .then((res) => {
-          console.log(res)
-          const data = {
+          console.log(res.data)
+          this.$auth.setUser(res.data.user)
+          const snack = {
             snackbar: true,
-            text: 'اطلاعات با موفقیت ثبت شد.',
+            text:res.data.msg,
             color: 'success lighten-1'
           }
-          commit('SET_INFO_SNACKBAR', data)
+          this.$router.push('/userpanel/profile/')
+          commit('SET_INFO_SNACKBAR', snack)
         })
+      // const {data} = await EventService.get_user()
+
     } catch (e) {
       const data = {
         snackbar: true,

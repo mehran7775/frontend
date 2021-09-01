@@ -140,11 +140,12 @@ export default {
     async register() {
       const form = new FormData()
       form.append('title', this.product.name)
-      form.append('discription', this.product.description)
+      form.append('description', this.product.description)
       if(this.image_local){
        form.append('product_image', this.$refs.image_local.files[0])
+      }else{
+         form.append('image_edited', false)
       }
-      form.append('_method', 'PUT')
       const data = {
         token: this.$auth.$storage._state['_token.local'],
         id: this.$route.params.id,
@@ -155,7 +156,6 @@ export default {
     selectImage(e){
       const file=e.target.files[0]
       this.image_local=URL.createObjectURL(file)
-      console.log(this.image_local)
     }
   },
 }

@@ -7,7 +7,7 @@
       <template v-if="products.length > 0">
         <v-card
           max-width="344"
-          width="290"
+          width="310"
           outlined
           v-for="product in products"
           v-bind:key="product.id"
@@ -18,7 +18,7 @@
                 <div class="text-overline mb-4">تایید نشده</div>
                 <v-list-item-title class="text-h6 mb-1" v-text="product.title">
                 </v-list-item-title>
-                <v-list-item-subtitle v-text="product.short_discription"
+                <v-list-item-subtitle v-text="product.short_discription" class="mt-1"
                   >Greyhound divisely hello coldly
                   fonwderfully</v-list-item-subtitle
                 >
