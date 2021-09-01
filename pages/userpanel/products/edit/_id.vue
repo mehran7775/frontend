@@ -140,7 +140,7 @@ export default {
     async register() {
       const form = new FormData()
       form.append('title', this.product.name)
-      form.append('discription', this.product.description)
+      form.append('description', this.product.description)
       if(this.image_local){
        form.append('product_image', this.$refs.image_local.files[0])
       }

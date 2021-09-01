@@ -410,6 +410,8 @@
         width: 230px;
         margin: 10px 5px;
 
+        transition: all 0.2s;
+
         @include device_xsmall {
           width: 95%;
           max-width: 100%;
@@ -457,8 +459,9 @@
           }
         }
       }
-
-      // background-color: #ced4da;
+      .v-card:hover {
+        border: thin solid rgba(0, 0, 0, 0.32);
+      }
     }
   }
 

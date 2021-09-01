@@ -22,7 +22,7 @@
                   :value="name"
                   required
                   placeholder="نام خودرا به فارسی وارد کنید"
-                  :rules="fnameRules"
+
                 ></v-text-field>
               </v-col>
 
@@ -35,7 +35,7 @@
                   :value="lname"
                   ref="lastName"
                   placeholder="نام خانوادگی به فارسی وارد شود"
-                  :rules="lnameRules"
+
                 ></v-text-field>
               </v-col>
 
@@ -48,7 +48,7 @@
                   ref="username"
                   placeholder="نام کاربری خود را وارد کنید"
                   :value="username"
-                  :rules="usernameRules"
+
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -61,7 +61,7 @@
                   placeholder="نام شرکت خودرا وارد کنید"
                   title="نام شرکت درست وارد نشده است"
                   v-model="company_name"
-                  :rules="company_nameRules"
+
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -74,7 +74,7 @@
                   :counter="11"
                   placeholder="09xxxxxxxxx"
                   v-model="phoneNumber"
-                  :rules="phone_numberRules"
+
                 ></v-text-field>
               </v-col>
               <v-col cols="12" md="4">
@@ -87,7 +87,7 @@
                   placeholder="ایمیل خود را وارد کنید"
                   title="ایمل اشتباه وارد شده است"
                   v-model="email"
-                  :rules="emailRules"
+
                 ></v-text-field>
               </v-col>
             </v-row>

@@ -126,6 +126,7 @@ export const actions = {
             text: 'محصول با موفقیت ایجاد شد',
             color: 'success lighten-1'
           }
+          this.$router.push('/userpanel/products')
           commit('SET_INFO_SNACKBAR', data)
         })
     } catch (e) {
@@ -134,6 +135,7 @@ export const actions = {
         text: 'خطایی در ایجاد محصول رخ داد',
         color: 'red lighten-1'
       }
+
       commit('SET_INFO_SNACKBAR', data)
       console.log(e)
     }
@@ -150,6 +152,7 @@ export const actions = {
             text: 'محصول با موفقیت ویرایش شد',
             color: 'success lighten-1'
           }
+          this.$router.push('/userpanel/products')
           commit('SET_INFO_SNACKBAR', data)
         })
     } catch (e) {
