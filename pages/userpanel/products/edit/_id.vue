@@ -144,7 +144,6 @@ export default {
       if(this.image_local){
        form.append('product_image', this.$refs.image_local.files[0])
       }
-      form.append('_method', 'PUT')
       const data = {
         token: this.$auth.$storage._state['_token.local'],
         id: this.$route.params.id,

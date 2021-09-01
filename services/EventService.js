@@ -8,6 +8,7 @@ const apiClient = axios.create({
 })
 
 export default {
+
   get_csrf_token() {
     return apiClient.get('/api/get-csrftoken/')
   },
@@ -107,7 +108,7 @@ export default {
   async edit_product(payload) {
     const re = await this.get_csrf_token()
     const csrf = re.data.csrftoken
-    return apiClient.post(`/api/userpanel/products/${payload.id}`, payload.form, {
+    return apiClient.put(`/api/userpanel/products/${payload.id}/`, payload.form, {
       headers: {
         "Authorization": payload.token,
         "content-type": "multipart/form-data",
