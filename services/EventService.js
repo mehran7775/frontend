@@ -80,8 +80,8 @@ export default {
     const re = await this.get_csrf_token()
     const csrf = re.data.csrftoken
     let form = new FormData()
-    form.append('_method', 'DELETE')
-    return apiClient.post(`/api/userpanel/products/${payload.id}`, form, {
+    // form.append('_method', 'DELETE')
+    return apiClient.delete(`/api/userpanel/products/${payload.id}`, form, {
       headers: {
         "Authorization": payload.token,
         'X-CSRFToken': csrf
