@@ -144,7 +144,7 @@ export default {
       if(this.image_local){
        form.append('product_image', this.$refs.image_local.files[0])
       }else{
-         form.append('product_image', false)
+         form.append('image_edited', false)
       }
       const data = {
         token: this.$auth.$storage._state['_token.local'],
