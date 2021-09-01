@@ -143,6 +143,8 @@ export default {
       form.append('description', this.product.description)
       if(this.image_local){
        form.append('product_image', this.$refs.image_local.files[0])
+      }else{
+         form.append('product_image', false)
       }
       const data = {
         token: this.$auth.$storage._state['_token.local'],
@@ -154,7 +156,6 @@ export default {
     selectImage(e){
       const file=e.target.files[0]
       this.image_local=URL.createObjectURL(file)
-      console.log(this.image_local)
     }
   },
 }

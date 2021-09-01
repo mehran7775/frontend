@@ -26,7 +26,9 @@ export default {
   },
 
   //-------UserPanel-----------//
-
+  get_user(){
+    return apiClient.get('/api/user/')
+  },
   get_orders(payload) {
     return apiClient.get('/api/userpanel/orders/', {
       headers: {
@@ -79,9 +81,7 @@ export default {
   async remove_product(payload) {
     const re = await this.get_csrf_token()
     const csrf = re.data.csrftoken
-    let form = new FormData()
-    // form.append('_method', 'DELETE')
-    return apiClient.delete(`/api/userpanel/products/${payload.id}`, form, {
+    return apiClient.delete(`/api/userpanel/products/${payload.id}`, {
       headers: {
         "Authorization": payload.token,
         'X-CSRFToken': csrf

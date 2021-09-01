@@ -51,7 +51,7 @@
                     id="company"
                     readonly
                     :value="
-                      $auth.user.company ? $aurh.user.company : 'وارد نشده است'
+                      $auth.user.company ? $auth.user.company : 'وارد نشده است'
                     "
                   ></v-text-field>
                 </v-col>
@@ -62,7 +62,7 @@
                     readonly
                     :value="
                       $auth.user.phone_number
-                        ? $aurh.user.phone_number
+                        ? $auth.user.phone_number
                         : 'وارد نشده است'
                     "
                   ></v-text-field>
@@ -73,7 +73,7 @@
                     id="email"
                     readonly
                     :value="
-                      $auth.user.email ? $aurh.user.email : 'وارد نشده است'
+                      $auth.user.email ? $auth.user.email : 'وارد نشده است'
                     "
                   ></v-text-field>
                 </v-col>
