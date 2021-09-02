@@ -87,7 +87,7 @@ export default {
   methods: {
     async register() {
       if (this.$refs.form.validate()) {
-        signup_data = {
+        const signup_data = {
           first_name:this.fname,
           last_name: this.lname,
           username: this.username,
