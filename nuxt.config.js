@@ -77,7 +77,7 @@ export default {
     id: 'UA-194863487-1'
   },
   sentry: {
-    dsn: 'http://9929e75c2feb48f58df0e17648403d7a@sentry.homeca.ir:9000/11', // Enter your project's DSN here
+    dsn: 'https://9929e75c2feb48f58df0e17648403d7a@sentry.homeca.ir:9001/11', // Enter your project's DSN here
     // Additional Module Options go here
     // https://sentry.nuxtjs.org/sentry/options
   },
