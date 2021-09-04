@@ -12,7 +12,10 @@
               @change="selectImage"
             />
             <div v-if="image_local" class="show_image" :style="'backgroundImage:url('+ image_local+ ')'">
+<<<<<<< HEAD
 
+=======
+>>>>>>> 9a04813f3a7a0d6d473af02f80e418d5e75b5f66
             </div>
             <div v-else class="show_image"  :style="'backgroundImage:url('+ product.product_image+')'">
             </div>
