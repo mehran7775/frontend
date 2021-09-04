@@ -14,11 +14,13 @@
                 label="نام کاربری"
                 v-model="username"
                 :rules="usernameRules"
+                :error-messages="errors.username"
               ></v-text-field>
               <v-text-field
                 label="شماره تلفن"
                 v-model="phone_number"
                 :rules="phoneRules"
+                 :error-messages="errors.phone_number"
               ></v-text-field>
               <v-text-field
                 label="رمز عبور"
@@ -36,6 +38,7 @@
 </template>
 
 <script>
+import EventService from '~/services/EventService'
 // import EventService from '@/services/EventService'
 export default {
   layout: 'sign',
@@ -74,6 +77,10 @@ export default {
         (v) => !!v || this.msg_regEx.password.empty,
         (v) => v.length >= 4 || this.msg_regEx.password.length,
       ],
+      errors:{
+        username:[],
+        phone_number:[],
+      }
     }
   },
   computed: {
@@ -82,6 +89,18 @@ export default {
     },
     msg_regEx() {
       return this.$store.getters.msg_regEx
+    },
+  },
+  watch:{
+    username(val){
+      EventService.check_user_exist(val).then(res =>{
+        this.errors.username=!res.data.exist_user?[] :[`${res.data.msg}`]
+      })
+    },
+    phone_number(val){
+      EventService.check_user_exist(val).then(res =>{
+        this.errors.phone_number=!res.data.exist_user?[] :[`${res.data.msg}`]
+      })
     },
   },
   methods: {
@@ -95,8 +114,6 @@ export default {
           password: this.password
         }
         try {
-          // await EventService.do_register(form).then((res) => {
-          //   console.log(res)
           const res = await this.$axios.get('/api/get-csrftoken/')
           this.$axios.defaults.headers.common['X-CSRFToken'] =res.data.csrftoken
           await this.$axios.post('/api/signup/', signup_data)

@@ -1,5 +1,6 @@
 import axios from 'axios'
 const apiClient = axios.create({
+  baseURL:`http://127.0.0.1:8000`,
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json'
@@ -25,8 +26,15 @@ export default {
   },
 
   //-------UserPanel-----------//
-  get_user(){
-    return apiClient.get('/api/user/')
+  get_user(payload){
+    return apiClient.get('/api/user/',{
+      headers:{
+        "Authorization": payload
+      }
+    })
+  },
+  check_user_exist(payload){
+    return apiClient.post('/api/user/check_exist',payload)
   },
   get_orders(payload) {
     return apiClient.get('/api/userpanel/orders/', {

@@ -23,7 +23,8 @@ export const state = () => ({
     username: {
       empty: 'لطفا نام کاربری خود را وارد کنید!',
       length: 'نام کاربری باید حداقل سه کاراکتر باشد!',
-      valid: 'نام کاربری باید شامل حرف خاص(.,) باشد'
+      valid: 'نام کاربری باید شامل حرف خاص(.,) باشد',
+      // exist:'نام کاربری ازقبل انتخاب شده است'
     },
     email: {
       empty: 'لطفا ایمیل خود را وارد کنید!',
@@ -31,7 +32,8 @@ export const state = () => ({
     },
     phone_number: {
       empty: 'لطفا شماره تلفن خود را وارد کنید!',
-      valid: 'شماره تلفن صحیح وارد نشده است!!'
+      valid: 'شماره تلفن صحیح وارد نشده است!!',
+      // exist:'کاربری با این شماره تلفن موجود است'
     },
     company_name: {
       empty: 'لطفا نام شرکت خود را وارد کنید!',
@@ -194,19 +196,19 @@ export const actions = {
     commit
   }, payload) {
     try {
+      let snack = null
       await EventService.complete_information(payload)
         .then((res) => {
-          console.log(res.data)
-          this.$auth.setUser(res.data.user)
-          const snack = {
+          snack = {
             snackbar: true,
-            text:res.data.msg,
+            text: res.data.msg,
             color: 'success lighten-1'
           }
-          this.$router.push('/userpanel/profile/')
-          commit('SET_INFO_SNACKBAR', snack)
         })
-      // const {data} = await EventService.get_user()
+      const {data}=await EventService.get_user(this.$auth.getToken('local'))
+      this.$auth.setUser(data.user)
+      this.$router.push('/userpanel/profile/')
+      commit('SET_INFO_SNACKBAR', snack)
 
     } catch (e) {
       const data = {
