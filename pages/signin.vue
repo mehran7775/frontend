@@ -72,7 +72,7 @@ export default {
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
-     vm.previous_route=from.fullPath
+      vm.previous_route = from.fullPath
       next()
     })
     // this.previous_route = from.fullPath
@@ -90,14 +90,32 @@ export default {
               data: credential,
             })
             .then((res) => {
-              if(this.previous_route !=='/userpanel' || this.previous_route !=='/'){
+              if (
+                this.previous_route !== '/userpanel' ||
+                this.previous_route !== '/'
+              ) {
                 this.$router.push('/userpanel')
-              }else{
-              this.$router.back()
+              } else {
+                this.$router.back()
               }
+              const data = {
+                snackbar: true,
+                text: 'شما با موفقیت وارد سایت شدید',
+                color: 'success lighten-1',
+              }
+              this.$store.commit('SET_INFO_SNACKBAR', data)
             })
         } catch (e) {
-          console.log(e)
+          if (e.response) {
+            if (e.response.status === 401) {
+              const data = {
+                snackbar: true,
+                text: 'نام کاربری یا رمز عبور اشتباه است',
+                color: 'red lighten-1',
+              }
+              this.$store.commit('SET_INFO_SNACKBAR', data)
+            }
+          }
         }
       }
     },

@@ -13,7 +13,7 @@
       {{ unauthorizedError }}
     </h1>
     <h1 v-else>
-      {{ otherError }}
+      {{ otherErrors }}
     </h1>
     <!-- <NuxtLink to="/"> خانه </NuxtLink> -->
     <v-row>

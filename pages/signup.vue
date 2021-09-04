@@ -20,7 +20,7 @@
                 label="شماره تلفن"
                 v-model="phone_number"
                 :rules="phoneRules"
-                 :error-messages="errors.phone_number"
+                :error-messages="errors.phone_number"
               ></v-text-field>
               <v-text-field
                 label="رمز عبور"
@@ -77,10 +77,10 @@ export default {
         (v) => !!v || this.msg_regEx.password.empty,
         (v) => v.length >= 4 || this.msg_regEx.password.length,
       ],
-      errors:{
-        username:[],
-        phone_number:[],
-      }
+      errors: {
+        username: [],
+        phone_number: [],
+      },
     }
   },
   computed: {
@@ -91,15 +91,17 @@ export default {
       return this.$store.getters.msg_regEx
     },
   },
-  watch:{
-    username(val){
-      EventService.check_user_exist(val).then(res =>{
-        this.errors.username=!res.data.exist_user?[] :[`${res.data.msg}`]
+  watch: {
+    username(val) {
+      EventService.check_user_exist(val).then((res) => {
+        this.errors.username = !res.data.exist_user ? [] : [`${res.data.msg}`]
       })
     },
-    phone_number(val){
-      EventService.check_user_exist(val).then(res =>{
-        this.errors.phone_number=!res.data.exist_user?[] :[`${res.data.msg}`]
+    phone_number(val) {
+      EventService.check_user_exist(val).then((res) => {
+        this.errors.phone_number = !res.data.exist_user
+          ? []
+          : [`${res.data.msg}`]
       })
     },
   },
@@ -107,27 +109,59 @@ export default {
     async register() {
       if (this.$refs.form.validate()) {
         const signup_data = {
-          first_name:this.fname,
+          first_name: this.fname,
           last_name: this.lname,
           username: this.username,
           phone_number: this.phone_number,
-          password: this.password
+          password: this.password,
         }
         try {
           const res = await this.$axios.get('/api/get-csrftoken/')
-          this.$axios.defaults.headers.common['X-CSRFToken'] =res.data.csrftoken
+          this.$axios.defaults.headers.common['X-CSRFToken'] =
+            res.data.csrftoken
           await this.$axios.post('/api/signup/', signup_data)
-          await this.$auth.loginWith('local', {
-            data: signup_data,
-          }).then(res =>{
-              if(this.previous_route !=='/userpanel' || this.previous_route !=='/'){
+          await this.$auth
+            .loginWith('local', {
+              data: signup_data,
+            })
+            .then((res) => {
+              if (
+                this.previous_route !== '/userpanel' ||
+                this.previous_route !== '/'
+              ) {
                 this.$router.push('/userpanel')
-              }else{
-              this.$router.back()
+              } else {
+                this.$router.back()
               }
-          })
+              const data = {
+                snackbar: true,
+                text: 'شما با موفقیت وارد سایت شدید',
+                color: 'success lighten-1',
+              }
+              this.$store.commit('SET_INFO_SNACKBAR', data)
+            })
+            .catch((e) => {
+              if (e.response.status === 401) {
+                const data = {
+                  snackbar: true,
+                  text: 'نام کاربری یا رمز عبور اشتباه است',
+                  color: 'red lighten-1',
+                }
+
+                this.$store.commit('SET_INFO_SNACKBAR', data)
+              }
+            })
         } catch (e) {
-          console.log(e)
+          if (e.response) {
+            context.error({
+              statusCode: e.response.status,
+            })
+          } else {
+            context.error({
+              statusCode: '',
+              message: 'خطا در ارتباط',
+            })
+          }
         }
       }
     },

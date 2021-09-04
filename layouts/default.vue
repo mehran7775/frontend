@@ -17,11 +17,16 @@
       </v-layout>
     </v-footer>
     <MobileBottomNavigation />
+    <template>
+      <snackbar />
+    </template>
   </v-app>
 </template>
 
 <script>
+import snackbar from '@/components/snackbar/snackbar.vue'
 export default {
+  components:{snackbar},
   data() {
     return {
       structuredData: {
@@ -41,8 +46,8 @@ export default {
         },
         geo: {
           '@type': 'GeoCoordinates',
-          latitude: "35.718997899432594",
-          longitude: "51.44842462379313",
+          latitude: '35.718997899432594',
+          longitude: '51.44842462379313',
         },
         openingHoursSpecification: {
           '@type': 'OpeningHoursSpecification',
