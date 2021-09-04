@@ -59,6 +59,7 @@ export default {
         (v) => !!v || this.msg_regEx.password.empty,
         (v) => v.length >= 4 || this.msg_regEx.username.length,
       ],
+      previous_route: '',
     }
   },
   computed: {
@@ -68,6 +69,13 @@ export default {
     msg_regEx() {
       return this.$store.getters.msg_regEx
     },
+  },
+  beforeRouteEnter(to, from, next) {
+    next((vm) => {
+     vm.previous_route=from.fullPath
+      next()
+    })
+    // this.previous_route = from.fullPath
   },
   methods: {
     async login() {
@@ -82,7 +90,11 @@ export default {
               data: credential,
             })
             .then((res) => {
+              if(this.previous_route !=='/userpanel' || this.previous_route !=='/'){
+                this.$router.push('/userpanel')
+              }else{
               this.$router.back()
+              }
             })
         } catch (e) {
           console.log(e)

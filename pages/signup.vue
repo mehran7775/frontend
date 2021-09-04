@@ -106,7 +106,7 @@ export default {
   methods: {
     async register() {
       if (this.$refs.form.validate()) {
-        signup_data = {
+        const signup_data = {
           first_name:this.fname,
           last_name: this.lname,
           username: this.username,
@@ -120,7 +120,11 @@ export default {
           await this.$auth.loginWith('local', {
             data: signup_data,
           }).then(res =>{
-            this.$router.back()
+              if(this.previous_route !=='/userpanel' || this.previous_route !=='/'){
+                this.$router.push('/userpanel')
+              }else{
+              this.$router.back()
+              }
           })
         } catch (e) {
           console.log(e)

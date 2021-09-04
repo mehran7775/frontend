@@ -11,13 +11,22 @@
               ref="image_local"
               @change="selectImage"
             />
-            <div v-if="image_local" class="show_image" :style="'backgroundImage:url('+ image_local+ ')'">
-
-            </div>
-            <div v-else class="show_image"  :style="'backgroundImage:url('+ product.product_image+')'">
-            </div>
+            <div
+              v-if="image_local"
+              class="show_image"
+              :style="'backgroundImage:url(' + image_local + ')'"
+            ></div>
+            <div
+              v-else
+              class="show_image"
+              :style="'backgroundImage:url(' + product.product_image + ')'"
+            ></div>
           </div>
-            <div class="text-center "><small class="primary--text">برای ویرایش عکس محصول روی عکس کلیک کنید</small></div>
+          <div class="text-center">
+            <small class="primary--text"
+              >برای ویرایش عکس محصول روی عکس کلیک کنید</small
+            >
+          </div>
           <v-text-field
             label="نام محصول"
             v-model="product.title"
@@ -76,7 +85,16 @@ export default {
         product: data,
       }
     } catch (e) {
-      console.log(e)
+      if (e.response) {
+        context.error({
+          statusCode: e.response.status,
+        })
+      } else {
+        context.error({
+          statusCode: '',
+          message: 'خطا در ارتباط با سرور',
+        })
+      }
     }
   },
   components: {
@@ -93,7 +111,7 @@ export default {
   data() {
     return {
       picture: [],
-      image_local:null,
+      image_local: null,
       errors: {
         picture: '',
       },
@@ -141,10 +159,10 @@ export default {
       const form = new FormData()
       form.append('title', this.product.name)
       form.append('description', this.product.description)
-      if(this.image_local){
-       form.append('product_image', this.$refs.image_local.files[0])
-      }else{
-         form.append('image_edited', false)
+      if (this.image_local) {
+        form.append('product_image', this.$refs.image_local.files[0])
+      } else {
+        form.append('image_edited', false)
       }
       const data = {
         token: this.$auth.$storage._state['_token.local'],
@@ -153,10 +171,10 @@ export default {
       }
       this.$store.dispatch('edit_product', data)
     },
-    selectImage(e){
-      const file=e.target.files[0]
-      this.image_local=URL.createObjectURL(file)
-    }
+    selectImage(e) {
+      const file = e.target.files[0]
+      this.image_local = URL.createObjectURL(file)
+    },
   },
 }
 </script>

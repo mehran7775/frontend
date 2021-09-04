@@ -56,9 +56,7 @@
                 </div>
               </div>
             </div>
-            <div id="card-left">
-              Left
-            </div>
+            <div id="card-left">Left</div>
           </v-row>
           <notification />
         </div>
@@ -77,23 +75,29 @@ export default {
   async asyncData(context) {
     try {
       const token = context.$auth.$storage._state['_token.local']
-      const id=this.$route.params.id
-      const {data}=await EventService.get_inquiry({token,id})
-      return{
-        inquiry:data.results
+      const id = this.$route.params.id
+      const { data } = await EventService.get_inquiry({ token, id })
+      return {
+        inquiry: data.results,
       }
     } catch (e) {
-      context.error({
-        statusCode: 503,
-        message: 'خطایی رخ داده است',
-      })
+      if (e.response) {
+        context.error({
+          statusCode: e.response.status,
+        })
+      } else {
+        context.error({
+          statusCode: '',
+          message: 'خطا در ارتباط با سرور',
+        })
+      }
     }
   },
   components: {
     // Notification
   },
   created() {
-    console.log(this.$route.params.id);
+    console.log(this.$route.params.id)
   },
   mounted() {},
   computed: {
@@ -171,7 +175,7 @@ span {
 .head_card {
   width: 100%;
   height: 40px;
-  background-color:#bbe1fa1f;
+  background-color: #bbe1fa1f;
   border-top-left-radius: 2px;
   border-top-right-radius: 2px;
   box-sizing: border-box;

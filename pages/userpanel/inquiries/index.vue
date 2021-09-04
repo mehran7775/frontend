@@ -62,9 +62,9 @@
             </tbody>
           </table>
         </div>
-        <!-- <div class="w-100 text-center" v-else>
+        <div class="w-100 text-center" v-else>
           <strong class="text-warning">هنوز موردی وجود ندار</strong>
-        </div> -->
+        </div>
       </v-col>
     </v-row>
   </v-layout>
@@ -75,7 +75,7 @@ import EventService from '@/services/EventService'
 export default {
   layout: 'userpanel/index',
   components: {
-    btn,
+
   },
   data() {
     return {}
@@ -88,10 +88,16 @@ export default {
         inquiries: data.results,
       }
     } catch (e) {
-      context.error({
-        statusCode: 503,
-        message: 'خطایی رخ داده است',
-      })
+         if (e.response) {
+        context.error({
+          statusCode: e.response.status,
+        })
+      } else {
+        context.error({
+          statusCode: '',
+          message: 'خطا در ارتباط با سرور',
+        })
+      }
     }
   },
   computed: {},

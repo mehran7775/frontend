@@ -83,7 +83,13 @@
                       src="/images/add-product-1-68ds7275.png"
                       alt=""
                     />
-                    <span>محصولات من</span>
+                    <span>مشاهده و ویرایش</span>
+                  </nuxt-link>
+                </li>
+                <li v-if="$auth.user.is_producer">
+                  <nuxt-link to="/userpanel/products/create">
+                    <v-icon size="28">mdi-briefcase-plus-outline</v-icon>
+                    <span>افزودن محصول</span>
                   </nuxt-link>
                 </li>
                 <li>

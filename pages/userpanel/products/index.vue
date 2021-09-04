@@ -1,8 +1,5 @@
 <template>
   <div id="products">
-    <div class="add_product pa-4">
-      <nuxt-link to="/userpanel/products/create">افزودن محصول جدید</nuxt-link>
-    </div>
     <div class="products">
       <template v-if="products.length > 0">
         <v-card
@@ -18,7 +15,9 @@
                 <div class="text-overline mb-4">تایید نشده</div>
                 <v-list-item-title class="text-h6 mb-1" v-text="product.title">
                 </v-list-item-title>
-                <v-list-item-subtitle v-text="product.short_discription" class="mt-1"
+                <v-list-item-subtitle
+                  v-text="product.short_discription"
+                  class="mt-1"
                   >Greyhound divisely hello coldly
                   fonwderfully</v-list-item-subtitle
                 >
@@ -68,10 +67,16 @@ export default {
         }
       }
     } catch (e) {
-      context.error({
-        statusCode: 500,
-        message: 'خطایی رخ داده است',
-      })
+      if (e.response) {
+        context.error({
+          statusCode: e.response.status,
+        })
+      } else {
+        context.error({
+          statusCode: '',
+          message: 'خطا در ارتباط',
+        })
+      }
     }
   },
   methods: {

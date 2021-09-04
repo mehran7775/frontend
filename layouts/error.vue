@@ -3,12 +3,27 @@
     <h1 v-if="error.statusCode === 404">
       {{ pageNotFound }}
     </h1>
+    <h1 v-else-if="error.statusCode === 400">
+      {{ badError }}
+    </h1>
+    <h1 v-else-if="error.statusCode === 403">
+      {{ forbiddenError }}
+    </h1>
+    <h1 v-else-if="error.statusCode === 401">
+      {{ unauthorizedError }}
+    </h1>
     <h1 v-else>
       {{ otherError }}
     </h1>
-    <NuxtLink to="/">
-      Home page
-    </NuxtLink>
+    <!-- <NuxtLink to="/"> خانه </NuxtLink> -->
+    <v-row>
+    <v-col>
+        <v-btn width="max-content" max-width="120" to="/">خانه</v-btn>
+      <v-btn width="max-content" max-width="120" @click="$router.back()"
+        >بازگشت</v-btn
+      >
+    </v-col>
+    </v-row>
   </v-app>
 </template>
 
@@ -18,22 +33,29 @@ export default {
   props: {
     error: {
       type: Object,
-      default: null
+      default: null,
+    },
+  },
+  data() {
+    return {
+      pageNotFound: 'این صفحه پیدا نشد',
+      badError: 'درخواست صحیح نیست یامنقضی شده است',
+      forbiddenError: 'شما دسرسی لازم را ندارید',
+      unauthorizedError: 'خطا در احراز هویت',
+      otherErrors: 'خطایی اتفاق افتاده است',
     }
   },
-  data () {
-    return {
-      pageNotFound: '404 Not Found',
-      otherError: 'An error occurred'
+  head() {
+    if (this.error.statusCode === 404) {
+      return this.pageNotFound
+    } else if (this.error.statusCode === 403) {
+      return this.forbiddenError
+    } else if (this.error.statusCode === 401) {
+      return this.unauthorizedError
+    } else {
+      return this.otherErrors
     }
   },
-  head () {
-    const title =
-      this.error.statusCode === 404 ? this.pageNotFound : this.otherError
-    return {
-      title
-    }
-  }
 }
 </script>
 

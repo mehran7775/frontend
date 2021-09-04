@@ -1,5 +1,5 @@
 <template>
-  <v-layout column  id="customers" class="pa-3">
+  <v-layout column id="customers" class="pa-3">
     <v-row>
       <v-col cols="12">
         <div id="search_category">
@@ -87,10 +87,16 @@ export default {
         orders: data.results,
       }
     } catch (e) {
-      context.error({
-        statusCode: 503,
-        message: 'خطایی رخ داده است',
-      })
+      if (e.response) {
+        context.error({
+          statusCode: e.response.status,
+        })
+      } else {
+        context.error({
+          statusCode: '',
+          message: 'خطا در ارتباط با سرور',
+        })
+      }
     }
   },
   computed: {},
@@ -102,12 +108,22 @@ export default {
         id: id,
       }
       try {
-        const {data}=await EventService.verify_order(payload)
+        const { data } = await EventService.verify_order(payload)
         console.log(data)
         this.$nuxt.refresh()
-        alert(data.msg)
+        const data_snack = {
+          snackbar: true,
+          text: 'مشتری با موفقیت تایید شد',
+          color: 'success lighten-1',
+        }
+        this.$store.commit('SET_INFO_SNACKBAR', data_snack)
       } catch (e) {
-        console.log(e)
+        const data = {
+          snackbar: true,
+          text: 'خطایی در تایید محصول رخ داد',
+          color: 'red lighten-1',
+        }
+        commit('SET_INFO_SNACKBAR', data)
       }
     },
   },
