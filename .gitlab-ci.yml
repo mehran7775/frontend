@@ -7,6 +7,7 @@ staging:
   script:
     - rm -r /var/www/damirco/frontend-test/*
     - cp -r ./ /var/www/damirco/frontend-test
+    - cp -r ./static/* /var/www/damirco/frontend-temp/static
     - echo "$env_staging" | base64 -d > /var/www/damirco/frontend-test/.env
     - cd /var/www/damirco
     - docker-compose up  -d --build frontend-test
