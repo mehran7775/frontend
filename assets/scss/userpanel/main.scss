@@ -363,7 +363,7 @@
           top: 0;
           // background-color: black;
           // margin: auto;
-          border:solid 0.5px rgb(211, 211, 211);
+          border: solid 0.5px rgb(211, 211, 211);
           z-index: 1;
           background-repeat: no-repeat;
           background-size: 100% 100%;
@@ -453,14 +453,13 @@
           .trash:hover {
             color: red;
           }
-        }
-      }
 
           .edit:hover {
             color: map-get($colors, da_blue_light);
           }
         }
       }
+
       .v-card:hover {
         border: thin solid rgba(0, 0, 0, 0.32);
       }
